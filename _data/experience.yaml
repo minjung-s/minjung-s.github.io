@@ -1,0 +1,26 @@
+experiences:
+
+
+- place: "NAVER AI Lab"
+  time: "Dec 2022 – now"
+  title: "Research Scientist, Intern"
+  subtitle: "Generation Research"
+  category: "work"
+
+- place: "Yonsei University"
+  time: "Mar 2021 – now"
+  title: "Ph.D. Student"
+  subtitle: "Artificial Intelligence <br>Under the supervision of Prof. Youngjung Uh."
+  category: "school"
+
+- place: "ETRI"
+  time: "Jan 2019 – Feb 2019"
+  title: "Research Scientist, Intern"
+  subtitle: "AI Reasearch Lab"
+  category: "work"
+
+- place: "Kwangwoon University"
+  time: "2016 - 2021"
+  title: "B.S. Student"
+  subtitle: "Electronics and Communications Engineering"
+  category: "school"

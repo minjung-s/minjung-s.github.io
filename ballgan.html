@@ -1,0 +1,585 @@
+---
+---
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="BallGAN: 3D-aware Image Synthesis with a Spherical Background">
+  <meta name="keywords" content="BallGAN, 3D-aware GANs, NeRF, BallGAN: 3D-aware Image Synthesis with a Spherical Background, ballgan">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BallGAN</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  <link rel="stylesheet" href="./ballgan_static/css/bulma.min.css">
+  <link rel="stylesheet" href="./ballgan_static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./ballgan_static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./ballgan_static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./ballgan_static/css/index.css">
+  <link rel="icon" href="./ballgan_static/images/vilab_logo2_square_fit_circle.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./ballgan_static/js/fontawesome.all.min.js"></script>
+  <script src="./ballgan_static/js/bulma-carousel.min.js"></script>
+  <script src="./ballgan_static/js/bulma-slider.min.js"></script>
+  <script src="./ballgan_static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://minjung-s.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <!-- <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a target="_blank" class="navbar-item" href="https://github.com/blandocs/Tag2Pix">
+            Tag2Pix
+          </a>
+          <a target="_blank" class="navbar-item" href="https://github.com/naver-ai/StyleMapGAN">
+            StyleMapGAN
+          </a>
+        </div>
+      </div> -->
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">BallGAN: 3D-aware Image Synthesis with a Spherical Background</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a target="_blank" href="https://minjung-s.github.io/">Minjung Shin</a><sup>1,2</sup>,</span>
+            <span class="author-block">
+              <a target="_blank" href="https://sites.google.com/yonsei.ac.kr/vi-lab/member/students">Yunji Seo</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a target="_blank" href="https://sites.google.com/yonsei.ac.kr/vi-lab/member/students">Jeongmin Bae</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://sites.google.com/yonsei.ac.kr/vi-lab/member/students">Young Sun Choi</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://blandocs.github.io">Hyunsu Kim</a><sup>2</sup>
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="http://cvpr.yonsei.ac.kr/member">Hyeran Byun</a><sup>1</sup>
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://vilab.yonsei.ac.kr/member/professor">Youngjung Uh</a><sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Yonsei University,</span>
+            <span class="author-block"><sup>2</sup>NAVER AI Lab,</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a target="_blank" href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (High res)</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a target="_blank" href="https://arxiv.org/abs/2301.09091"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a target="_blank" href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a target="_blank" href="https://github.com/minjung-s/BallGAN"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+
+      <img src="./ballgan_static/images/teaser.png" style="padding: 0 62px;"/>
+      <h2 class="subtitle has-text-centered">
+        Meshes and rendered images of samples generated by BallGAN. 
+        BallGAN models the backgrounds with a spherical surface to resolve unnecessary depth ambiguity in the background.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            3D-aware GANs model the procedure for synthesizing realistic images as rendering 3D scenes onto images and thus the scenes can be seen from arbitrary perspectives. Although previous methods produce realistic images, they suffer from unstable training or produce degenerate solutions where the 3D geometry is unnatural. We hypothesize that the 3D geometry is underdetermined due to the insufficient constraint, i.e., being classified as real image to the discriminator is not enough.
+          </p>
+          <p>
+            To solve this problem, we propose to approximate the background as a spherical surface and represent a scene as a union of the foreground placed in the sphere and the thin spherical background. It reduces the degree of freedom in the background field. Accordingly, we modify the volume rendering equation and incorporate dedicated constraints to design a novel 3D-aware GAN framework named BallGAN. 
+          </p>
+          <p>
+            BallGAN has multiple advantages as follows. 1) It produces more reasonable 3D geometry; the images of a scene across different viewpoints have better photometric consistency and fidelity than the state-of-the-art methods. 2) The training becomes much more stable. 3) The foreground can be separately rendered on top of different arbitrary backgrounds. 
+          </p>
+          <p>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+</section>
+<section class="section">
+  <div class="container is-max-desktop">
+      <!-- Alignment -->
+      <h2 class="title is-3 has-text-centered">Proposed method</h2>
+      
+      <div class="columns">
+        <!-- Visual Effects. -->
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-4">Motivation</h2>
+            <p style="padding-right: 10px;">
+              BallGAN is inspired by a popular approach for video games or movies in the graphics community; representing salient objects with detailed 3D models and approximating peripheral scenery with simple surfaces. It drastically reduces the complexity of scenes by devoting less resources to the background. As human vision system focus more on salient objects than the background, such technique does not degrade the user’s experience.
+            </p>
+            <img src="./ballgan_static/images/motivation.png"/>
+          </div>
+        </div>
+        <!--/ Visual Effects. -->
+  
+        <!-- Matting. -->
+        <div class="column">
+          <h2 class="title is-4">BallGAN generator overview</h2>
+          <div class="columns is-centered">
+            <div class="column content">
+              <p>
+                BallGAN represents a 3D scene as a union of a usual foreground and a background on a spherical surface according to our intuition: approximating the unbounded background as a thin surface reduces the unnecessary degree of freedom of the scene.
+                Generator consists of two backbone networks for foreground and background. Representations from these networks are rendered by our modified volume rendering equation to synthesize images.
+              </p>
+              <img src="./ballgan_static/images/generator.png"/>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+      <!--/ Matting. -->      
+
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="is-centered has-text-centered">
+      <!-- Comparison. -->
+      <h2 class="title is-3">Comparison with Baselines</h2>
+      <img src="./ballgan_static/images/baseline_comp_1_1.png"/>
+      <div class="content has-text-justified">
+        <p>
+          The generation results(b) according to the 3D modeling method(a) of each model.
+          Previous methods exhibit degenerate solutions; although the rendered images are realistic, the image synthesis process conceal the degenerate solutions for the underlying 3D geometries, e.g., broken shapes and faces attached to walls. 
+          To address these degenerate solutions, we separate foreground and background in 3D and approximate the background to the surface of the sphere, allowing more focus on foreground details.
+      </div>
+      <img src="./ballgan_static/images/baseline_comp_2.png"/>
+      <div class="content has-text-justified">
+        <p>
+          Renderings and marching cubes of the same samples. Although all methods similarly reconstruct the target real image by inversion, the underlying 3D geometries in the baselines are not realistic. On the other hand, BallGAN produces realistic shapes including hair boundary. 
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h2 class="title is-2">Application</h2>
+      
+      <h2 class="title is-4">Compositing foreground in different viewpoints on arbitrary backgrounds</h2>
+      <div class="columns vertical_center">
+        <div class="column is-two-sixths">
+          <div class="columns">
+            <div class="column">
+              <figure>
+                <img src="./ballgan_static_supp/images/app/tom/real_image.png"/>
+                <figcaption>Real image</figcaption>
+              </figure>
+            </div>
+            <div class="column">
+              <figure>
+                <img src="./ballgan_static_supp/images/app/tom/target_view.png"/>
+                <figcaption>Foreground inversion image</figcaption>
+              </figure> 
+            </div>
+          </div>
+        </div>
+        <div class="column is-two-sixths">
+          <div class="columns">
+            <div class="column">
+              <figure>
+                <video poster="" autoplay controls muted loop playsinline height="100%">
+                  <source src="./ballgan_static_supp/videos/app/tom/alphamask/tom_alpha.mp4"
+                          type="video/mp4">
+                </video>
+                <figcaption>Alpha-mask of foreground</figcaption>
+              </figure>
+            </div>
+            <div class="column">
+              <figure>
+                <video poster="" autoplay controls muted loop playsinline height="100%">
+                  <source src="./ballgan_static_supp/videos/app/tom/alphamask/tom_mesh.mp4"
+                          type="video/mp4">
+                </video>
+                <figcaption>3D geometry of foreground</figcaption>
+              </figure> 
+            </div>
+          </div>
+        </div>
+        <div class="column is-two-sixths" style="margin-bottom: 30px;">
+          <figure>
+            <video poster="" autoplay controls muted loop playsinline height="100%">
+              <source src="./ballgan_static_supp/videos/app/tom/tom_multiview1.mp4"
+                      type="video/mp4">
+            </video>
+            <figcaption>Novel view synthesis with different backgrounds</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <h2 class="title is-4">Foreground editing using CLIP</h2>
+      <div class="columns vertical_center">
+        <div class="column is-three-fifths" style="margin-bottom: 30px;">
+          <div class="columns">
+            <div class="column">
+              <figure>
+                <img src="./ballgan_static_supp/images/app2/36/target.png"/>
+                <figcaption>Real image</figcaption>
+              </figure>
+            </div>
+            <div class="column">
+              <figure>
+                <img src="./ballgan_static_supp/images/app2/36/targetview_recon.png"/>
+                <figcaption>Foreground inversion image</figcaption>
+              </figure> 
+            </div>
+            <div class="column">
+              <figure>
+                <img src="./ballgan_static_supp/images/app2/36/targetview_edit.png"/>
+                <figcaption>Target description : <b>"Culry hair"</b></figcaption>
+              </figure> 
+            </div>
+          </div>
+        </div>
+        <div class="column is-two-fifths" style="margin-bottom: 30px;">
+          <figure>
+            <video poster="" autoplay controls muted loop playsinline height="100%">
+              <source src="./ballgan_static_supp/videos/app2/36/36.mp4"
+                      type="video/mp4">
+            </video>
+            <figcaption>Novel view synthesis</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h2 class="title is-2">Foreground separate generation</h2>
+      <p style="margin-bottom: 40px;">
+        <b>First row</b> : fully rendering (Foreground+Background) | <b>Second row</b> : foreground rendering | <b>Third row</b> : foreground alpha-mask (from the background transmittance)
+      </p>
+      <h2 class="title is-4" style="margin-bottom: 5px;">FFHQ</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        {% for obj in site.data.ballgan.fg_ffhq %}
+        <div class="item item-{{ obj.id }}">
+          <div class="columns vertical_center">
+            <div class="column is-one-thirds">
+              <div class="column">
+                <figure>
+                  <img src="./ballgan_static_supp/images/fg_alpha/{{ obj.dataset }}/{{ obj.id }}/1.png"/>
+                </figure>
+              </div>
+            </div>
+            <div class="column is-one-thirds">
+              <div class="column">
+                <figure>
+                  <img src="./ballgan_static_supp/images/fg_alpha/{{ obj.dataset }}/{{ obj.id }}/2.png"/>
+                </figure>
+              </div>
+            </div>
+            <div class="column is-one-thirds">
+              <div class="column">
+                <figure>
+                  <img src="./ballgan_static_supp/images/fg_alpha/{{ obj.dataset }}/{{ obj.id }}/3.png"/>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+  </div>
+</section>
+
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h2 class="title is-4" style="margin-bottom: 10px;">AFHQv2-Cat</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        {% for obj in site.data.ballgan.fg_afhq %}
+        <div class="item item-{{ obj.id }}">
+          <div class="columns vertical_center">
+            <div class="column is-one-thirds">
+              <div class="column">
+                <figure>
+                  <img src="./ballgan_static_supp/images/fg_alpha/{{ obj.dataset }}/{{ obj.id }}/1.png"/>
+                </figure>
+              </div>
+            </div>
+            <div class="column is-one-thirds">
+              <div class="column">
+                <figure>
+                  <img src="./ballgan_static_supp/images/fg_alpha/{{ obj.dataset }}/{{ obj.id }}/2.png"/>
+                </figure>
+              </div>
+            </div>
+            <div class="column is-one-thirds">
+              <div class="column">
+                <figure>
+                  <img src="./ballgan_static_supp/images/fg_alpha/{{ obj.dataset }}/{{ obj.id }}/3.png"/>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h2 class="title is-2">3D-aware Synthesis</h2>
+      <h2 class="title is-4" style="margin-top: 30px;">FFHQ---</h2>
+      <div class="columns vertical_center">
+        <div class="column is-tow-fourths">
+          <div class="columns">
+            <div class="column">
+              <figure>
+                <video poster="" autoplay controls muted loop playsinline height="100%">
+                  <source src="./ballgan_static_supp/videos/qual/ffhq/seed0370.mp4"
+                          type="video/mp4">
+                </video>
+              </figure> 
+            </div>
+            <div class="column">
+              <figure>
+                <video poster="" autoplay controls muted loop playsinline height="100%">
+                  <source src="./ballgan_static_supp/videos/qual/ffhq/seed1037.mp4"
+                          type="video/mp4">
+                </video>
+              </figure> 
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns vertical_center">
+        <div class="column is-tow-fourths">
+          <div class="columns">
+            <div class="column">
+              <figure>
+                <video poster="" autoplay controls muted loop playsinline height="100%">
+                  <source src="./ballgan_static_supp/videos/qual/ffhq/seed1117.mp4"
+                          type="video/mp4">
+                </video>
+              </figure> 
+            </div>
+            <div class="column">
+              <figure>
+                <video poster="" autoplay controls muted loop playsinline height="100%">
+                  <source src="./ballgan_static_supp/videos/qual/ffhq/seed1057.mp4"
+                          type="video/mp4">
+                </video>
+              </figure> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h2 class="title is-4">AFHQv2-Cat</h2>
+      <div class="columns vertical_center">
+        <div class="column is-tow-fourths">
+          <div class="columns">
+            <div class="column is-one-seconds">
+              <figure>
+                <video poster="" autoplay controls muted loop playsinline height="100%">
+                  <source src="./ballgan_static_supp/videos/qual/afhq/seed1123.mp4"
+                          type="video/mp4">
+                </video>
+              </figure> 
+            </div>
+            <div class="column is-one-seconds">
+              <figure>
+                <video poster="" autoplay controls muted loop playsinline height="100%">
+                  <source src="./ballgan_static_supp/videos/qual/afhq/seed1017.mp4"
+                          type="video/mp4">
+                </video>
+              </figure> 
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns vertical_center">
+        <div class="column is-tow-fourths">
+          <div class="columns">
+            <div class="column is-one-seconds">
+              <figure>
+                <video poster="" autoplay controls muted loop playsinline height="100%">
+                  <source src="./ballgan_static_supp/videos/qual/afhq/seed1114.mp4"
+                          type="video/mp4">
+                </video>
+              </figure> 
+            </div>
+            <div class="column is-one-seconds">
+              <figure>
+                <video poster="" autoplay controls muted loop playsinline height="100%">
+                  <source src="./ballgan_static_supp/videos/qual/afhq/seed1016.mp4"
+                          type="video/mp4">
+                </video>
+              </figure> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{shin2023ballgan,
+      title={BallGAN: 3D-aware Image Synthesis with a Spherical Background},
+      author={Shin, Minjung and Seo, Yunji and Bae, Jeongmin and Choi, Young Sun and Kim, Hyunsu and Byun, Hyeran and Uh, Youngjung},
+      journal={arXiv preprint arXiv:2301.09091},
+      year={2023}
+    }</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a target="_blank" class="icon-link"
+         href="blendnerf_static/paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a target="_blank" class="icon-link" href="https://blandocs.github.io" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/"> Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            We borrow the website template from <a target="_blank" href="https://blandocs.github.io/blendnerf#">BlendNeRF</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

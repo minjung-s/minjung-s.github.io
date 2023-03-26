@@ -1,0 +1,27 @@
+fg_ffhq:
+  - id: "set1" 
+    dataset: ffhq
+  - id: "set2" 
+    dataset: ffhq
+  - id: "set3" 
+    dataset: ffhq
+  - id: "set4" 
+    dataset: ffhq
+  - id: "set5" 
+    dataset: ffhq
+
+fg_afhq:
+  - id: "set1" 
+    dataset: afhq
+  - id: "set2" 
+    dataset: afhq
+  - id: "set3" 
+    dataset: afhq
+  - id: "set4" 
+    dataset: afhq
+  - id: "set5" 
+    dataset: afhq
+    
+
+
+
