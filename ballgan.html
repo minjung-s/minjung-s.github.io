@@ -266,6 +266,10 @@
       <h2 class="title is-2">Application</h2>
       
       <h2 class="title is-4">Compositing foreground in different viewpoints on arbitrary backgrounds</h2>
+      <p style="margin-bottom: 40px;">
+        By applying PTI to a given single image on BallGAN, the foreground and background can be separately projected to their corresponding latent space.
+        Thanks to BallGAN's detailed foreground separation ability and sufficient understanding of 3D, the original foreground can be composited into different backgrounds and viewed from various angles while preserving its detailed features.
+      </p>
       <div class="columns vertical_center">
         <div class="column is-two-sixths">
           <div class="columns">
@@ -317,6 +321,11 @@
       </div>
 
       <h2 class="title is-4">Foreground editing using CLIP</h2>
+      <p style="margin-bottom: 40px;">
+        A given single RGB image is inverted using PTI (pivotal tuning inversion) and then manipulated through CLIP-guided optimization based on the given text description. 
+        With the help of BallGAN's ability to capture detailed foreground features in 3D, it is possible to modify the foreground image and 3D geometry as desired, including curly hair. 
+        The edited object can be composited into various views.
+      </p>
       <div class="columns vertical_center">
         <div class="column is-three-fifths" style="margin-bottom: 30px;">
           <div class="columns">
@@ -358,9 +367,14 @@
 <section class="hero is-small">
   <div class="hero-body">
     <div class="container has-text-centered">
-      <h2 class="title is-2">Foreground separate generation</h2>
+      <h2 class="title is-2">Generating foreground objects</h2>
+      <p style="margin-bottom: 10px;">
+        Randomly generated images with their corresponding foreground image and alpha masks.
+        The foreground alpha-mask is computed from the background transmittance calculated during the volume rendering step.
+        BallGAN's effective separation of foreground and background can be observed through alpha masks that capture detailed features such as thin hair strands, cat whiskers, and fur.
+      </p>
       <p style="margin-bottom: 40px;">
-        <b>First row</b> : fully rendering (Foreground+Background) | <b>Second row</b> : foreground rendering | <b>Third row</b> : foreground alpha-mask (from the background transmittance)
+        <b>First row</b> : fully rendering (foreground+background) | <b>Second row</b> : foreground rendering | <b>Third row</b> : foreground alpha-mask
       </p>
       <h2 class="title is-4" style="margin-bottom: 5px;">FFHQ</h2>
       <div id="results-carousel" class="carousel results-carousel">
@@ -437,6 +451,10 @@
   <div class="hero-body">
     <div class="container has-text-centered">
       <h2 class="title is-2">3D-aware Synthesis</h2>
+      <p style="margin-bottom: 10px;">
+        Randomly generated images and corresponding foreground 3D geometry, extracted using marching cube. 
+        The 3D geometry includes sufficient details, such as wave hairstyles, beards, or the cat's fur and whiskers.
+      </p>
       <h2 class="title is-4" style="margin-top: 30px;">FFHQ---</h2>
       <div class="columns vertical_center">
         <div class="column is-tow-fourths">
@@ -538,6 +556,24 @@
   </div>
 </section>
 
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="is-centered has-text-centered">
+      <!-- Comparison. -->
+      <h2 class="title is-2">Background analysis</h2>
+        <h2 class="title is-4">Effectiveness of sphere background</h2>
+        <img src="./ballgan_static/images/SSO.jpg"/>
+        <div class="content has-text-justified">
+          <p>Our approach utilizes a <b>sphere surface</b> as a background representation, which simplifies background and enhances the focus on foreground. Above figure shows a single scene overfitting scenario compared to NeRF++. In this experiment, our method only differs from NeRF++ in its choice of background representation, resulting in <b>superior separation</b> of foreground and background, and <b>more accurate depth estimation</b> for foreground objects.</p>
+        </div>
+        <h2 class="title is-4">Why sphere?</h2>
+        <img src="./ballgan_static/images/bg_design.png"/>
+        <div class="content has-text-justified">
+          <p>While other simplified representations such as a <b>plane</b> or <b>cube</b> can be a candidate for background representation, it is important that the chosen representation <b>covers all possible camera viewpoints</b> and can be <b>trained stably</b>. A planar background is insufficient as it does not cover the background when the camera rotates beyond 90 degrees. A cube background can have sudden changes in gradient or inconsistencies in distance, as shown in <b>figure (a)</b> with the red circle, leading to unstable training and convergence issues. Therefore, a sphere background is a suitable and preferred choice for background representation.</p>
+        </div>
+    </div>
+  </div>
+</section>
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
