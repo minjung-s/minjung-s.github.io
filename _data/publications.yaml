@@ -3,7 +3,7 @@ papers:
   - title: "BallGAN: 3D-aware Image Synthesis with a Spherical Background"
     authors: "<b>Minjung Shin</b>, Yunji Seo, Jeongmin Bae, Young Sun Choi, Hyunsu Kim, Hyeran Byun, Youngjung Uh"
     project: "https://minjung-s.github.io/ballgan"
-    venue: "arxiv preprint"
+    venue: "ICCV, 2023"
     paper_pdf: "https://arxiv.org/pdf/2301.09091v1.pdf"
     selected: y
     image: "/assets/publications/2023_CVPR/teaser.png"
