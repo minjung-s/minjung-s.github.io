@@ -109,7 +109,11 @@ title: Home
             </div>
           </div>
           <div class="eight columns">
+            {% if paper.highlight %}
+            <p class="title" style="color: #2d69df;"><b>{{ paper.title }}</b></p>
+            {% else %}
             <p class="title"><b>{{ paper.title }}</b></p>
+            {% endif %}
             <p>{{ paper.authors }}</p>
             <p><i>{{ paper.venue }}</i></p>
             <div class="paper-buttons">
