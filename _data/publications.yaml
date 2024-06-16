@@ -21,12 +21,14 @@ papers:
     authors: "Pilhyeon Lee, Seogkyu Jeon, Sunhee Hwang, <b>Minjung Shin</b>, Hyeran Byun"
     venue: "BCI 2023"
     paper_pdf: "https://arxiv.org/pdf/2301.08448.pdf"
+    image: "/assets/publications/2023_BCI/teaser.png"
     selected: y
 
   - title: "Inter-subject contrastive learning for subject adaptive eeg-based visual recognition"
     authors: "Pilhyeon Lee, Sunhee Hwang, Jewook Lee, <b>Minjung Shin</b>, Seogkyu Jeon, Hyeran Byun"
     venue: "BCI 2022"
     paper_pdf: "https://arxiv.org/pdf/2202.02901.pdf"
+    image: "/assets/publications/2022_BCI/teaser.png"
     selected: y
 
   - title: "Detectable Object-Sizes Range Estimation Based Multi-Task Cascaded Convolutional Neural Networks in the Vehicle Environments"
