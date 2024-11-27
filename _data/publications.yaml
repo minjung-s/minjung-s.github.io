@@ -14,7 +14,7 @@ papers:
     venue: "ICCV 2023"
     paper_pdf: "https://arxiv.org/pdf/2301.09091.pdf"
     selected: y
-    image: "/assets/publications/2023_ICCV/teaser3.gif"
+    image: "/assets/publications/2023_ICCV/teaser.gif"
     highlight: True
 
   - title: "Source-free Subject Adaptation for EEG-based Visual Recognition"
