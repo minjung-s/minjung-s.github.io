@@ -3,10 +3,10 @@ papers:
   - title: "Eye‑for‑an‑eye: Appearance Transfer with Semantic Correspondence in Diffusion Models"
     authors: "Sooyeon Go, Kyungmook Choi, <b>Minjung Shin</b>, Youngjung Uh"
     project: "https://sooyeon-go.github.io/eye_for_an_eye/"
-    venue: "Preprint"
+    venue: "WACV 2026"
     paper_pdf: "https://arxiv.org/pdf/2406.07008"
     selected: y
-    image: "/assets/publications/2024_preprint/teaser.png"
+    image: "/assets/publications/2026_WACV/teaser.png"
 
   - title: "BallGAN: 3D-aware Image Synthesis with a Spherical Background"
     authors: "<b>Minjung Shin</b>, Yunji Seo, Jeongmin Bae, Young Sun Choi, Hyunsu Kim, Hyeran Byun, Youngjung Uh"

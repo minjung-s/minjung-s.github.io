@@ -1,0 +1,318 @@
+---
+---
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion">
+  <meta name="keywords" content="MVCustom, multi-view customization, Diffusion models, customization, personalization, multi-view generation, MVCustom: Multi-View Customization with Diffusion Models, mvcustom">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MVCustom</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  <link rel="stylesheet" href="./mvcustom_static/css/bulma.min.css">
+  <link rel="stylesheet" href="./mvcustom_static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./mvcustom_static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./mvcustom_static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./mvcustom_static/css/index.css">
+  <link rel="icon" href="./ballgan_static/images/vilab_logo2_square_fit_circle.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./mvcustom_static/js/fontawesome.all.min.js"></script>
+  <script src="./mvcustom_static/js/bulma-carousel.min.js"></script>
+  <script src="./mvcustom_static/js/bulma-slider.min.js"></script>
+  <script src="./mvcustom_static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://minjung-s.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a target="_blank" class="navbar-item" href="https://minjung-s.github.io/mvcustom">
+            MVCustom
+          </a>
+        </a>
+        <div class="navbar-dropdown">
+          <a target="_blank" class="navbar-item" href="https://minjung-s.github.io/ballgan">
+            BallGAN
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a target="_blank" href="https://minjung-s.github.io/">Minjung Shin</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="www.linkedin.com/in/hi3737">Hyunin Cho</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://sooyeon-go.github.io/">Sooyeon Go</a><sup>1</sup>,
+            </span> 
+            <span class="author-block">
+              <a target="_blank" href="https://wityworks.com/">Jin-Hwa Kim</a><sup>2,2</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://vilab.yonsei.ac.kr/members/professor">Youngjung Uh</a><sup>† 1</sup>
+            </span>
+          </div>
+          
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Yonsei University,</span>
+            <span class="author-block"><sup>2</sup>NAVER AI Lab,</span>
+            <span class="author-block"><sup>3</sup>SNU AIIS,</span>
+          </div>
+          <small>
+            <sup>†</sup>Corresponding authors.
+          </small>
+          <!-- <h1 class="title is-4 publication-title">ICCV 2023</h1> -->
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a target="_blank" href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (High res)</span>
+                </a>
+              </span> -->
+              <span class="link-block">
+                <a target="_blank" href="https://arxiv.org/abs/2301.09091"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a target="_blank" href="https://www.youtube.com/watch?v=RxdWbePtcNY"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a target="_blank" href="https://github.com/minjung-s/MVCustom"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <div class="columns is-vcentered is-centered">
+            <!-- 이미지 슬라이드 1 -->
+            <div style="padding: 12px;">
+              <img src="./mvcustom_static/images/teaser/teaser1.png" alt="Image 1" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="columns is-vcentered is-centered">
+            <!-- 이미지 슬라이드 2 -->
+            <div style="padding: 12px;">
+              <img src="./mvcustom_static/images/teaser/teaser2.png" alt="Image 2" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="columns is-vcentered is-centered">
+            <!-- 이미지 슬라이드 3 -->
+            <div style="padding: 12px;">
+              <img src="./mvcustom_static/images/teaser/teaser3.png" alt="Image 3" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="text-align: center;">
+        The images above show that our method faithfully preserves the identity of the customized reference subject while accurately reflecting camera pose variations (i.e., rotations) and maintaining multi-view consistency in the surrounding background as well as in the subject.
+      </p>  
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+        <p>
+        Multi-view generation with camera pose control and prompt-based customization are both essential elements for achieving controllable generative models.  
+        However, existing multi-view generation models do not support customization with geometric consistency, whereas customization models lack explicit viewpoint control, making them challenging to unify.
+        </p>
+        <p>
+        Motivated by these gaps, we introduce a novel task, <em>multi-view customization</em>, which aims to jointly achieve multi-view camera pose control and customization.
+        Due to the scarcity of training data in customization, existing multi-view generation models, which inherently rely on large-scale datasets, struggle to generalize to diverse prompts.
+        </p>
+        <p> 
+        To address this, we propose <em>MVCustom</em>, a novel diffusion-based framework explicitly designed to achieve both multi-view consistency and customization fidelity. 
+        In the training stage, MVCustom learns the subject's identity and geometry using a feature-field representation, incorporating the text-to-video diffusion backbone enhanced with dense spatio-temporal attention, which leverages temporal coherence for multi-view consistency. 
+        In the inference stage, we introduce two novel techniques: <em>depth-aware feature rendering</em> explicitly enforces geometric consistency, and <em>consistent-aware latent completion</em> ensures accurate perspective alignment of the customized subject and surrounding backgrounds. 
+        </p>
+        <p>
+        Extensive experiments demonstrate that <em>MVCustom</em> is the only framework that simultaneously achieves faithful multi-view generation and customization.
+        </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</section>
+<section class="section">
+  <div class="container is-max-desktop">
+      <!-- Alignment -->
+      <h2 class="title is-3 has-text-centered">What is the task of multi-view customization?</h2>
+      <p>
+        As generative models continue to advance, users increasingly expect fine-grained control over both
+        <strong>viewpoint</strong> and <strong>personalization</strong>. Traditional research has focused on two separate
+        directions—<em>camera control</em>, which generates images from specified viewpoints, and <em>customization</em>,
+        which captures user-specific identities or concepts for personalized content generation.
+      </p>
+    
+      <p>
+        Real-world applications such as virtual prototyping, digital humans, and creative design require both forms of
+        control simultaneously. This motivates the task of <strong>Multi-View Customization</strong>, which unifies camera
+        control and customization within a single generative framework.
+      </p>
+    
+      <ol>
+        <li>
+          <strong>Viewpoint Alignment</strong> — generate images consistent with specified camera parameters, ensuring
+          geometrically aligned perspectives for both the <em>subject</em> and the <em>surrounding environment</em>.
+          This dual-level alignment is crucial for realistic and spatially coherent multi-view generation.
+        </li>
+        <li>
+          <strong>Subject Identity Preservation</strong> — faithfully preserve the appearance and identity of the reference subject
+          across all generated views.
+        </li>
+        <li>
+          <strong>Contextual Consistency</strong> — maintain coherent surroundings across multiple viewpoints while
+          adapting to diverse textual prompts.
+        </li>
+      </ol>
+    
+      <div class="has-text-centered">
+        <img src="./mvcustom_static/images/task_table.png"/>
+      </div>
+      <p>
+        
+      </p>
+      <p></p>
+        As summarized in Table 1, existing methods only partially satisfy these requirements:
+        customization methods preserve identity but lack viewpoint control; multi-view generation models ensure geometric
+        consistency but cannot adapt to personalized subjects; viewpoint-aware customization remains subject-centric and
+        often yields inconsistent backgrounds across views. These limitations motivate a dedicated framework that jointly
+        handles personalization and multi-view consistency.
+      </p>
+    
+      
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{shin2023ballgan,
+      title={BallGAN: 3D-aware Image Synthesis with a Spherical Background},
+      author={Shin, Minjung and Seo, Yunji and Bae, Jeongmin and Choi, Young Sun and Kim, Hyunsu and Byun, Hyeran and Uh, Youngjung},
+      journal={arXiv preprint arXiv:2301.09091},
+      year={2023}
+    }</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a target="_blank" class="icon-link"
+         href="blendnerf_static/paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a target="_blank" class="icon-link" href="https://blandocs.github.io" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/"> Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            We borrow the website template from <a target="_blank" href="https://nerfies.github.io/">Nerfies</a> and  <a target="_blank" href="https://3dgs-flod.github.io/flod/">FLoD</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
