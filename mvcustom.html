@@ -218,11 +218,10 @@
 </section>
 
 
-</section>
 <section class="section">
   <div class="container is-max-desktop">
       <!-- Alignment -->
-      <h2 class="title is-3 has-text-centered">What is the task of multi-view customization?</h2>
+      <h2 class="title is-3 has-text-centered">What is the multi-view customization?</h2>
       <p>
         As generative models continue to advance, users increasingly expect fine-grained control over both
         <strong>viewpoint</strong> and <strong>personalization</strong>. Traditional research has focused on two separate
@@ -269,10 +268,9 @@
   </div>
 </section>
 
-</section>
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Comparison with Existing Methods</h2>
+    <h2 class="title is-3 has-text-centered">Comparison with existing methods</h2>
     
     <!-- Comparison Carousel -->
     <div id="comparison-carousel" class="carousel results-carousel" style="margin-bottom: 0;">
@@ -542,6 +540,7 @@
               </video>
               <div>
                 <h3 class="title is-6" style="margin-top:0.5rem;">Custom Image + Img-MVgen</h3>
+                <br>
               </div>
             </div>
           </div>
@@ -599,7 +598,7 @@
                 <source src="./mvcustom_static/videos/txt_mvgen/teddy31_11_1.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">Txt-MVgen with LoRA</h3>
+                <h3 class="title is-6" style="margin-top:0.5rem;">Txt-MVgen with customized LoRA</h3>
               </div>
             </div>
 
@@ -616,6 +615,11 @@
         </div>
       </div>
     </div>
+    <p><br>
+    - CustomDiffusion360 is the state-of-the-art method for viewpoint-aware subject customization.<br>
+    - Txt-MVgen with LoRA : A text-conditioned camera-motion-controllable model, <a target="_blank" href="https://arxiv.org/abs/2404.02101">CameraCtrl</a>, customized with the conventional DreamBooth-LoRA approach.<br>
+    - Custom Image + Img-MVgen : This method generates multi-view images by inputting a single customized image into the image-conditioned multi-view generation model, <a target="_blank" href="https://arxiv.org/abs/2503.14489">Stable Virtual Camera(SEVA)</a>. The single input image is taken from the first frame of the output produced by our model, conditioned on the text prompt.<br>
+    </p>
   </div>
 </section>
 
@@ -624,7 +628,7 @@
 <section class="section">
   <div class="container is-max-desktop">
       <!-- Alignment -->
-      <h2 class="title is-3 has-text-centered">Proposed Method</h2>
+      <h2 class="title is-3 has-text-centered">Proposed method</h2>
       <p>
         To address multi-view customization, we propose <em>MVCustom</em>, a diffusion-based framework explicitly designed for
         robust multi-view customization. Our method separates training and inference stages to effectively handle
@@ -634,20 +638,21 @@
        <div class="content">
          <h2 class="title is-4">Finetuning for model customization</h2>
          <p>
-          In the training stage, we leverage
-          pose-conditioned transformer blocks. However, a key change is using the video
-          diffusion backbone enhanced with dense spatio-temporal attention to transfer temporal coherence into holistic frame-level consistency, ensuring spatial coherence of both the subject and their surroundings across views. </p>
-         <div class="has-text-centered">
-           <img src="./mvcustom_static/images/pipeline.png"/>
-         </div>
+          In the training stage, we leverage pose-conditioned transformer blocks.
+          However, a key change is using the video diffusion backbone enhanced with dense spatio-temporal attention to transfer temporal coherence into holistic-frames consistency, ensuring spatial coherence of both the subject and their surroundings across views. 
+          </p>
+          <div class="has-text-centered">
+            <img src="./mvcustom_static/images/pipeline.png"/>
+          </div>
        </div>
        
        <!-- Generator Overview Section -->
        <div class="content">
          <h2 class="title is-4">Inference-time multi-view consistency under limited data</h2>
          <p>
-           BallGAN represents a 3D scene as a union of a usual foreground and a background on a spherical surface according to our intuition: approximating the unbounded background as a thin surface reduces the unnecessary degree of freedom of the scene.
-           Generator consists of two backbone networks for foreground and background. Representations from these networks are rendered by our modified volume rendering equation to synthesize images.
+          At inference, the key challenge is ensuring multi-view geometric consistency for novel prompts, particularly for the subject's surroundings that lack supervision from limited training data. 
+          To address this, we introduce two novel inference-stage techniques: <em>depth-aware feature rendering</em>, which explicitly enforces geometric consistency using inferred 3D scene geometry, 
+          and <em>consistent-aware latent completion</em>, which naturally completes previously unseen regions revealed by viewpoint shifts.
          </p>
          <div class="has-text-centered">
            <img src="./mvcustom_static/images/inference.png"/>
