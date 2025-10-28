@@ -1,5 +1,14 @@
 papers:
 
+  - title: "MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion"
+    authors: "<b>Minjung Shin</b>, Hyunin Choi, Sooyeon Go, Jin-Hwa Kim, Youngjung Uh"
+    project: "https://minjung-s.github.io/mvcustom"
+    venue: "Preprint"
+    paper_pdf: "https://arxiv.org/abs/2510.13702"
+    selected: y
+    image: "/assets/publications/2025_arxiv/teddy_grid_2x2.gif"
+    highlight: True
+
   - title: "Eye‑for‑an‑eye: Appearance Transfer with Semantic Correspondence in Diffusion Models"
     authors: "Sooyeon Go, Kyungmook Choi, <b>Minjung Shin</b>, Youngjung Uh"
     project: "https://sooyeon-go.github.io/eye_for_an_eye/"
