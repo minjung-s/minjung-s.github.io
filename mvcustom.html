@@ -274,341 +274,566 @@
     
     <!-- Comparison Carousel -->
     <div id="comparison-carousel" class="carousel results-carousel" style="margin-bottom: 0;">
-      <!-- Sample 1: Teddy Bear -->
-      <div class="item" style="padding-bottom: 0;">
-    <div class="container" style="max-width:900px;">
-          <!-- Reference images and target poses -->
-      <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
-        <!-- 이미지 1 -->
-        <div class="column is-half has-text-centered">
-          <img src="./mvcustom_static/images/reference/reference_teddy31.png" alt="reference image" style="max-width:50%; height:auto;"/>
-          <div>
-            <p>A set of multi-view reference images</p>
-          </div>
-        </div>
-        <!-- 이미지 2 -->
-        <div class="column is-half has-text-centered">
-          <img src="./mvcustom_static/images/pose/teddy31_14_1.png" alt="target pose" style="max-width:50%; height:auto;"/>
-          <div>
-            <p>Target camera poses</p>
-          </div>
-        </div>
-      </div>
-      <div class="has-text-centered" style="margin-bottom: 1.25rem;">
-            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt : A V* teddy bear covered in autumn leaves in a forest.</h3>
-      </div>
-          <!-- Comparison videos -->
-      <div class="columns is-mobile is-multiline is-centered">
-        <!-- Video 1 -->
-        <div class="column is-one-quarter has-text-centered">
-          <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-            <source src="./mvcustom_static/videos/ours/teddy31_14_1.mp4" type="video/mp4">
-          </video>
-          <div>
-            <h3 class="title is-6" style="margin-top:0.5rem;">MVCustom (Ours)</h3>
-          </div>
-        </div>
-
-        <!-- Video 2 -->
-        <div class="column is-one-quarter has-text-centered">
-          <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-            <source src="./mvcustom_static/videos/custom360/teddy31_14_1.mp4" type="video/mp4">
-          </video>
-          <div>
-            <h3 class="title is-6" style="margin-top:0.5rem;">CustomDiffusion360</h3>
-          </div>
-        </div>
-
-        <!-- Video 3 -->
-        <div class="column is-one-quarter has-text-centered">
-          <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-            <source src="./mvcustom_static/videos/txt_mvgen/teddy31_14_1.mp4" type="video/mp4">
-          </video>
-          <div>
-            <h3 class="title is-6" style="margin-top:0.5rem;">Txt-MVgen with LoRA</h3>
-          </div>
-        </div>
-
-        <!-- Video 4 -->
-        <div class="column is-one-quarter has-text-centered">
-          <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-            <source src="./mvcustom_static/videos/img_mvgen/teddy31_14_1.mp4" type="video/mp4">
-          </video>
-          <div>
-            <h3 class="title is-6" style="margin-top:0.5rem;">Custom Image + Img-MVgen</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sample 2: Car (placeholder for future samples) -->
+      <!-- Sample 3: Car -->
       <div class="item" style="padding-bottom: 0;">
         <div class="container" style="max-width:900px;">
           <!-- Reference images and target poses -->
           <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
-            <!-- 이미지 1 -->
-            <div class="column is-half has-text-centered">
-              <img src="./mvcustom_static/images/reference/reference_motor409.png" alt="reference image" style="max-width:50%; height:auto;"/>
-              <div>
-                <p>A set of multi-view reference images</p>
-              </div>
-            </div>
-            <!-- 이미지 2 -->
-            <div class="column is-half has-text-centered">
-              <img src="./mvcustom_static/images/pose/motor409_6_6.png" alt="target pose" style="max-width:50%; height:auto;"/>
-              <div>
-                <p>Target camera poses</p>
-              </div>
-            </div>
-          </div>
-          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
-            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt : A V* motorcycle splashing water while crossing a shallow river.</h3>
-          </div>
-          <!-- Comparison videos -->
-          <div class="columns is-mobile is-multiline is-centered">
-            <!-- Video 1 -->
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/ours/motor409_6_6.mp4" type="video/mp4">
-              </video>
-              <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">MVCustom (Ours)</h3>
-              </div>
-            </div>
-
-            <!-- Video 2 -->
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/custom360/motor409_6_6.mp4" type="video/mp4">
-              </video>
-              <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">CustomDiffusion360</h3>
-              </div>
-            </div>
-
-            <!-- Video 3 -->
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/txt_mvgen/motor409_6_6.mp4" type="video/mp4">
-              </video>
-              <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">Txt-MVgen with LoRA</h3>
-              </div>
-            </div>
-
-            <!-- Video 4 -->
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/img_mvgen/motor409_6_6.mp4" type="video/mp4">
-              </video>
-              <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">Custom Image + Img-MVgen</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sample 3: Chair (placeholder for future samples) -->
-      <div class="item" style="padding-bottom: 0;">
-        <div class="container" style="max-width:900px;">
-          <!-- Reference images and target poses -->
-          <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
-            <!-- 이미지 1 -->
             <div class="column is-half has-text-centered">
               <img src="./mvcustom_static/images/reference/reference_car0.png" alt="reference image" style="max-width:50%; height:auto;"/>
               <div>
                 <p>A set of multi-view reference images</p>
               </div>
             </div>
-            <!-- 이미지 2 -->
             <div class="column is-half has-text-centered">
-              <img src="./mvcustom_static/images/pose/car0_9_2.png" alt="target pose" style="max-width:50%; height:auto;"/>
+              <img src="./mvcustom_static/images/pose/car0.png" alt="target pose" style="max-width:50%; height:auto;"/>
               <div>
                 <p>Target camera poses</p>
               </div>
             </div>
           </div>
+          
+          <!-- Text prompt 1 -->
           <div class="has-text-centered" style="margin-bottom: 1.25rem;">
-            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt : A V* car parked under a giant tree casting heavy shadows.</h3>
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* car driving through a desert road with dust</h3>
           </div>
           <!-- Comparison videos -->
           <div class="columns is-mobile is-multiline is-centered">
-            <!-- Video 1 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/ours/car0_9_2.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/MVCustom/car0/A_car_driving_through_a_desert_road_with_dust.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">MVCustom (Ours)</h3>
+                <p>MVCustom (Ours)</p>
               </div>
             </div>
-
-            <!-- Video 2 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/custom360/car0_9_2.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/custom360/car0/A_car_driving_through_a_desert_road_with_dust.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">CustomDiffusion360</h3>
+                <p>CustomDiffusion360</p>
               </div>
             </div>
-
-            <!-- Video 3 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/txt_mvgen/car0_9_2.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/txt_mvgen/car0/A_car_driving_through_a_desert_road_with_dust.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">Txt-MVgen with LoRA</h3>
+                <p>Txt-MVgen with LoRA</p>
               </div>
             </div>
-
-            <!-- Video 4 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/img_mvgen/car0_9_2.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/img_mvgen/car0/A_car_driving_through_a_desert_road_with_dust.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">Custom Image + Img-MVgen</h3>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text prompt 2 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* car parked at the edge of a cliff</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/car0/A_car_parked_at_the_edge_of_a_cliff.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/car0/A_car_parked_at_the_edge_of_a_cliff.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/car0/A_car_parked_at_the_edge_of_a_cliff.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/car0/A_car_parked_at_the_edge_of_a_cliff.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text prompt 3 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* car with its headlights glowing in thick fog</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/car0/A_car_with_its_headlights_glowing_in_thick_fog.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/car0/A_car_with_its_headlights_glowing_in_thick_fog.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/car0/A_car_with_its_headlights_glowing_in_thick_fog.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/car0/A_car_with_its_headlights_glowing_in_thick_fog.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sample 1: Teddy Bear -->
+      <div class="item" style="padding-bottom: 0;">
+        <div class="container" style="max-width:900px;">
+          <!-- Reference images and target poses -->
+          <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
+            <div class="column is-half has-text-centered">
+              <img src="./mvcustom_static/images/reference/reference_teddybear31.png" alt="reference image" style="max-width:50%; height:auto;"/>
+              <div>
+                <p>A set of multi-view reference images</p>
+              </div>
+            </div>
+            <div class="column is-half has-text-centered">
+              <img src="./mvcustom_static/images/pose/teddybear31.png" alt="target pose" style="max-width:50%; height:auto;"/>
+              <div>
+                <p>Target camera poses</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Text prompt 1 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* teddybear on a stone pathway in a Japanese</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/teddybear31/A_teddybear_on_a_stone_pathway_in_a_Japanese.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/teddybear31/A_teddybear_on_a_stone_pathway_in_a_Japanese.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/teddybear31/A_teddybear_on_a_stone_pathway_in_a_Japanese.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/teddybear31/A_teddybear_on_a_stone_pathway_in_a_Japanese.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text prompt 2 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* teddybear on a stone wall in a countryside</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/teddybear31/A_teddybear_on_a_stone_wall_in_a_countryside.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/teddybear31/A_teddybear_on_a_stone_wall_in_a_countryside.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/teddybear31/A_teddybear_on_a_stone_wall_in_a_countryside.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/teddybear31/A_teddybear_on_a_stone_wall_in_a_countryside.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text prompt 3 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* teddybear on green grass in a sunny garden</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/teddybear31/A_teddybear_on_green_grass_in_a_sunny_garden.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/teddybear31/A_teddybear_on_green_grass_in_a_sunny_garden.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/teddybear31/A_teddybear_on_green_grass_in_a_sunny_garden.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/teddybear31/A_teddybear_on_green_grass_in_a_sunny_garden.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sample 4: Chair3 -->
+      <!-- Sample 2: Motorcycle -->
       <div class="item" style="padding-bottom: 0;">
         <div class="container" style="max-width:900px;">
           <!-- Reference images and target poses -->
           <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
-            <!-- 이미지 1 -->
+            <div class="column is-half has-text-centered">
+              <img src="./mvcustom_static/images/reference/reference_motorcycle409.png" alt="reference image" style="max-width:50%; height:auto;"/>
+              <div>
+                <p>A set of multi-view reference images</p>
+              </div>
+            </div>
+            <div class="column is-half has-text-centered">
+              <img src="./mvcustom_static/images/pose/motorcycle409.png" alt="target pose" style="max-width:50%; height:auto;"/>
+              <div>
+                <p>Target camera poses</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Text prompt 1 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* motorcycle on a beach during a dramatic lightning</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text prompt 2 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* motorcycle on a cliff edge overlooking a stormy</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text prompt 3 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* motorcycle on a red desert landscape like Mars</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <!-- Sample 4: Chair -->
+      <div class="item" style="padding-bottom: 0;">
+        <div class="container" style="max-width:900px;">
+          <!-- Reference images and target poses -->
+          <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
             <div class="column is-half has-text-centered">
               <img src="./mvcustom_static/images/reference/reference_chair3.png" alt="reference image" style="max-width:50%; height:auto;"/>
               <div>
                 <p>A set of multi-view reference images</p>
               </div>
             </div>
-            <!-- 이미지 2 -->
             <div class="column is-half has-text-centered">
-              <img src="./mvcustom_static/images/pose/chair3_13_1.png" alt="target pose" style="max-width:50%; height:auto;"/>
+              <img src="./mvcustom_static/images/pose/chair3.png" alt="target pose" style="max-width:50%; height:auto;"/>
               <div>
                 <p>Target camera poses</p>
               </div>
             </div>
           </div>
+          
+          <!-- Text prompt 1 -->
           <div class="has-text-centered" style="margin-bottom: 1.25rem;">
-            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt : A V* chair standing in the middle of a cornfield.</h3>
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* chair facing an open window with curtains blowing</h3>
           </div>
           <!-- Comparison videos -->
           <div class="columns is-mobile is-multiline is-centered">
-            <!-- Video 1 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/ours/chair3_7_1.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/MVCustom/chair3/A_chair_facing_an_open_window_with_curtains_blowing.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">MVCustom (Ours)</h3>
+                <p>MVCustom (Ours)</p>
               </div>
             </div>
-
-            <!-- Video 2 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/custom360/chair3_7_1.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/custom360/chair3/A_chair_facing_an_open_window_with_curtains_blowing.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">CustomDiffusion360</h3>
+                <p>CustomDiffusion360</p>
               </div>
             </div>
-
-            <!-- Video 3 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/txt_mvgen/chair3_7_1.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/txt_mvgen/chair3/A_chair_facing_an_open_window_with_curtains_blowing.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">Txt-MVgen with LoRA</h3>
+                <p>Txt-MVgen with LoRA</p>
               </div>
             </div>
-
-            <!-- Video 4 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/img_mvgen/chair3_7_1.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/img_mvgen/chair3/A_chair_facing_an_open_window_with_curtains_blowing.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">Custom Image + Img-MVgen</h3>
-                <br>
+                <p>Custom Image + Img-MVgen</p>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Sample 5: Teddy Bear Beach -->
-      <div class="item" style="padding-bottom: 0;">
-        <div class="container" style="max-width:900px;">
-          <!-- Reference images and target poses -->
-          <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
-            <!-- 이미지 1 -->
-            <div class="column is-half has-text-centered">
-              <img src="./mvcustom_static/images/reference/reference_teddy31.png" alt="reference image" style="max-width:50%; height:auto;"/>
-              <div>
-                <p>A set of multi-view reference images</p>
-              </div>
-            </div>
-            <!-- 이미지 2 -->
-            <div class="column is-half has-text-centered">
-              <img src="./mvcustom_static/images/pose/teddy31_6_2.png" alt="target pose" style="max-width:50%; height:auto;"/>
-              <div>
-                <p>Target camera poses</p>
-              </div>
-            </div>
-          </div>
+          <!-- Text prompt 2 -->
           <div class="has-text-centered" style="margin-bottom: 1.25rem;">
-            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt : A V* teddy bear sitting on the sand at the beach.</h3>
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* chair on wet pavement after rainfall</h3>
           </div>
           <!-- Comparison videos -->
           <div class="columns is-mobile is-multiline is-centered">
-            <!-- Video 1 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/ours/teddy31_11_1.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/MVCustom/chair3/A_chair_on_wet_pavement_after_rainfall.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">MVCustom (Ours)</h3>
+                <p>MVCustom (Ours)</p>
               </div>
             </div>
-
-            <!-- Video 2 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/custom360/teddy31_11_1.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/custom360/chair3/A_chair_on_wet_pavement_after_rainfall.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">CustomDiffusion360</h3>
+                <p>CustomDiffusion360</p>
               </div>
             </div>
-
-            <!-- Video 3 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/txt_mvgen/teddy31_11_1.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/txt_mvgen/chair3/A_chair_on_wet_pavement_after_rainfall.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">Txt-MVgen with customized LoRA</h3>
+                <p>Txt-MVgen with LoRA</p>
               </div>
             </div>
-
-            <!-- Video 4 -->
             <div class="column is-one-quarter has-text-centered">
               <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/img_mvgen/teddy31_11_1.mp4" type="video/mp4">
+                <source src="./mvcustom_static/videos/img_mvgen/chair3/A_chair_on_wet_pavement_after_rainfall.mp4" type="video/mp4">
               </video>
               <div>
-                <h3 class="title is-6" style="margin-top:0.5rem;">Custom Image + Img-MVgen</h3>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text prompt 3 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* chair standing in the middle of a cornfield</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/chair3/A_chair_standing_in_the_middle_of_a_cornfield.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/chair3/A_chair_standing_in_the_middle_of_a_cornfield.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/chair3/A_chair_standing_in_the_middle_of_a_cornfield.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/chair3/A_chair_standing_in_the_middle_of_a_cornfield.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
               </div>
             </div>
           </div>
