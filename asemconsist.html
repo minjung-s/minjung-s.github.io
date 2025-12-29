@@ -277,11 +277,121 @@
           </div>
         </div>
       </div>
-      
-
     </div>
   </div>
 </section>
+
+<section class="section"  >
+  <div class="container is-max-desktop">
+      <!-- Alignment -->
+      <h2 class="title is-3 has-text-centered">Balanced Evaluation: Consistency Quality Score (CQS)</h2>
+      <p>
+        We propose the <em>Consistency Quality Score</em> (CQS), a unified metric that
+        jointly evaluates the balance between <em>identity preservation</em> and
+        <em>per-image text alignment</em>.
+      </p>
+      <p>
+        By measuring both criteria simultaneously within a single score,
+        CQS enables a comprehensive and reliable ordering of
+        identity-consistent generation methods.
+      </p>
+   
+       <p>
+         Given an identity prompt p<sub>id</sub> and per-image prompts
+         [p<sub>1</sub>, …, p<sub>k</sub>], we generate a set of images
+         X = {x<sub>1</sub>, …, x<sub>k</sub>}, where each image x<sub>i</sub> reflects its per-image prompt p_i and identity prompt p<sub>id</sub>. We define two alignment scores:
+       </p>
+   
+       <figure class="eq-figure">
+         <img src="./asemconsist_static/images/cqs/eq_1.png" alt="Definition of t_i and a_i">
+       </figure>
+   
+       <p>
+         where t<sub>i</sub> measures alignment with both the identity and per-image prompts,
+         and a<sub>i</sub> measures alignment with the per-image prompt alone.
+         Identity consistency across the generated images is quantified using DreamSim:
+       </p>
+   
+       <figure class="eq-figure">
+         <img src="./asemconsist_static/images/cqs/eq_2.png" alt="Definition of d_i">
+       </figure>
+   
+       <p>
+         DreamSim scores are transformed using (1−·) and scaled via min–max normalization
+         to match the range of VQA scores.
+       </p>
+   
+       <p>
+         To explicitly account for the imbalance between identity consistency and per-image
+         text alignment, we define the <em>alignment gap</em>
+         Δ<sub>i</sub> = a<sub>i</sub> − t<sub>i</sub>, which measures how much the per-image
+         alignment deviates from the combined identity–prompt alignment.
+       </p>
+   
+       <p>
+         We summarize the dataset-level tendency via mean positive and negative gaps,
+       </p>
+   
+       <figure class="eq-figure">
+         <img src="./asemconsist_static/images/cqs/eq_3.png" alt="Definition of Delta plus and minus">
+       </figure>
+   
+       <p>
+         and define per-sample reward and penalty terms that interpolate between
+         dataset-level statistics and instance-level deviations:
+       </p>
+   
+       <figure class="eq-figure">
+         <img src="./asemconsist_static/images/cqs/eq_4.png" alt="Definition of delta_i minus and plus">
+       </figure>
+   
+       <p>
+         where λ ∈ [0,1] balances dataset-level and instance-level adjustments.
+         The adjusted identity score is then given by
+       </p>
+   
+       <figure class="eq-figure">
+         <img src="./asemconsist_static/images/cqs/eq_5.png" alt="Definition of adjusted identity score d_i star">
+       </figure>
+   
+       <p>
+         where μ, τ ≥ 0 control the strength of penalties and rewards.
+       </p>
+   
+       <p>
+         The final per-sample score is computed as a harmonic mean:
+       </p>
+   
+       <figure class="eq-figure">
+         <img src="./asemconsist_static/images/cqs/eq_6.png" alt="Definition of CQS harmonic mean">
+       </figure>
+   
+       <p>
+         By integrating identity consistency and per-image text alignment into a single
+         metric and explicitly penalizing their imbalance, CQS<sub>har</sub> provides a
+         balanced, comprehensive criterion for evaluating and ordering identity-consistent
+         generation methods.
+       </p>
+   
+    </div>
+  </div>
+</section>
+
+<style>
+  .section.cqs {
+    padding: 2.5rem 0;
+  }
+
+  .eq-figure {
+    margin: 0.5rem auto;
+    text-align: center;
+  }
+
+  .eq-figure img {
+    max-width: 50%;
+    height: auto;
+  }
+</style>
 
 <!-- <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">

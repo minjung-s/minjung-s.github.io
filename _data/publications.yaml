@@ -14,7 +14,7 @@ papers:
     venue: "Preprint"
     paper_pdf: "https://arxiv.org/abs/2510.13702"
     selected: y
-    image: "/assets/publications/2025_arxiv/teddy_grid_2x2.gif"
+    image: "/assets/publications/2025_arxiv/mvcustom.gif"
     highlight: True
 
   - title: "Eye‑for‑an‑eye: Appearance Transfer with Semantic Correspondence in Diffusion Models"
