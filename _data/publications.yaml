@@ -1,4 +1,12 @@
 papers:
+  - title: "MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion"
+    authors: "Shin seong Kim*, <b>Minjung Shin</b>*, Hyunin Choi, Youngjung Uh"
+    project: "https://minjung-s.github.io/asemconsist"
+    venue: "Preprint"
+    paper_pdf: "https://arxiv.org/abs/2510.13702"
+    selected: y
+    image: "/assets/publications/2025_arxiv_2/AsemConsist.gif"
+    highlight: True
 
   - title: "MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion"
     authors: "<b>Minjung Shin</b>, Hyunin Choi, Sooyeon Go, Jin-Hwa Kim, Youngjung Uh"
