@@ -12,20 +12,20 @@
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
-  <link rel="stylesheet" href="./mvcustom_static/css/bulma.min.css">
-  <link rel="stylesheet" href="./mvcustom_static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./mvcustom_static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./mvcustom_static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./libs/homepage/css/bulma.min.css">
+  <link rel="stylesheet" href="./libs/homepage/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./libs/homepage/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./libs/homepage/css/fontawesome.all.min.css">
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./mvcustom_static/css/index.css">
+  <link rel="stylesheet" href="./libs/homepage/css/index.css">
   <link rel="icon" href="./ballgan_static/images/vilab_logo2_square_fit_circle.png">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./mvcustom_static/js/fontawesome.all.min.js"></script>
-  <script src="./mvcustom_static/js/bulma-carousel.min.js"></script>
-  <script src="./mvcustom_static/js/bulma-slider.min.js"></script>
-  <script src="./mvcustom_static/js/index.js"></script>
+  <script defer src="./libs/homepage/js/fontawesome.all.min.js"></script>
+  <script src="./libs/homepage/js/bulma-carousel.min.js"></script>
+  <script src="./libs/homepage/js/bulma-slider.min.js"></script>
+  <script src="./libs/homepage/js/index.js"></script>
 </head>
 <body>
 
@@ -50,10 +50,15 @@
           More Research
         </a>
         <div class="navbar-dropdown">
+          <a target="_blank" class="navbar-item" href="https://minjung-s.github.io/asemconsist">
+            ASemConsist
+          </a>
+        </div>
+        <div class="navbar-dropdown">
           <a target="_blank" class="navbar-item" href="https://minjung-s.github.io/mvcustom">
             MVCustom
           </a>
-        </a>
+        </div>
         <div class="navbar-dropdown">
           <a target="_blank" class="navbar-item" href="https://minjung-s.github.io/ballgan">
             BallGAN
@@ -71,7 +76,10 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion</h1>
+          <h1 class="title is-1 publication-title">
+          <span style="background: linear-gradient(to right, #62baf8, #fb6abc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">MVCustom</span>
+          : Multi-View Customized Diffusion via Geometric Latent Rendering and Completion
+          </h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
               <a target="_blank" href="https://minjung-s.github.io/">Minjung Shin</a><sup>1</sup>,
@@ -218,7 +226,7 @@
 </section>
 
 
-<section class="section">
+<section class="section" >
   <div class="container is-max-desktop">
       <!-- Alignment -->
       <h2 class="title is-3 has-text-centered">What is the multi-view customization?</h2>
@@ -268,12 +276,154 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section"  style="background-color: #f5f5f5;">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Comparison with existing methods</h2>
     
     <!-- Comparison Carousel -->
     <div id="comparison-carousel" class="carousel results-carousel" style="margin-bottom: 0;">
+      <!-- Sample 2: Motorcycle -->
+      <div class="item" style="padding-bottom: 0;">
+        <div class="container" style="max-width:900px;">
+          <!-- Reference images and target poses -->
+          <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
+            <div class="column is-half has-text-centered">
+              <img src="./mvcustom_static/images/reference/reference_motorcycle409.png" alt="reference image" style="max-width:50%; height:auto;"/>
+              <div>
+                <p>A set of multi-view reference images</p>
+              </div>
+            </div>
+            <div class="column is-half has-text-centered">
+              <img src="./mvcustom_static/images/pose/motorcycle409.png" alt="target pose" style="max-width:50%; height:auto;"/>
+              <div>
+                <p>Target camera poses</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Text prompt 1 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* motorcycle on a beach during a dramatic lightning</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text prompt 2 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* motorcycle on a cliff edge overlooking a stormy</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text prompt 3 -->
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* motorcycle on a red desert landscape like Mars</h3>
+          </div>
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/txt_mvgen/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
+              </video>
+              <div>
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+            
       <!-- Sample 3: Car -->
       <div class="item" style="padding-bottom: 0;">
         <div class="container" style="max-width:900px;">
@@ -556,148 +706,7 @@
         </div>
       </div>
 
-      <!-- Sample 2: Motorcycle -->
-      <div class="item" style="padding-bottom: 0;">
-        <div class="container" style="max-width:900px;">
-          <!-- Reference images and target poses -->
-          <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
-            <div class="column is-half has-text-centered">
-              <img src="./mvcustom_static/images/reference/reference_motorcycle409.png" alt="reference image" style="max-width:50%; height:auto;"/>
-              <div>
-                <p>A set of multi-view reference images</p>
-              </div>
-            </div>
-            <div class="column is-half has-text-centered">
-              <img src="./mvcustom_static/images/pose/motorcycle409.png" alt="target pose" style="max-width:50%; height:auto;"/>
-              <div>
-                <p>Target camera poses</p>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Text prompt 1 -->
-          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
-            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* motorcycle on a beach during a dramatic lightning</h3>
-          </div>
-          <!-- Comparison videos -->
-          <div class="columns is-mobile is-multiline is-centered">
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/MVCustom/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>MVCustom (Ours)</p>
-              </div>
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/custom360/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>CustomDiffusion360</p>
-              </div>
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/txt_mvgen/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>Txt-MVgen with LoRA</p>
-              </div>
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/img_mvgen/motorcycle409/A_motorcycle_on_a_beach_during_a_dramatic_lightning.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>Custom Image + Img-MVgen</p>
-              </div>
-            </div>
-          </div>
 
-          <!-- Text prompt 2 -->
-          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
-            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* motorcycle on a cliff edge overlooking a stormy</h3>
-          </div>
-          <!-- Comparison videos -->
-          <div class="columns is-mobile is-multiline is-centered">
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/MVCustom/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>MVCustom (Ours)</p>
-              </div>
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/custom360/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>CustomDiffusion360</p>
-              </div>
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/txt_mvgen/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>Txt-MVgen with LoRA</p>
-              </div>
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/img_mvgen/motorcycle409/A_motorcycle_on_a_cliff_edge_overlooking_a_stormy.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>Custom Image + Img-MVgen</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Text prompt 3 -->
-          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
-            <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* motorcycle on a red desert landscape like Mars</h3>
-          </div>
-          <!-- Comparison videos -->
-          <div class="columns is-mobile is-multiline is-centered">
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/MVCustom/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>MVCustom (Ours)</p>
-              </div>
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/custom360/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>CustomDiffusion360</p>
-              </div>
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/txt_mvgen/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>Txt-MVgen with LoRA</p>
-              </div>
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
-                <source src="./mvcustom_static/videos/img_mvgen/motorcycle409/A_motorcycle_on_a_red_desert_landscape_like_Mars.mp4" type="video/mp4">
-              </video>
-              <div>
-                <p>Custom Image + Img-MVgen</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      
 
       <!-- Sample 4: Chair -->
       <div class="item" style="padding-bottom: 0;">
@@ -849,7 +858,6 @@
 </section>
 
 
-</section>
 <section class="section">
   <div class="container is-max-desktop">
       <!-- Alignment -->
@@ -888,6 +896,8 @@
     </div>
   </div>
 </section>
+
+
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
@@ -903,15 +913,6 @@
 
 <footer class="footer">
   <div class="container">
-    <div class="content has-text-centered">
-      <a target="_blank" class="icon-link"
-         href="blendnerf_static/paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a target="_blank" class="icon-link" href="https://blandocs.github.io" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
     <div class="columns is-centered">
       <div class="column is-8">
         <div class="content">

@@ -1,0 +1,340 @@
+---
+---
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="ASemConsist: Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation">
+  <meta name="keywords" content="ASemConsist, ASemConsist: Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation, Consistent generation, Story generation, diffusion model, training-free consistent generation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ASemConsist</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  <link rel="stylesheet" href="./libs/homepage/css/bulma.min.css">
+  <link rel="stylesheet" href="./libs/homepage/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./libs/homepage/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./libs/homepage/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./libs/homepage/css/index.css">
+  <link rel="icon" href="./ballgan_static/images/vilab_logo2_square_fit_circle.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./libs/homepage/js/fontawesome.all.min.js"></script>
+  <script src="./libs/homepage/js/bulma-carousel.min.js"></script>
+  <script src="./libs/homepage/js/bulma-slider.min.js"></script>
+  <script src="./libs/homepage/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://minjung-s.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a target="_blank" class="navbar-item" href="https://minjung-s.github.io/asemconsist">
+            ASemConsist
+          </a>
+        </div>
+        <div class="navbar-dropdown">
+          <a target="_blank" class="navbar-item" href="https://minjung-s.github.io/mvcustom">
+            MVCustom
+          </a>
+        </div>
+        <div class="navbar-dropdown">
+          <a target="_blank" class="navbar-item" href="https://minjung-s.github.io/ballgan">
+            BallGAN
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">
+            <span style="background: linear-gradient(to right, #fe657c, #538ccd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">ASemConsist</span>
+            : Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a target="_blank" href="https://minjung-s.github.io/">Shin seong Kim</a><sup>1*</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://minjung-s.github.io/">Minjung Shin</a><sup>1*</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://www.linkedin.com/in/hi3737">Hyunin Cho</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a target="_blank" href="https://vilab.yonsei.ac.kr/members/professor">Youngjung Uh</a><sup>† 1</sup>
+            </span>
+          </div>
+          
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Yonsei University,</span>
+          </div>
+          <small>
+            <sup>*</sup>Equal contribution.
+            <sup>†</sup>Corresponding authors.
+          </small>
+          <!-- <h1 class="title is-4 publication-title">ICCV 2023</h1> -->
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a target="_blank" href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (High res)</span>
+                </a>
+              </span> -->
+              <span class="link-block">
+                <a target="_blank" href="https://arxiv.org/abs/2510.13702"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a target="_blank" href="https://www.youtube.com/watch?v=RxdWbePtcNY"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a target="_blank" href="https://github.com/minjung-s/MVCustom"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (coming soon)</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <div class="columns is-vcentered is-centered">
+            <!-- 이미지 슬라이드 1 -->
+            <div style="padding: 12px;">
+              <img src="./asemconsist_static/images/teaser/teaser_0.png" alt="Image 1" style="width: 90%; height: 90%; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="columns is-vcentered is-centered">
+            <!-- 이미지 슬라이드 2 -->
+            <div style="padding: 12px;">
+              <img src="./asemconsist_static/images/teaser/teaser_1.png" alt="Image 2" style="width: 90%; height: 90%; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="columns is-vcentered is-centered">
+            <!-- 이미지 슬라이드 3 -->
+            <div style="padding: 12px;">
+              <img src="./asemconsist_static/images/teaser/teaser_2.png" alt="Image 3" style="width: 90%; height: 90%; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="columns is-vcentered is-centered">
+            <!-- 이미지 슬라이드 3 -->
+            <div style="padding: 12px;">
+              <img src="./asemconsist_static/images/teaser/teaser_3.png" alt="Image 3" style="width: 90%; height: 90%; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="text-align: center;">
+        <b>TL;DR:</b> We enable FLUX to generate identity-consistent subject images across a diverse text prompts without additional training.
+      </p>  
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+          Recent text-to-image diffusion models have significantly improved visual quality and text alignment.
+          However, generating a sequence of images while preserving consistent character identity across diverse scene descriptions remains challenging. Existing methods often struggle with a trade-off between maintaining identity consistency and ensuring per-image prompt alignment.
+          </p>
+          <p>
+          In this paper, we introduce a novel framework, ASemconsist, that addresses this challenge through <b>selective text embedding modification</b>, enabling explicit semantic control over character identity without sacrificing prompt alignment.
+          Furthermore, based on our analysis of padding embeddings in FLUX, we propose a semantic control strategy that <b>repurposes padding embeddings as semantic containers</b>. 
+          Additionally, we introduce an <b>adaptive feature-sharing strategy</b> that automatically evaluates textual ambiguity and applies constraints only to the ambiguous identity prompt</b>.
+          </p>
+          <p>
+          Finally, we propose a unified evaluation protocol, the Consistency Quality Score (CQS), which integrates identity preservation and per-image text alignment into a single comprehensive metric, explicitly capturing performance imbalances between the two metrics. Our framework achieves state-of-the-art performance, effectively overcoming prior trade-offs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Comparison with existing methods</h2>
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <div class="columns is-vcentered is-centered">
+            <!-- 이미지 슬라이드 1 -->
+            <div style="padding: 12px;">
+              <img src="./asemconsist_static/images/teaser/comparision/comparision_2_0.png" alt="Image 1" style="width: 90%; height: 90%; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="columns is-vcentered is-centered">
+            <!-- 이미지 슬라이드 2 -->
+            <div style="padding: 12px;">
+              <img src="./asemconsist_static/images/teaser/comparision/comparision_2_1.png" alt="Image 2" style="width: 90%; height: 90%; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="columns is-vcentered is-centered">
+            <!-- 이미지 슬라이드 3 -->
+            <div style="padding: 12px;">
+              <img src="./asemconsist_static/images/teaser/comparision/comparision_2_2.png" alt="Image 3" style="width: 90%; height: 90%; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="section"  >
+  <div class="container is-max-desktop">
+      <!-- Alignment -->
+      <h2 class="title is-3 has-text-centered">How dose it work?</h2>
+      <div class="columns">
+        <!-- Visual Effects. -->
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-4">Selective text-embedding modification</h2>
+            <p style="padding-right: 10px;">
+              We selectively modify text embeddings to control identity and per-image semantics, amplifying identity-consistent features while suppressing irrelevant ones.
+              Additionally, based on our analysis, we repurpose FLUX padding embeddings—dominated by dummy semantics—as semantic containers by injecting meaningful per-image information.
+              These strategies enable stable identity preservation without sacrificing per-image prompt alignment.
+            </p>
+            <img src="./asemconsist_static/images/model1.png"/>
+          </div>
+        </div>
+        <!--/ Visual Effects. -->
+  
+        <!-- Matting. -->
+        <div class="column">
+          <h2 class="title is-4">Adaptive feature-sharing</h2>
+          <div class="columns is-centered">
+            <div class="column content">
+              <p>
+              We automatically detect when identity descriptions are ambiguous and apply feature sharing only in those cases.
+              This adaptive strategy reinforces identity consistency while preserving pose, appearance diversity, and prompt fidelity.
+              </p>
+              <img src="./asemconsist_static/images/model2.png"/>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+  </div>
+</section>
+
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{shin2025mvcustom,
+      title={MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion},
+      author={Shin, Minjung and Cho, Hyunin and Go, Sooyeon and Kim, Jin-Hwa and Uh, Youngjung},
+      journal={arXiv preprint arXiv:2510.13702},
+      year={2025}
+    }</code></pre>
+  </div>
+</section> -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/"> Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            We borrow the website template from <a target="_blank" href="https://nerfies.github.io/">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
