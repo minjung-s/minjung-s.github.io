@@ -298,10 +298,13 @@
           <div class="columns is-centered">
             <div class="column content">
               <p>
-              We automatically detect when identity descriptions are ambiguous and apply feature sharing only in those cases.
+                We first automatically evaluate identity ambiguity by analyzing feature cohesion across transformer blocks and timesteps.
               </p>
               <img src="./asemconsist_static/images/ambiguity_plot.png"/>
-              This adaptive strategy reinforces identity consistency while preserving pose, appearance diversity, and prompt fidelity.
+              <p>
+                When ambiguity is high, we selectively apply residual feature sharing from a cached identity embedding.
+                This adaptive mechanism reinforces identity consistency without sacrificing visual diversity or prompt fidelity.
+              </p>
               <img src="./asemconsist_static/images/model2.png"/>
             </div>
 
