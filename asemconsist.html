@@ -133,7 +133,7 @@
               </span> -->
               <!-- Code Link. -->
               <span class="link-block">
-                <a target="_blank" href="https://minjung-s.github.io/asemconsist"
+                <a target="_blank" href="https://github.com/GrainSack/ASemConsist"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -282,7 +282,7 @@
   </div>
 </section>
 
-<section class="section"  >
+<section class="section" id="cqs"  >
   <div class="container is-max-desktop">
       <!-- Alignment -->
       <h2 class="title is-3 has-text-centered">Balanced Evaluation: Consistency Quality Score (CQS)</h2>
@@ -384,12 +384,15 @@
   }
 
   .eq-figure {
-    margin: 0.5rem auto;
+    margin: 1.5rem auto;
     text-align: center;
+
+    /* default fallback (in case not specified) */
+    --eq-width: 100%;
   }
 
   .eq-figure img {
-    max-width: 50%;
+    max-width: var(--eq-width);
     height: auto;
   }
 </style>
