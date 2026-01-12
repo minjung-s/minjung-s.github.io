@@ -768,7 +768,48 @@
           <!-- Text prompt 3 -->
           <div class="has-text-centered" style="margin-bottom: 1.25rem;">
             <h3 class="title is-5" style="margin-top:0.5rem;">Text prompt: A V* car with its headlights glowing in thick fog</h3>
+
           </div>
+          <!-- Comparison videos -->
+          <!-- Comparison videos -->
+          <div class="columns is-mobile is-multiline is-centered" style="align-items: stretch;">
+            <div class="column is-one-quarter has-text-centered" style="display: flex; flex-direction: column;">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/MVCustom/car0/A_car_with_its_headlights_glowing_in_thick_fog.mp4" type="video/mp4">
+              </video>
+              <div style="margin-top: auto;">
+                <p>MVCustom (Ours)</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered" style="display: flex; flex-direction: column;">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/custom360/car0/A_car_with_its_headlights_glowing_in_thick_fog.mp4" type="video/mp4">
+              </video>
+              <div style="margin-top: auto;">
+                <p>CustomDiffusion360</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered" style="display: flex; flex-direction: column;">
+              <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                  <source src="./mvcustom_static/videos/txt_mvgen/car0/A_car_with_its_headlights_glowing_in_thick_fog.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div>
+                <p>Txt-MVgen with LoRA</p>
+              </div>
+            </div>
+            <div class="column is-one-quarter has-text-centered" style="display: flex; flex-direction: column;">
+              <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+                <source src="./mvcustom_static/videos/img_mvgen/car0/A_car_with_its_headlights_glowing_in_thick_fog.mp4" type="video/mp4">
+              </video>
+              <div style="margin-top: auto;">
+                <p>Custom Image + Img-MVgen</p>
+              </div>
+            </div>
+          </div>
+
+
           <!-- Comparison table -->
           <div style="margin-top: 1.5rem; overflow-x: auto;">
             <table class="table is-bordered is-striped" style="margin: 0 auto; max-width: 100%;">
