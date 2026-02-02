@@ -11,7 +11,7 @@ papers:
   - title: "MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion"
     authors: "<b>Minjung Shin</b>, Hyunin Choi, Sooyeon Go, Jin-Hwa Kim, Youngjung Uh"
     project: "https://minjung-s.github.io/mvcustom"
-    venue: "Preprint"
+    venue: "ICLR 2026"
     paper_pdf: "https://arxiv.org/abs/2510.13702"
     selected: y
     image: "/assets/publications/2025_arxiv/mvcustom.gif"
