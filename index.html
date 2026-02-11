@@ -57,9 +57,9 @@ title: Home
   
   .venue-badge {
     position: absolute;
-    bottom: -5px;
-    left: 0px;
-    background-color: #00369f;
+    top: 4px;
+    left: 4px;
+    background-color: rgba(0, 54, 159, 0.85);
     color: white;
     padding: 2px 8px;
     font-size: 11px;
@@ -90,8 +90,9 @@ title: Home
             <div class="four columns">
               <div class="figure-with-badge">
                 <img src="{{ paper.image }}">
-                {% assign venue_parts = paper.venue | split: ' ' %}
-                <abbr class="venue-badge">{{ venue_parts[0] }}</abbr>
+                {% unless paper.venue == "Preprint" %}
+                  <abbr class="venue-badge">{{ paper.venue }}</abbr>
+                {% endunless %}
               </div>
             </div>
             <div class="eight columns">
@@ -137,8 +138,9 @@ title: Home
           <div class="four columns">
             <div class="figure-with-badge">
               <img src="{{ paper.image }}">
-              {% assign venue_parts = paper.venue | split: ' ' %}
-              <abbr class="venue-badge">{{ venue_parts[0] }}</abbr>
+              {% unless paper.venue == "Preprint" %}
+                <abbr class="venue-badge">{{ paper.venue }}</abbr>
+              {% endunless %}
             </div>
           </div>
           <div class="eight columns">
