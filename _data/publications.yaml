@@ -52,6 +52,7 @@ papers:
     authors: "Whui Kim, Hyunkyun Choi, <b>Minjung Shin</b>"
     venue: "VTC 2019-fall"
     paper_pdf: "https://ieeexplore.ieee.org/document/8890976"
+    image: "/assets/publications/2019_VTC/VTC2019.PNG"
     selected: y
     
 #   - title: "StyleMapGAN: Exploiting Spatial Dimensions of Latent in GAN for Real-time Image Editing"
