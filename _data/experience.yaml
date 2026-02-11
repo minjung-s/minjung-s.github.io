@@ -6,6 +6,7 @@ experiences:
   title: "Research Scientist, Intern"
   subtitle: "Generation Research"
   category: "work"
+  image: "assets/experiences/NAVER.png"
 
 - place: "Yonsei University"
   time: "Mar 2021 – now"
@@ -18,6 +19,7 @@ experiences:
   title: "Research Scientist, Intern"
   subtitle: "AI Reasearch Lab"
   category: "work"
+  image: "assets/experiences/ETRI.png"
 
 - place: "Kwangwoon University"
   time: "2016 - 2021"
