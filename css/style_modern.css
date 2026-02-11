@@ -86,13 +86,12 @@ body {
 /* Link Styles */
 a {
     color: rgb(67, 146, 207);
-    text-decoration: none;
+    text-decoration: underline;
     transition: color 0.2s ease;
 }
 
 a:hover {
     color: rgb(50, 120, 180);
-    text-decoration: underline;
 }
 
 [data-theme="dark"] a {
@@ -464,6 +463,24 @@ h2 {
 #education .card p, #education .card span, #education .card h4,
 #research .card p, footer p { 
     color: var(--text-secondary) !important; 
+}
+
+/* Research section links should have proper styling */
+#research .card p a {
+    color: rgb(67, 146, 207) !important;
+    text-decoration: underline !important;
+}
+
+#research .card p a:hover {
+    color: rgb(50, 120, 180) !important;
+}
+
+[data-theme="dark"] #research .card p a {
+    color: rgb(100, 170, 225) !important;
+}
+
+[data-theme="dark"] #research .card p a:hover {
+    color: rgb(130, 190, 240) !important;
 }
 
 .search-container { 
