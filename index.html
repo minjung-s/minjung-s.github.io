@@ -43,6 +43,32 @@ title: Home
 
 
 <!-- ========== PUBLICATIONS ========== -->
+<style>
+  .figure-with-badge {
+    position: relative;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+  
+  .figure-with-badge img {
+    width: 100%;
+    display: block;
+  }
+  
+  .venue-badge {
+    position: absolute;
+    bottom: -5px;
+    left: 0px;
+    background-color: #00369f;
+    color: white;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 0px;
+    z-index: 10;
+  }
+</style>
+
 <div class="docs-section" id="publications">
   <h4>Publications</h4>
 
@@ -62,8 +88,10 @@ title: Home
         <div class="paper">
           <div class="row">
             <div class="four columns">
-              <div class="figure">
-                <img src="{{ paper.image }}" width="100%">
+              <div class="figure-with-badge">
+                <img src="{{ paper.image }}">
+                {% assign venue_parts = paper.venue | split: ' ' %}
+                <abbr class="venue-badge">{{ venue_parts[0] }}</abbr>
               </div>
             </div>
             <div class="eight columns">
@@ -107,8 +135,10 @@ title: Home
       <div class="paper">
         <div class="row" style="display: flex;align-items: center;">
           <div class="four columns">
-            <div class="figure">
-              <img src="{{ paper.image }}" width="100%">
+            <div class="figure-with-badge">
+              <img src="{{ paper.image }}">
+              {% assign venue_parts = paper.venue | split: ' ' %}
+              <abbr class="venue-badge">{{ venue_parts[0] }}</abbr>
             </div>
           </div>
           <div class="eight columns">
