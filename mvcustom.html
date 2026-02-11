@@ -160,13 +160,14 @@
 <section class="hero is-light is-small">
   <div class="hero-body">
     <div class="container is-max-desktop">
-      <div class="item">
-        <p style="margin-bottom: 30px">
-      <video poster="" id="tree" controls="" muted="" height="100%">
-        <source src="mvcustom_static/videos/MVCustom_minjung_linkedin.mp4" type="video/mp4">
-      </video>
-    </p></div>
-    </div>
+      <div class="container is-max-desktop">
+        <div class="item" style="text-align: center; margin-bottom: 30px;">
+          <video poster="" id="tree" controls muted style="max-width: 100%; height: auto;">
+            <source src="./mvcustom_static/videos/MVCustom_minjung_linkedin.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
     <div class="container">
       <div id="results-carousel" class="carousel results-carousel">
         <div class="item">
@@ -1109,6 +1110,137 @@
   </div>
 </section>
 
+<section class="section"  style="background-color: #f5f5f5;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Analysis</h2>
+    <h2 class="title is-4 has-text-centered">A. Ablation study on inference strategies</h2>
+    <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
+      <div class="column has-text-centered">
+        <img src="./mvcustom_static/images/ablation/inference_ablation.png" alt="reference image" style="width:100%; height:auto;"/>
+      </div>
+    </div>
+
+    <h2 class="title is-4 has-text-centered">B. Flickering artifacts under different CFG scales</h2>
+    <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <p>Text prompt: A V* teddybear with a christmas tree surrounded by presents</p>
+    </div>
+    <!-- Comparison videos -->
+    <div class="columns is-mobile is-multiline is-centered is-variable is-8">
+      <div class="column is-one-quarter has-text-centered">
+        <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+          <h3 class="title is-5" style="margin-top:0.5rem;">CFG scale = 3</h3>
+        </div>
+        <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+          <source src="./mvcustom_static/videos/cfg/0_cfg3.mp4" type="video/mp4">
+        </video>
+        <div>
+          <p>flickering ↓ blurring ↑</p>
+        </div>
+      </div>
+      <div class="column is-one-quarter has-text-centered">
+        <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+          <h3 class="title is-5" style="margin-top:0.5rem;">CFG scale = 5 (defulat)</h3>
+        </div>
+        <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+          <source src="./mvcustom_static/videos/cfg/0_cfg5.mp4" type="video/mp4">
+        </video>
+        <div>
+          <p>flickering ↓ blurring ↓</p>
+        </div>
+      </div>
+      <div class="column is-one-quarter has-text-centered">
+        <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+          <h3 class="title is-5" style="margin-top:0.5rem;">CFG scale = 8</h3>
+        </div>
+        <video width="100%" autoplay loop muted playsinline style="max-width:100%; height:auto;">
+          <source src="./mvcustom_static/videos/cfg/0_cfg8.mp4" type="video/mp4">
+        </video>
+        <div>
+          <p>flickering ↑ blurring ↓</p>
+        </div>
+      </div>
+      <h2 class="title is-6 has-text-centered">Appropriate CFG scale selection improves visual quality. We set the CFG scale to 5.</h2>
+    
+    </div>
+    <h2 class="title is-4 has-text-centered">C. Shape variants with different pose-conditioned transformer block usage ratios in inference</h2>
+    <!-- Shape Variant Carousel -->
+    <div id="shape-variant-carousel" class="carousel results-carousel" style="margin-bottom: 0;">
+      <!-- Sample 1 -->
+      <div class="item" style="padding-bottom: 0;">
+        <div class="container" style="max-width:900px;">
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Case (a) : Using pose-conditioned transformer blocks in 100% of the denoising steps.</h3>
+          </div>
+          <!-- Reference images -->
+          <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
+            <div class="column has-text-centered">
+              <img src="./mvcustom_static/images/shape_variant/100.png" alt="reference image" style="width:100%; height:auto;"/>
+              <div>
+                <p>Accurately maintains viewpoint alignment, preserves the reference object's shape, and partially reflects shape variations specified by text.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample 2 -->
+      <div class="item" style="padding-bottom: 0;">
+        <div class="container" style="max-width:900px;">
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Case (b) : Using pose-conditioned transformer blocks in 75% of the denoising steps.</h3>
+          </div>
+          <!-- Reference images -->
+          <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
+            <!-- 이미지 1 -->
+            <div class="column has-text-centered">
+              <img src="./mvcustom_static/images/shape_variant/75.png" alt="reference image" style="width:100%; height:auto;"/>
+              <div>
+                <p>Allows greater reflection of text-specified shape variations, slightly compromising reference shape consistency.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample 3 -->
+      <div class="item" style="padding-bottom: 0;">
+        <div class="container" style="max-width:900px;">
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Case (c) : Using pose-conditioned transformer blocks in 50% of the denoising steps.</h3>
+          </div>
+          <!-- Reference images -->
+          <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
+            <div class="column has-text-centered">
+              <img src="./mvcustom_static/images/shape_variant/50.png" alt="reference image" style="width:100%; height:auto;"/>
+              <div>
+                <p> Reflects detailed shape variations from text prompts while partially preserving key reference features (e.g., color or door shape), but viewpoint alignment begins to degrade.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample 3 -->
+      <div class="item" style="padding-bottom: 0;">
+        <div class="container" style="max-width:900px;">
+          <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+            <h3 class="title is-5" style="margin-top:0.5rem;">Case (d) : Using pose-conditioned transformer blocks in 25% of the denoising steps.</h3>
+          </div>
+          <!-- Reference images -->
+          <div class="columns is-mobile is-multiline is-centered" style="margin-bottom:2rem;">
+            <div class="column has-text-centered">
+              <img src="./mvcustom_static/images/shape_variant/25.png" alt="reference image" style="width:100%; height:auto;"/>
+              <div>
+                <p>Does not retain reference object details or viewpoint consistency, only accurately reflecting the general object type and details described by the text. Hence, this configuration does not constitute meaningful reference customization.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
