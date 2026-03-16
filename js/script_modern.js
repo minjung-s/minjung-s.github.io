@@ -4,21 +4,21 @@
 const publicationsData = {
     "papers": [
         {
-            "title": "MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion",
-            "authors": "<strong>Minjung Shin</strong>, Hyunin Choi, Sooyeon Go, Jin-Hwa Kim, Youngjung Uh",
-            "venue": "ICLR 2026",
-            "url": "https://minjung-s.github.io/mvcustom",
-            "paper_pdf": "https://arxiv.org/abs/2510.13702",
-            "media": "/assets/publications/2026_ICLR/MVCustom.gif",
-            "highlight": true
-        },
-        {
             "title": "ASemConsist: Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation",
             "authors": "Shin seong Kim*, <strong>Minjung Shin</strong>*, Hyunin Choi, Youngjung Uh",
             "venue": "Preprint",
             "url": "https://minjung-s.github.io/asemconsist",
             "paper_pdf": "https://arxiv.org/abs/2512.23245",
             "media": "/assets/publications/2025_arxiv_2/AsemConsist.png",
+            "highlight": true
+        },
+        {
+            "title": "MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion",
+            "authors": "<strong>Minjung Shin</strong>, Hyunin Choi, Sooyeon Go, Jin-Hwa Kim, Youngjung Uh",
+            "venue": "ICLR 2026",
+            "url": "https://minjung-s.github.io/mvcustom",
+            "paper_pdf": "https://arxiv.org/abs/2510.13702",
+            "media": "/assets/publications/2026_ICLR/MVCustom.gif",
             "highlight": true
         },
         {
