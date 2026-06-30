@@ -394,11 +394,11 @@ function displayExperience(experience, timelineId = "timeline") {
     }
     timeline.appendChild(fragment);
     
-    // Scroll to end of timeline
+    // Show the most recent experience first (newest items are on the left)
     requestAnimationFrame(() => {
         const container = document.querySelector(".timeline-container");
         if (container) {
-            container.scrollLeft = container.scrollWidth;
+            container.scrollLeft = 0;
         }
     });
 }
