@@ -4,6 +4,16 @@
 const publicationsData = {
     "papers": [
         {
+            "title": "BindEdit: Taming Attention Leakage for Precise Multi-Object Image Editing",
+            "authors": "Chaewon Park, Soyoon Lee, Naeun Lee, <strong>Minjung Shin</strong><sup>†</sup>, Seogkyu Jeon<sup>†</sup>, Kibeom Hong<sup>†</sup>",
+            "venue": "Preprint",
+            "url": null,
+            "paper_pdf": "https://arxiv.org/abs/2606.18906",
+            "media": "/assets/publications/2026_arxiv/bindedit_teaser.gif",
+            "highlight": false,
+            "corresponding": true
+        },
+        {
             "title": "ASemConsist: Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation",
             "authors": "Shin seong Kim*, <strong>Minjung Shin</strong>*, Hyunin Choi, Youngjung Uh",
             "venue": "Preprint",
@@ -260,8 +270,12 @@ function displayPublications(papers) {
         // Always show venue badge, including for Preprint
         const venueBadge = `<span class="venue-badge">${paper.venue}</span>`;
 
-        // Apply highlight style if highlight is true
-        const titleStyle = paper.highlight ? ' style="color:rgb(67, 146, 207);"' : '';
+        let titleClass = 'mb-1';
+        if (paper.highlight) {
+            titleClass += ' publication-title-first-author';
+        } else if (paper.corresponding) {
+            titleClass += ' publication-title-corresponding-author';
+        }
 
         colDiv.innerHTML = `
         <div class="${cardClass}" id="publication-${index}" ${onClickAttr}>
@@ -274,7 +288,7 @@ function displayPublications(papers) {
                 <div class="col-md-9 d-flex align-items-center" style="padding:0;">
                     <div class="publication-body-custom">
                         ${venueBadge}
-                        <h5 class="mb-1"${titleStyle}>${paper.title}</h5>
+                        <h5 class="${titleClass}">${paper.title}</h5>
                         <p class="mb-0 small">${authorsHtml}</p>
                         ${projectLink}
                         ${abstractSection}

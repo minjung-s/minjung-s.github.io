@@ -458,6 +458,38 @@ h2 {
     transition: color 0.3s;
 }
 
+.publication-title-first-author {
+    color: rgb(67, 146, 207) !important;
+}
+
+.publication-title-corresponding-author {
+    color: rgb(58, 98, 155) !important;
+}
+
+.legend-first-author {
+    color: rgb(67, 146, 207);
+}
+
+.legend-corresponding-author {
+    color: rgb(58, 98, 155);
+}
+
+[data-theme="dark"] .publication-title-first-author {
+    color: rgb(100, 170, 225) !important;
+}
+
+[data-theme="dark"] .publication-title-corresponding-author {
+    color: rgb(155, 188, 228) !important;
+}
+
+[data-theme="dark"] .legend-first-author {
+    color: rgb(100, 170, 225);
+}
+
+[data-theme="dark"] .legend-corresponding-author {
+    color: rgb(155, 188, 228);
+}
+
 .publication-body p, .publication-body small,
 .publication-body-custom p, .publication-body-custom small,
 #education .card p, #education .card span, #education .card h4,

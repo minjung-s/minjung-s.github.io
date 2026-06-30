@@ -1,4 +1,11 @@
 papers:
+  - title: "BindEdit: Taming Attention Leakage for Precise Multi-Object Image Editing"
+    authors: "Chaewon Park, Soyoon Lee, Naeun Lee, <b>Minjung Shin</b><sup>†</sup>, Seogkyu Jeon<sup>†</sup>, Kibeom Hong<sup>†</sup>"
+    venue: "Preprint"
+    paper_pdf: "https://arxiv.org/abs/2606.18906"
+    selected: y
+    corresponding: True
+
   - title: "ASemConsist: Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation"
     authors: "Shin seong Kim*, <b>Minjung Shin</b>*, Hyunin Choi, Youngjung Uh"
     project: "https://minjung-s.github.io/asemconsist"
