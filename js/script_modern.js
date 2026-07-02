@@ -84,9 +84,9 @@ const experienceData = {
     "experience": [
         {
             "company": "SONY & SONY AI",
-            "title": "Research Scientist, Intern",
+            "title": "Research Collaborator",
             "subtitle": "Creative AI Lab",
-            "time": "Jul 2026 – now",
+            "time": "Mar 2026 – now",
             "logo": "assets/experiences/SONY_SONYAI.jpg",
             "logo_bg": "#ffffff"
         },
