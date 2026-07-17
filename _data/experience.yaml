@@ -1,7 +1,14 @@
 experiences:
 
+- place: "SONY"
+  time: "Jul 2026 – now"
+  title: "Research Scientist, Intern"
+  subtitle: "Creative AI Lab"
+  category: "work"
+  image: "assets/experiences/SONY.jpg"
+
 - place: "SONY & SONY AI"
-  time: "Mar 2026 – now"
+  time: "Mar 2026 – Jul 2026"
   title: "Collaborator"
   subtitle: "Creative AI Lab"
   category: "work"

@@ -83,10 +83,18 @@ const publicationsData = {
 const experienceData = {
     "experience": [
         {
+            "company": "SONY",
+            "title": "Research Scientist, Intern",
+            "subtitle": "Creative AI Lab",
+            "time": "Jul 2026 – now",
+            "logo": "assets/experiences/SONY.jpg",
+            "logo_bg": "#ffffff"
+        },
+        {
             "company": "SONY & SONY AI",
             "title": "Research Collaborator",
             "subtitle": "Creative AI Lab",
-            "time": "Mar 2026 – now",
+            "time": "Mar 2026 – Jul 2026",
             "logo": "assets/experiences/SONY_SONYAI.jpg",
             "logo_bg": "#ffffff"
         },
