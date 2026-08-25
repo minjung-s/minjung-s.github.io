@@ -4,10 +4,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="ASemConsist: Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation">
-  <meta name="keywords" content="ASemConsist, diffusion model, consistent generation, FLUX">
+  <meta name="description" content="AsemConsist: Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation">
+  <meta name="keywords" content="AsemConsist, diffusion model, consistent generation, identity-consistent generation, FLUX, SD3.5, SeeSaw">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ASemConsist</title>
+  <title>AsemConsist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
         <a href="https://minjung-s.github.io" class="nav-home" aria-label="Home (research homepage)" target="_blank" rel="noopener">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
         </a>
-        <a href="#hero" class="nav-brand">ASemConsist</a>
+        <a href="#hero" class="nav-brand">AsemConsist</a>
       </div>
       <div class="nav-links">
         <a href="#hero" class="nav-link">Home</a>
@@ -34,12 +34,12 @@
         <a href="#method" class="nav-link">Method</a>
         <a href="#comparisons" class="nav-link">Comparisons</a>
         <a href="#quantitative" class="nav-link">Quantitative</a>
-        <a href="#cqs" class="nav-link">CQS</a>
+        <a href="#seesaw" class="nav-link">SeeSaw</a>
         <a href="#bibtex" class="nav-link">BibTeX</a>
         <div class="nav-dropdown">
           <button type="button" class="nav-link nav-dropdown-trigger">More Research</button>
           <div class="nav-dropdown-menu">
-            <a class="nav-dropdown-item" href="https://minjung-s.github.io/asemconsist" target="_blank" rel="noopener">ASemConsist</a>
+            <a class="nav-dropdown-item" href="https://minjung-s.github.io/asemconsist" target="_blank" rel="noopener">AsemConsist</a>
             <a class="nav-dropdown-item" href="https://minjung-s.github.io/mvcustom" target="_blank" rel="noopener">MVCustom</a>
             <a class="nav-dropdown-item" href="https://minjung-s.github.io/ballgan" target="_blank" rel="noopener">BallGAN</a>
           </div>
@@ -55,7 +55,7 @@
 
   <header class="hero" id="hero">
     <div class="container">
-      <h1 class="title">ASem<span class="title-accent">Consist</span></h1>
+      <h1 class="title">Asem<span class="title-accent">Consist</span></h1>
       <p class="subtitle">
         Adaptive Semantic Feature Control for<br class="hide-sm" />
         Training-Free Identity-Consistent Generation
@@ -112,7 +112,7 @@
           <div class="tc-dots" id="tc-dots" aria-hidden="true"></div>
         </div>
         <p class="teaser-caption">
-          <strong>TL;DR:</strong> We enable FLUX to generate subject identity-consistent images across diverse text prompts without additional training.
+          <strong>TL;DR:</strong> We enable FLUX and SD3.5 to generate subject identity-consistent images across diverse text prompts without any additional training.
         </p>
       </div>
     </div>
@@ -126,15 +126,18 @@
         <div class="abstract-text">
           <p>
             Recent text-to-image diffusion models have significantly improved visual quality and text alignment.
-            However, generating a sequence of images while preserving consistent character identity across diverse scene descriptions remains challenging. Existing methods often struggle with a trade-off between maintaining identity consistency and ensuring per-image prompt alignment.
+            However, generating a sequence of images while preserving consistent character identity across diverse scenes remains challenging.
+            Existing methods often face a trade-off between maintaining identity consistency and per-image prompt alignment.
           </p>
           <p>
-            In this paper, we introduce a novel framework, ASemConsist, that addresses this challenge through <strong>selective text embedding modification</strong>, enabling explicit semantic control over character identity without sacrificing prompt alignment.
-            Furthermore, based on our analysis of padding embeddings in FLUX, we propose a semantic control strategy that <strong>repurposes padding embeddings as semantic containers</strong>.
-            Additionally, we introduce an <strong>adaptive feature-sharing strategy</strong> that automatically evaluates textual ambiguity and applies constraints only to the ambiguous identity prompt.
+            In this paper, we introduce <strong>AsemConsist</strong>, a framework that resolves this trade-off through <strong>selective text embedding modification</strong>, enabling consistent identity preservation without degrading per-image prompt alignment.
+            We further analyze the semantic structure of padding embeddings and find that, in <strong>multi-encoder backbones</strong>, only padding embeddings that retain prompt-related semantics can effectively serve as <strong>semantic containers</strong>.
+            Based on this observation, we selectively inject per-image semantics into such padding embeddings while suppressing prompt-irrelevant components.
+            Additionally, we propose an <strong>adaptive feature-sharing</strong> strategy that automatically evaluates identity specificity and selectively applies constraints only to ambiguous identity prompts.
           </p>
           <p>
-            Finally, we propose a unified evaluation protocol, the Consistency Quality Score (CQS), which integrates identity preservation and per-image text alignment into a single comprehensive metric, explicitly capturing performance imbalances between the two metrics. Our framework achieves state-of-the-art performance, effectively overcoming prior trade-offs.
+            Finally, we propose a unified evaluation metric called <strong>SeeSaw</strong>, which measures the balance between identity consistency and per-image alignment while evaluating whether identity and per-image prompts are equally reflected in generated images.
+            Our method demonstrates superior performance over existing competitors when built upon <strong>SD3.5</strong> and <strong>FLUX</strong> backbones, highlighting its effectiveness across different architectures and text encoders.
           </p>
         </div>
       </section>
@@ -143,25 +146,34 @@
         <h2 class="section-title">How does it work?</h2>
         <div class="method-grid">
           <div class="method-panel reveal-card">
-            <h3>Selective text-embedding modification</h3>
+            <h3>Selective text-embedding modification (STM)</h3>
             <p>
-              We selectively modify text embeddings to control identity and per-image semantics, amplifying identity-consistent features while suppressing irrelevant ones.
-              Additionally, based on our analysis, we repurpose FLUX padding embeddings—dominated by dummy semantics—as semantic containers by injecting meaningful per-image information.
-              These strategies enable stable identity preservation without sacrificing per-image prompt alignment.
+              Under the single-prompt setting, every per-image embedding is entangled with the identity: it carries components aligned with the shared identity as well as components that conflict with it.
+              Prior single-prompt methods rescale all spectral components uniformly, so they amplify and erase both kinds at once.
+              We instead decompose the embeddings with SVD, build a reference vector from the identity (and expression) embedding, and rescale <em>only</em> the components selected by their similarity to that reference&nbsp;— amplifying semantics shared by the identity and expression prompts while suppressing identity-irrelevant ones.
+              The selection threshold is the mean similarity itself, so nothing has to be hand-tuned.
             </p>
-            <img src="./asemconsist_static/images/model1.png" alt="Selective text-embedding modification">
+            <p>
+              <strong>Padding embeddings as semantic containers (PAD).</strong>
+              We additionally write per-image semantics into padding embeddings to strengthen prompt alignment.
+              Our analysis shows that in multi-encoder backbones such as SD3.5, only <em>OpenCLIP</em> padding embeddings retain substantial prompt-related semantics, while CLIP and T5 padding is dominated by prompt-irrelevant &ldquo;dummy&rdquo; directions&nbsp;— so we use OpenCLIP padding alone as the container.
+              FLUX relies on a single T5 encoder, where even dummy padding still influences generation and can therefore serve as a container as well.
+            </p>
+            <img src="./asemconsist_static/images/model1.png" alt="Selective text-embedding modification and semantic projection onto padding embeddings">
           </div>
           <div class="method-panel reveal-card">
-            <h3>Adaptive feature-sharing</h3>
+            <h3>Adaptive feature sharing (AFS)</h3>
             <p>
-              We first automatically evaluate identity ambiguity by analyzing feature cohesion across transformer blocks and timesteps.
+              When the identity description is detailed, embedding modification alone keeps the character consistent; highly ambiguous descriptions such as &ldquo;a man&rdquo; need an additional identity anchor.
+              Existing methods share image features uniformly regardless of this distinction, needlessly constraining diversity for prompts that are already specific.
+              We measure identity ambiguity from the spread of per-scene features&nbsp;— their mean distance from the centroid&nbsp;— at a single transformer block and timestep, calibrated once on a held-out prompt benchmark.
             </p>
-            <img src="./asemconsist_static/images/ambiguity_plot.png" alt="Ambiguity analysis">
+            <img src="./asemconsist_static/images/ambiguity_plot.png" alt="Identity ambiguity measured by feature radius across blocks and timesteps">
             <p>
-              When ambiguity is high, we selectively apply residual feature sharing from a cached identity embedding.
-              This adaptive mechanism reinforces identity consistency without sacrificing visual diversity or prompt fidelity.
+              Calibration selects block 23 at step 4 of 28 for FLUX and block 25 at step 3 for SD3.5, reaching 96.7% accuracy (AUC 0.990) and transferring to real images.
+              Only for prompts judged highly ambiguous do we cache features conditioned on the identity prompt alone and inject them during generation&nbsp;— residual features in FLUX, key&ndash;value features in SD3.5&nbsp;— giving an architecture-agnostic identity anchor that engages only on demand.
             </p>
-            <img src="./asemconsist_static/images/model2.png" alt="Adaptive feature-sharing">
+            <img src="./asemconsist_static/images/model2.png" alt="Adaptive feature sharing">
           </div>
         </div>
       </section>
@@ -207,13 +219,13 @@
 <th class="model-header">per-image prompt</th>
 <th class="model-header baseline-model-header">SDXL</th>
 <th class="model-header baseline-model-header">FLUX</th>
-<th class="model-header baseline-model-header">SD3</th>
-<th class="model-header group-start-col">1p1s</th>
-<th class="model-header">Codi</th>
+<th class="model-header baseline-model-header">SD3.5</th>
+<th class="model-header group-start-col">1Prompt1Story</th>
+<th class="model-header">CoDi</th>
 <th class="model-header group-start-col">CharaConsist</th>
-<th class="model-header">zigzag</th>
-<th class="model-header group-start-col">AsemConsist_flux</th>
-<th class="model-header">AsemConsist_sd3</th>
+<th class="model-header">Zigzag</th>
+<th class="model-header group-start-col">Ours (FLUX)</th>
+<th class="model-header">Ours (SD3.5)</th>
 </tr></thead>
 <tbody>
 <tr>
@@ -281,13 +293,13 @@
 <th class="model-header">per-image prompt</th>
 <th class="model-header baseline-model-header">SDXL</th>
 <th class="model-header baseline-model-header">FLUX</th>
-<th class="model-header baseline-model-header">SD3</th>
-<th class="model-header group-start-col">1p1s</th>
-<th class="model-header">Codi</th>
+<th class="model-header baseline-model-header">SD3.5</th>
+<th class="model-header group-start-col">1Prompt1Story</th>
+<th class="model-header">CoDi</th>
 <th class="model-header group-start-col">CharaConsist</th>
-<th class="model-header">zigzag</th>
-<th class="model-header group-start-col">AsemConsist_flux</th>
-<th class="model-header">AsemConsist_sd3</th>
+<th class="model-header">Zigzag</th>
+<th class="model-header group-start-col">Ours (FLUX)</th>
+<th class="model-header">Ours (SD3.5)</th>
 </tr></thead>
 <tbody>
 <tr>
@@ -355,13 +367,13 @@
 <th class="model-header">per-image prompt</th>
 <th class="model-header baseline-model-header">SDXL</th>
 <th class="model-header baseline-model-header">FLUX</th>
-<th class="model-header baseline-model-header">SD3</th>
-<th class="model-header group-start-col">1p1s</th>
-<th class="model-header">Codi</th>
+<th class="model-header baseline-model-header">SD3.5</th>
+<th class="model-header group-start-col">1Prompt1Story</th>
+<th class="model-header">CoDi</th>
 <th class="model-header group-start-col">CharaConsist</th>
-<th class="model-header">zigzag</th>
-<th class="model-header group-start-col">AsemConsist_flux</th>
-<th class="model-header">AsemConsist_sd3</th>
+<th class="model-header">Zigzag</th>
+<th class="model-header group-start-col">Ours (FLUX)</th>
+<th class="model-header">Ours (SD3.5)</th>
 </tr></thead>
 <tbody>
 <tr>
@@ -429,13 +441,13 @@
 <th class="model-header">per-image prompt</th>
 <th class="model-header baseline-model-header">SDXL</th>
 <th class="model-header baseline-model-header">FLUX</th>
-<th class="model-header baseline-model-header">SD3</th>
-<th class="model-header group-start-col">1p1s</th>
-<th class="model-header">Codi</th>
+<th class="model-header baseline-model-header">SD3.5</th>
+<th class="model-header group-start-col">1Prompt1Story</th>
+<th class="model-header">CoDi</th>
 <th class="model-header group-start-col">CharaConsist</th>
-<th class="model-header">zigzag</th>
-<th class="model-header group-start-col">AsemConsist_flux</th>
-<th class="model-header">AsemConsist_sd3</th>
+<th class="model-header">Zigzag</th>
+<th class="model-header group-start-col">Ours (FLUX)</th>
+<th class="model-header">Ours (SD3.5)</th>
 </tr></thead>
 <tbody>
 <tr>
@@ -503,13 +515,13 @@
 <th class="model-header">per-image prompt</th>
 <th class="model-header baseline-model-header">SDXL</th>
 <th class="model-header baseline-model-header">FLUX</th>
-<th class="model-header baseline-model-header">SD3</th>
-<th class="model-header group-start-col">1p1s</th>
-<th class="model-header">Codi</th>
+<th class="model-header baseline-model-header">SD3.5</th>
+<th class="model-header group-start-col">1Prompt1Story</th>
+<th class="model-header">CoDi</th>
 <th class="model-header group-start-col">CharaConsist</th>
-<th class="model-header">zigzag</th>
-<th class="model-header group-start-col">AsemConsist_flux</th>
-<th class="model-header">AsemConsist_sd3</th>
+<th class="model-header">Zigzag</th>
+<th class="model-header group-start-col">Ours (FLUX)</th>
+<th class="model-header">Ours (SD3.5)</th>
 </tr></thead>
 <tbody>
 <tr>
@@ -577,13 +589,13 @@
 <th class="model-header">per-image prompt</th>
 <th class="model-header baseline-model-header">SDXL</th>
 <th class="model-header baseline-model-header">FLUX</th>
-<th class="model-header baseline-model-header">SD3</th>
-<th class="model-header group-start-col">1p1s</th>
-<th class="model-header">Codi</th>
+<th class="model-header baseline-model-header">SD3.5</th>
+<th class="model-header group-start-col">1Prompt1Story</th>
+<th class="model-header">CoDi</th>
 <th class="model-header group-start-col">CharaConsist</th>
-<th class="model-header">zigzag</th>
-<th class="model-header group-start-col">AsemConsist_flux</th>
-<th class="model-header">AsemConsist_sd3</th>
+<th class="model-header">Zigzag</th>
+<th class="model-header group-start-col">Ours (FLUX)</th>
+<th class="model-header">Ours (SD3.5)</th>
 </tr></thead>
 <tbody>
 <tr>
@@ -651,13 +663,13 @@
 <th class="model-header">per-image prompt</th>
 <th class="model-header baseline-model-header">SDXL</th>
 <th class="model-header baseline-model-header">FLUX</th>
-<th class="model-header baseline-model-header">SD3</th>
-<th class="model-header group-start-col">1p1s</th>
-<th class="model-header">Codi</th>
+<th class="model-header baseline-model-header">SD3.5</th>
+<th class="model-header group-start-col">1Prompt1Story</th>
+<th class="model-header">CoDi</th>
 <th class="model-header group-start-col">CharaConsist</th>
-<th class="model-header">zigzag</th>
-<th class="model-header group-start-col">AsemConsist_flux</th>
-<th class="model-header">AsemConsist_sd3</th>
+<th class="model-header">Zigzag</th>
+<th class="model-header group-start-col">Ours (FLUX)</th>
+<th class="model-header">Ours (SD3.5)</th>
 </tr></thead>
 <tbody>
 <tr>
@@ -725,99 +737,128 @@
         <h2 class="section-title">Quantitative results</h2>
         <div class="abstract-text">
           <p>
-            Ours achieves state-of-the-art performance on the CQS<sub>har</sub>, balancing per-image alignment and identity consistency. We highlight the best score in light red and the second-best in yellow.
+            Ours attains the highest <strong>SeeSaw</strong> on both backbones, balancing per-image text alignment and identity consistency.
+            <strong>Bold</strong> marks the best score and <u>underline</u> the second best.
           </p>
         </div>
         <div class="quant-table-wrap">
-          <img src="./asemconsist_static/images/table.PNG" alt="Quantitative comparison table">
+          <table class="quant-table">
+            <thead>
+              <tr>
+                <th class="qt-name">Model</th>
+                <th><em>SeeSaw</em> &uarr;</th>
+                <th>Per-image text alignment &uarr;</th>
+                <th>Identity consistency &darr;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="qt-name">Vanilla SDXL</td><td>0.481</td><td>0.619</td><td>0.400</td></tr>
+              <tr><td class="qt-name">1Prompt1Story</td><td>0.391</td><td>0.442</td><td><u>0.281</u></td></tr>
+              <tr><td class="qt-name">CoDi</td><td>0.488</td><td>0.585</td><td>0.304</td></tr>
+              <tr class="qt-group"><td class="qt-name">Vanilla FLUX</td><td>0.584</td><td>0.723</td><td>0.347</td></tr>
+              <tr><td class="qt-name">CharaConsist</td><td>0.519</td><td>0.637</td><td>0.368</td></tr>
+              <tr><td class="qt-name">Zigzag</td><td>0.661</td><td>0.796</td><td>0.309</td></tr>
+              <tr class="qt-ours"><td class="qt-name">Ours (FLUX)</td><td><u>0.664</u></td><td>0.786</td><td><u>0.281</u></td></tr>
+              <tr class="qt-group"><td class="qt-name">Vanilla SD3.5</td><td>0.636</td><td><strong>0.820</strong></td><td>0.367</td></tr>
+              <tr class="qt-ours"><td class="qt-name">Ours (SD3.5)</td><td><strong>0.681</strong></td><td><u>0.809</u></td><td><strong>0.272</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="abstract-text" style="margin-top: 28px;">
+          <p>
+            Ours (FLUX) reaches markedly better identity consistency than Zigzag (0.281 vs. 0.309) while being over <strong>7&times; faster</strong>&nbsp;— 3.0&ndash;3.6 minutes per five-image set versus 26.1 minutes.
+            1Prompt1Story attains high identity consistency but substantially worse per-image alignment, as uniform rescaling suppresses per-image semantics together with identity-irrelevant ones.
+          </p>
+        </div>
+
+        <h3 class="subsection-title">Ablation study (SD3.5)</h3>
+        <div class="quant-table-wrap">
+          <table class="quant-table">
+            <thead>
+              <tr>
+                <th class="qt-name"></th>
+                <th><em>SeeSaw</em> &uarr;</th>
+                <th>Per-image text alignment &uarr;</th>
+                <th>Identity consistency &darr;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="qt-name">(i) SD3.5</td><td><u>0.636</u></td><td><strong>0.820</strong></td><td>0.367</td></tr>
+              <tr><td class="qt-name">(ii) SD3.5 + STM</td><td>0.610</td><td>0.777</td><td>0.357</td></tr>
+              <tr><td class="qt-name">(iii) SD3.5 + STM &amp; PAD</td><td>0.620</td><td>0.791</td><td>0.364</td></tr>
+              <tr><td class="qt-name">(iv) SD3.5 + AFS</td><td>0.606</td><td>0.772</td><td><u>0.320</u></td></tr>
+              <tr class="qt-ours"><td class="qt-name">(v) <strong>Ours</strong></td><td><strong>0.681</strong></td><td><u>0.809</u></td><td><strong>0.272</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="abstract-text" style="margin-top: 28px;">
+          <p>
+            STM improves identity consistency without touching the identity embedding, PAD restores prompt alignment at a marginal identity cost, and AFS strengthens identity consistency.
+            Combining all three yields the best SeeSaw: identity consistency improves by 0.095 over the baseline while alignment stays within 0.011 of the vanilla backbone.
+          </p>
         </div>
       </section>
 
-      <section class="section reveal-section" id="cqs">
-        <h2 class="section-title">Balanced Evaluation: Consistency Quality Score (CQS)</h2>
+      <section class="section reveal-section" id="seesaw">
+        <h2 class="section-title">Balanced Evaluation: <em>SeeSaw</em></h2>
         <div class="cqs-prose">
           <p>
-            We propose the <em>Consistency Quality Score</em> (CQS), a unified metric that
-            jointly evaluates the balance between <em>identity preservation</em> and
-            <em>per-image text alignment</em>.
+            Existing protocols report identity consistency and per-image prompt alignment
+            <em>separately</em>, typically with DreamSim and VQAScore. That separation never
+            measures the trade-off between the two objectives. The alignment metric itself is
+            also limited: VQA-based scores are right-skewed and saturate, so when the identity
+            prompt is long, an image that ignores the per-image attributes&nbsp;— pose, background&nbsp;—
+            can still score high.
           </p>
           <p>
-            By measuring both criteria simultaneously within a single score,
-            CQS enables a comprehensive and reliable ordering of
-            identity-consistent generation methods.
+            <em>SeeSaw</em> addresses both issues. It balances identity consistency against
+            per-image prompt alignment while explicitly testing whether the generated image
+            faithfully reflects the per-image semantics.
           </p>
           <p>
-            Given an identity prompt p<sub>id</sub> and per-image prompts
-            [p<sub>1</sub>, …, p<sub>k</sub>], we generate a set of images
-            X = {x<sub>1</sub>, …, x<sub>k</sub>}, where each image x<sub>i</sub> reflects its per-image prompt p<sub>i</sub> and identity prompt p<sub>id</sub>. We define two alignment scores:
+            Given an identity prompt \(p_{\mathrm{id}}\) and per-image prompts
+            \(\{p_1,\dots,p_k\}\), let \(x_i\) be the image generated for \([p_{\mathrm{id}}, p_i]\).
+            We measure prompt alignment with VQAScore and identity consistency with the DreamSim
+            distance \(D(x_i,x_j)\) between images sharing \(p_{\mathrm{id}}\):
           </p>
         </div>
-        <figure class="eq-figure">
-          <img src="./asemconsist_static/images/cqs/eq_1.png" alt="Definition of t_i and a_i">
-        </figure>
+        <div class="eq-block">
+          \[
+            t_i=\mathrm{VQA}\!\left(x_i,[p_{\mathrm{id}},p_i]\right),
+            \qquad
+            a_i=\mathrm{VQA}\!\left(x_i,p_i\right),
+            \qquad
+            d_i = 1 - \frac{1}{k-1}\sum_{\substack{j=1\\ j\neq i}}^{k} D(x_i,x_j).
+          \]
+        </div>
         <div class="cqs-prose">
           <p>
-            where t<sub>i</sub> measures alignment with both the identity and per-image prompts,
-            and a<sub>i</sub> measures alignment with the per-image prompt alone.
-            Identity consistency across the generated images is quantified using DreamSim:
+            The \((1-\cdot)\) converts distance to similarity, and min&ndash;max scaling aligns its
+            range with the VQAScores. To account for prompt representation imbalance, we compute
+            the gap \(\Delta_i = a_i - t_i\): a positive \(\Delta_i\) means the per-image prompt is
+            well represented, a negative value that it is under-represented.
+          </p>
+          <p>
+            We then aggregate identity consistency and prompt alignment as a harmonic mean, after
+            correcting the identity term for that imbalance:
           </p>
         </div>
-        <figure class="eq-figure">
-          <img src="./asemconsist_static/images/cqs/eq_2.png" alt="Definition of d_i">
-        </figure>
-        <div class="cqs-prose">
-          <p>
-            DreamSim scores are transformed using (1−·) and scaled via min–max normalization
-            to match the range of VQA scores.
-          </p>
-          <p>
-            To explicitly account for the imbalance between identity consistency and per-image
-            text alignment, we define the <em>alignment gap</em>
-            Δ<sub>i</sub> = a<sub>i</sub> − t<sub>i</sub>, which measures how much the per-image
-            alignment deviates from the combined identity–prompt alignment.
-          </p>
-          <p>
-            We summarize the dataset-level tendency via mean positive and negative gaps,
-          </p>
+        <div class="eq-block">
+          \[
+            h_i=\frac{2\left(d_i-\mu\max(-\Delta_i,0)+\tau\max(\Delta_i,0)\right)t_i}
+                     {\left(d_i-\mu\max(-\Delta_i,0)+\tau\max(\Delta_i,0)\right)+t_i+\varepsilon}
+          \]
         </div>
-        <figure class="eq-figure">
-          <img src="./asemconsist_static/images/cqs/eq_3.png" alt="Definition of Delta plus and minus">
-        </figure>
         <div class="cqs-prose">
           <p>
-            and define per-sample reward and penalty terms that interpolate between
-            dataset-level statistics and instance-level deviations:
-          </p>
-        </div>
-        <figure class="eq-figure">
-          <img src="./asemconsist_static/images/cqs/eq_4.png" alt="Definition of delta_i minus and plus">
-        </figure>
-        <div class="cqs-prose">
-          <p>
-            where λ ∈ [0,1] balances dataset-level and instance-level adjustments.
-            The adjusted identity score is then given by
-          </p>
-        </div>
-        <figure class="eq-figure">
-          <img src="./asemconsist_static/images/cqs/eq_5.png" alt="Definition of adjusted identity score d_i star">
-        </figure>
-        <div class="cqs-prose">
-          <p>
-            where μ, τ ≥ 0 control the strength of penalties and rewards.
+            where \(\varepsilon>0\) ensures numerical stability, and the terms
+            \(\mu\max(-\Delta_i,0)\) and \(\tau\max(\Delta_i,0)\) control the penalty and reward
+            strengths. We set \(\mu=\tau=0.5\), assigning equal weight to penalty and reward.
           </p>
           <p>
-            The final per-sample score is computed as a harmonic mean:
-          </p>
-        </div>
-        <figure class="eq-figure">
-          <img src="./asemconsist_static/images/cqs/eq_6.png" alt="Definition of CQS harmonic mean">
-        </figure>
-        <div class="cqs-prose">
-          <p>
-            By integrating identity consistency and per-image text alignment into a single
-            metric and explicitly penalizing their imbalance, CQS<sub>har</sub> provides a
-            balanced, comprehensive criterion for evaluating and ordering identity-consistent
-            generation methods.
+            By integrating identity consistency and per-image text alignment into a single metric
+            and explicitly penalizing their imbalance, <em>SeeSaw</em> provides a balanced criterion
+            for evaluating and ordering identity-consistent generation methods.
           </p>
         </div>
       </section>
@@ -829,9 +870,9 @@
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
             Copy
           </button>
-          <pre><code id="bibtex-content">@article{shin2025asemconsist,
-  title={ASemConsist: Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation},
-  author={Shin, Minjung and Cho, Hyunin and Uh, Youngjung and others},
+          <pre><code id="bibtex-content">@article{kim2025asemconsist,
+  title={AsemConsist: Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation},
+  author={Kim, Shin Seong and Shin, Minjung and Cho, Hyunin and Uh, Youngjung},
   journal={arXiv preprint arXiv:2512.23245},
   year={2025}
 }</code></pre>
@@ -860,6 +901,13 @@
   </div>
   <button type="button" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   <script src="./asemconsist_static/js/asemconsist-comparison.js"></script>
   <script>
     function copyBibtex(btn) {

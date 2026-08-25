@@ -445,3 +445,60 @@ button.nav-dropdown-trigger {
     transform: translate(-50%, 0);
   }
 }
+
+/* Quantitative results: HTML tables (replaces the former table screenshot) */
+.quant-table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 760px;
+  font-size: 17px;
+  color: var(--text-secondary);
+}
+
+.quant-table th,
+.quant-table td {
+  padding: 10px 14px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.quant-table thead th {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.35;
+  border-bottom: 2px solid var(--border);
+}
+
+.quant-table .qt-name {
+  text-align: left;
+  white-space: nowrap;
+}
+
+.quant-table tr.qt-group td {
+  border-top: 2px solid var(--border);
+}
+
+.quant-table tr.qt-ours td {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.quant-table-wrap {
+  overflow-x: auto;
+}
+
+.subsection-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 40px 0 12px;
+}
+
+/* Display equations (MathJax) */
+.eq-block {
+  margin: 1.5rem auto;
+  text-align: center;
+  overflow-x: auto;
+  color: var(--text-primary);
+}
