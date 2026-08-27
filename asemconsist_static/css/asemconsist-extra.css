@@ -243,17 +243,11 @@ section#comparisons .container.comparison-wide > .section-title::after {
   color: var(--text-primary);
 }
 
-/* Method: two columns on wide viewports */
+/* Method: panels stacked vertically at every viewport width */
 .method-grid {
   display: grid;
+  grid-template-columns: 1fr;
   gap: 28px;
-}
-
-@media (min-width: 900px) {
-  .method-grid {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
 }
 
 .method-panel {
