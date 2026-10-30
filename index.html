@@ -4,24 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minjung Shin - AI Researcher</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Academicons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.6/css/academicons.min.css">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style_modern.css">
 </head>
@@ -33,31 +30,33 @@
 
     <!-- Section Navigation -->
     <div class="section-nav" id="section-nav">
-        <button class="nav-current" id="nav-current">
+        <button class="nav-current" id="nav-current" aria-expanded="false" aria-controls="nav-list">
             <span id="current-section-name">Home</span>
             <i class="fas fa-chevron-down ms-2"></i>
         </button>
         <ul class="nav-list" id="nav-list"></ul>
     </div>
 
-    <div class="container py-5">
+    <div class="container">
         <!-- Home Section -->
-        <section id="home" class="mt-5">
+        <section id="home">
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="profile-card">
-                        <div class="text-center">
-                            <img src="assets/profile-pics/Minjung_ID.jpg" alt="Profile Picture" class="profile-image mb-3 mx-auto d-block" width="140" height="140">
-                            <h1 class="text-4xl font-bold mb-1 d-none d-md-block">Minjung Shin</h1>
-                            <h1 class="text-2xl font-bold mb-1 d-block d-md-none">Minjung Shin</h1>
-                            <h3 class="text-sm text-gray-500 mb-1 mt-1">PhD Student in AI</h3>
-                            <p class="text-sm text-gray-600 mt-0.5">Yonsei University</p>
-                        </div>
-                        <div class="social-links">
-                            <a href="mailto:smj139052@yonsei.ac.kr" target="_blank" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                            <a href="https://scholar.google.com/citations?user=aUb5xoUAAAAJ&hl=ko" target="_blank" aria-label="Google Scholar"><i class="ai ai-google-scholar"></i></a>
-                            <a href="https://github.com/minjung-s" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                            <a href="https://www.linkedin.com/in/minjung-shin/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <div class="hero">
+                            <img src="assets/profile-pics/Minjung_ID.jpg" alt="Profile Picture" class="profile-image" width="180" height="180">
+                            <div class="hero-text">
+                                <h1 class="hero-name">Minjung Shin</h1>
+                                <p class="hero-title">PhD Candidate in AI</p>
+                                <p class="hero-affiliation">Yonsei University</p>
+                                <div class="social-links">
+                                    <a href="mailto:smj139052@yonsei.ac.kr" class="social-link" target="_blank" aria-label="Email" title="Email"><i class="fas fa-envelope"></i></a>
+                                    <a href="https://scholar.google.com/citations?user=aUb5xoUAAAAJ&hl=ko" class="social-link" target="_blank" aria-label="Google Scholar" title="Google Scholar"><i class="ai ai-google-scholar"></i></a>
+                                    <a href="https://github.com/minjung-s" class="social-link" target="_blank" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+                                    <a href="https://www.linkedin.com/in/minjung-shin/" class="social-link" target="_blank" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                    <a href="assets/cv/MinjungShin_CV.pdf" class="social-link" target="_blank" rel="noopener" aria-label="CV" title="CV"><i class="ai ai-cv"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,13 +64,13 @@
         </section>
 
         <!-- Research Section -->
-        <section id="research" class="mt-5">
-            <h2 class="text-4xl font-bold mb-4">Research</h2>
-            <div class="card publication-card p-4">
-                <p class="text-gray-600 leading-relaxed text-justify mb-3">
-                    I am currently pursuing a PhD degree in Artificial Intelligence at Yonsei University, advised by Prof. <a href="https://sites.google.com/yonsei.ac.kr/vi-lab/members" target="_blank" rel="noopener">Youngjung Uh</a>. 
+        <section id="research">
+            <h2>Research</h2>
+            <div class="card publication-card">
+                <p class="text-gray-600 leading-relaxed mb-3">
+                    I am currently pursuing a PhD degree in Artificial Intelligence at Yonsei University, advised by Prof. <a href="https://sites.google.com/yonsei.ac.kr/vi-lab/members" target="_blank" rel="noopener">Youngjung Uh</a>.
                     I am currently a research intern at the <a href="https://sony.github.io/creativeai/" target="_blank" rel="noopener">Creative AI Lab</a> at SONY, collaborating with <a href="https://wywywang.github.io/" target="_blank" rel="noopener">Wei-Yao Wang</a> and <a href="https://yahshibu.github.io/" target="_blank" rel="noopener">Takashi Shibuya</a>.
-                    I also worked as a research intern on the <a href="https://naver-career.github.io/en/positions/ai-ml/generation-research/" target="_blank" rel="noopener">Generation Research</a> team at <a href="https://naver-career.github.io/en/teams/naver-ai-lab/" target="_blank" rel="noopener">NAVER AI Lab</a>,
+                    I also worked as a research intern on the <a href="https://naver-career.github.io/en/positions/ai-ml/generation-research/" target="_blank" rel="noopener">Generative Research</a> team at <a href="https://naver-career.github.io/en/teams/naver-ai-lab/" target="_blank" rel="noopener">NAVER AI Lab</a>,
                     collaborating with <a href="https://blandocs.github.io/" target="_blank" rel="noopener">Hyunsu Kim</a> and <a href="https://wityworks.com/" target="_blank" rel="noopener">Jin-Hwa Kim</a>.
                     <br>
                     <br>
@@ -87,36 +86,36 @@
         </section>
 
         <!-- Experience Section -->
-        <section id="experience" class="mt-5">
-            <h2 class="text-4xl font-bold mb-0">Experience</h2>
+        <section id="experience">
+            <h2>Experience</h2>
             <div class="timeline-container">
                 <div class="timeline" id="timeline-experience"></div>
             </div>
         </section>
 
         <!-- Education Section -->
-        <section id="education" class="mt-5">
-            <h2 class="text-4xl font-bold mb-4">Education</h2>
-            <div class="row g-2">
+        <section id="education">
+            <h2>Education</h2>
+            <div class="row g-3">
                 <div class="col-md-12">
-                    <div class="card publication-card p-3">
+                    <div class="card publication-card">
                         <div class="d-flex flex-column">
                             <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
-                                <h4 class="mb-1 mb-sm-0">Yonsei University</h4>
-                                <span class="text-gray-500">Mar 2021 – now</span>
+                                <h4 class="education-school mb-1 mb-sm-0">Yonsei University</h4>
+                                <span class="education-dates">Mar 2021 – now</span>
                             </div>
-                            <span class="text-gray-600">Ph.D. Student in Artificial Intelligence (M.S combined course)</span>
+                            <span class="education-detail">Ph.D. Candidate in Artificial Intelligence (Integrated M.S./Ph.D. Program)</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="card publication-card p-3">
+                    <div class="card publication-card">
                         <div class="d-flex flex-column">
                             <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
-                                <h4 class="mb-1 mb-sm-0">Kwangwoon University</h4>
-                                <span class="text-gray-500">2016 - 2021</span>
+                                <h4 class="education-school mb-1 mb-sm-0">Kwangwoon University</h4>
+                                <span class="education-dates">2016 - 2021</span>
                             </div>
-                            <span class="text-gray-600">B.S. in Electronics and Communications Engineering</span>
+                            <span class="education-detail">B.S. in Electronics and Communications Engineering</span>
                         </div>
                     </div>
                 </div>
@@ -124,30 +123,69 @@
         </section>
 
         <!-- Publications Section -->
-        <section id="publications" class="mt-5">
-            <h2 class="text-4xl font-bold mb-4">Publications</h2>
-            
+        <section id="publications">
+            <h2>Publications</h2>
+
             <!-- Notice -->
-            <div class="mb-4">
-                <p class="text-sm text-gray-500 mb-1"><span class="legend-first-author">■</span> Publications where I am the first author are highlighted in blue.</p>
-                <p class="text-sm text-gray-500 mb-0"><span class="legend-corresponding-author">■</span> Publications where I am the corresponding author are highlighted in dark navy.</p>
+            <div class="publication-legend">
+                <p class="legend-note text-gray-500 mb-1"><span class="legend-first-author">■</span> Publications where I am the first author are highlighted in blue.</p>
+                <p class="legend-note text-gray-500 mb-0"><span class="legend-corresponding-author">■</span> Publications where I am the corresponding author are highlighted in dark navy.</p>
             </div>
-            <!-- Publications Container -->
-            <div class="row g-3" id="publications-container"></div>
+
+            <!-- Accepted Papers -->
+            <div class="publication-group" id="accepted-group">
+                <h3 class="publication-group-title">Accepted Papers</h3>
+                <div class="row g-3" id="accepted-container"></div>
+            </div>
+
+            <!-- Preprints -->
+            <div class="publication-group" id="preprints-group">
+                <h3 class="publication-group-title">Preprints</h3>
+                <div class="row g-3" id="preprints-container"></div>
+            </div>
+        </section>
+
+        <!-- Invited Talks Section -->
+        <section id="talks">
+            <h2>Invited Talks</h2>
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <div class="card publication-card">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                                <h4 class="education-school mb-1 mb-sm-0">Fairness and Safety in Diffusion Models</h4>
+                                <span class="education-dates">Jun 2025</span>
+                            </div>
+                            <span class="education-detail">Incheon National University (host: Prof. Sungho Park)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card publication-card">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                                <h4 class="education-school mb-1 mb-sm-0">3D/4D Generation via Diffusion Models</h4>
+                                <span class="education-dates">Jan 2025</span>
+                            </div>
+                            <span class="education-detail">Inha University (host: Prof. Pilhyeon Lee)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 
     <!-- Footer -->
-    <footer class="mt-2 py-4 w-100">
-        <div class="text-center text-gray-400 text-sm">
-            <p class="mb-0 opacity-60">© <script>document.write(new Date().getFullYear());</script> Minjung Shin</p>
-            <p class="mb-0 opacity-50 mt-1" style="font-size: 0.8rem;">Website design borrowed from <a href="https://ashmrz.github.io/" target="_blank" style="color: inherit; text-decoration: underline;">Ashkan Mirzaei</a></p>
+    <footer class="site-footer mt-2 py-4 w-100">
+        <div class="text-center text-gray-400">
+            <p class="mb-0">© <script>document.write(new Date().getFullYear());</script> Minjung Shin</p>
+            <p class="mb-0 mt-1">Website design borrowed from <a href="https://ashmrz.github.io/" target="_blank" style="color: inherit; text-decoration: underline;">Ashkan Mirzaei</a></p>
         </div>
     </footer>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
     <!-- Custom JS -->
     <script src="js/script_modern.js"></script>
 </body>

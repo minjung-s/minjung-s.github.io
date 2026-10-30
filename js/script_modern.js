@@ -15,7 +15,7 @@ const publicationsData = {
         },
         {
             "title": "ASemConsist: Adaptive Semantic Feature Control for Training-Free Identity-Consistent Generation",
-            "authors": "Shin seong Kim*, <strong>Minjung Shin</strong>*, Hyunin Choi, Youngjung Uh",
+            "authors": "Shin Seong Kim*, <strong>Minjung Shin</strong>*, Hyunin Cho, Youngjung Uh",
             "venue": "Preprint",
             "url": "https://minjung-s.github.io/asemconsist",
             "paper_pdf": "https://arxiv.org/abs/2512.23245",
@@ -24,7 +24,7 @@ const publicationsData = {
         },
         {
             "title": "MVCustom: Multi-View Customized Diffusion via Geometric Latent Rendering and Completion",
-            "authors": "<strong>Minjung Shin</strong>, Hyunin Choi, Sooyeon Go, Jin-Hwa Kim, Youngjung Uh",
+            "authors": "<strong>Minjung Shin</strong>, Hyunin Cho, Sooyeon Go, Jin-Hwa Kim, Youngjung Uh",
             "venue": "ICLR 2026",
             "url": "https://minjung-s.github.io/mvcustom",
             "paper_pdf": "https://arxiv.org/abs/2510.13702",
@@ -69,7 +69,7 @@ const publicationsData = {
         },
         {
             "title": "Detectable Object-Sizes Range Estimation Based Multi-Task Cascaded Convolutional Neural Networks in the Vehicle Environments",
-            "authors": "Whui Kim, Hyunkyun Choi, <strong>Minjung Shin</strong>",
+            "authors": "Whui Kim, Hyun Kyun Choi, <strong>Minjung Shin</strong>",
             "venue": "VTC 2019-fall",
             "url": null,
             "paper_pdf": "https://ieeexplore.ieee.org/document/8890976",
@@ -94,14 +94,14 @@ const experienceData = {
             "company": "SONY & SONY AI",
             "title": "Research Collaborator",
             "subtitle": "Creative AI Lab",
-            "time": "Mar 2026 – Jul 2026",
+            "time": "Mar 2026 – Jun 2026",
             "logo": "assets/experiences/SONY_SONYAI.jpg",
             "logo_bg": "#ffffff"
         },
         {
             "company": "NAVER AI Lab",
             "title": "Research Scientist, Intern",
-            "subtitle": "Generation Research",
+            "subtitle": "Generative Research",
             "time": "Dec 2022 – Jun 2023",
             "logo": "assets/experiences/NAVER.png",
             "logo_bg": "#ffffff"
@@ -109,7 +109,7 @@ const experienceData = {
         {
             "company": "ETRI",
             "title": "Research Scientist, Intern",
-            "subtitle": "AI Research Lab",
+            "subtitle": "AI Lab, Intelligent Robotics Division",
             "time": "Jan 2019 – Feb 2019",
             "logo": "assets/experiences/ETRI.png",
             "logo_bg": "#ffffff"
@@ -118,7 +118,7 @@ const experienceData = {
     "education": [
         {
             "company": "Yonsei University",
-            "title": "Ph.D. Student",
+            "title": "Ph.D. Candidate",
             "subtitle": "Artificial Intelligence<br>Under the supervision of Prof. Youngjung Uh.",
             "time": "Mar 2021 – now",
             "logo": "https://www.yonsei.ac.kr/_res/sc/img/intro/img_symbol9.png",
@@ -206,7 +206,7 @@ function toggleAbstract(index) {
     abstractContent.style.maxHeight = isExpanded ? "0" : `${abstractContent.scrollHeight}px`;
     
     const chevronIcon = card.querySelector(".fa-chevron-down");
-    if (chevronIcon) chevronIcon.classList.toggle("rotate-180");
+    if (chevronIcon) chevronIcon.classList.toggle("is-flipped");
 }
 
 function createMediaElement(paper) {
@@ -230,85 +230,107 @@ function createMediaElement(paper) {
     `;
 }
 
-function displayPublications(papers) {
-    const container = document.getElementById("publications-container");
+function isPreprint(paper) {
+    return paper.venue === "Preprint";
+}
+
+function createPublicationElement(paper, index) {
+    const mediaContent = createMediaElement(paper);
+    const authorsHtml = paper.authors;
+    
+    const colDiv = document.createElement('div');
+    colDiv.className = 'col-md-12';
+    
+    const cardClass = `card publication-card publication-card-custom ${paper.abstract ? "pointer" : ""}`;
+    const onClickAttr = paper.abstract ? `onclick="toggleAbstract(${index})"` : "";
+    
+    // Build links section
+    let linksHtml = '';
+    if (paper.url || paper.paper_pdf) {
+        linksHtml = '<div class="mt-3 d-flex gap-2 flex-wrap">';
+        if (paper.url) {
+            linksHtml += `<a href="${paper.url}" target="_blank" class="project-link" onclick="event.stopPropagation()">
+                           <i class="fas fa-external-link-alt"></i>Project Page
+                         </a>`;
+        }
+        if (paper.paper_pdf) {
+            // Use arXiv icon for arXiv links, document icon for others
+            const isArxiv = paper.paper_pdf.includes('arxiv.org');
+            const icon = isArxiv ? '<i class="ai ai-arxiv"></i>' : '<i class="fas fa-file-alt"></i>';
+            linksHtml += `<a href="${paper.paper_pdf}" target="_blank" class="project-link" onclick="event.stopPropagation()">
+                           ${icon}Paper
+                         </a>`;
+        }
+        linksHtml += '</div>';
+    }
+    const projectLink = linksHtml;
+        
+    const abstractSection = paper.abstract
+        ? `<div class="abstract-content" id="abstract-${index}">
+             <p class="mt-2 mb-0 small">${paper.abstract}</p>
+           </div>
+           <div class="text-center mt-2 abstract-toggle">
+             <i class="fas fa-chevron-down text-gray-400 abstract-chevron"></i>
+           </div>`
+        : "";
+
+    // Always show venue badge, including for Preprint
+    const venueBadge = `<span class="venue-badge">${paper.venue}</span>`;
+
+    let titleClass = 'publication-title mb-2';
+    if (paper.highlight) {
+        titleClass += ' publication-title-first-author';
+    } else if (paper.corresponding) {
+        titleClass += ' publication-title-corresponding-author';
+    }
+
+    colDiv.innerHTML = `
+    <div class="${cardClass}" id="publication-${index}" ${onClickAttr}>
+        <div class="row g-0 align-items-stretch" style="min-height:0;">
+            <div class="col-md-3 d-flex align-items-stretch justify-content-center" style="padding:0;">
+                <div class="media-container-custom">
+                    ${mediaContent}
+                </div>
+            </div>
+            <div class="col-md-9 d-flex align-items-center" style="padding:0;">
+                <div class="publication-body-custom">
+                    ${venueBadge}
+                    <h4 class="${titleClass}">${paper.title}</h4>
+                    <p class="publication-authors mb-0">${authorsHtml}</p>
+                    ${projectLink}
+                    ${abstractSection}
+                </div>
+            </div>
+        </div>
+    </div>`;
+    
+    return colDiv;
+}
+
+function renderPublicationGroup(papers, containerId, indexOffset) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
     container.innerHTML = "";
     const fragment = document.createDocumentFragment();
     
     papers.forEach((paper, index) => {
-        const mediaContent = createMediaElement(paper);
-        const authorsHtml = paper.authors;
-        
-        const colDiv = document.createElement('div');
-        colDiv.className = 'col-md-12';
-        
-        const cardClass = `card publication-card publication-card-custom ${paper.abstract ? "pointer" : ""}`;
-        const onClickAttr = paper.abstract ? `onclick="toggleAbstract(${index})"` : "";
-        
-        // Build links section
-        let linksHtml = '';
-        if (paper.url || paper.paper_pdf) {
-            linksHtml = '<div class="mt-2 d-flex gap-2 flex-wrap">';
-            if (paper.url) {
-                linksHtml += `<a href="${paper.url}" target="_blank" class="project-link" onclick="event.stopPropagation()">
-                               <i class="fas fa-external-link-alt"></i>Project Page
-                             </a>`;
-            }
-            if (paper.paper_pdf) {
-                // Use arXiv icon for arXiv links, document icon for others
-                const isArxiv = paper.paper_pdf.includes('arxiv.org');
-                const icon = isArxiv ? '<i class="ai ai-arxiv"></i>' : '<i class="fas fa-file-alt"></i>';
-                linksHtml += `<a href="${paper.paper_pdf}" target="_blank" class="project-link" onclick="event.stopPropagation()">
-                               ${icon}Paper
-                             </a>`;
-            }
-            linksHtml += '</div>';
-        }
-        const projectLink = linksHtml;
-            
-        const abstractSection = paper.abstract
-            ? `<div class="abstract-content" id="abstract-${index}">
-                 <p class="mt-2 small">${paper.abstract}</p>
-               </div>
-               <div class="text-center mt-2 abstract-toggle">
-                 <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
-               </div>`
-            : "";
-
-        // Always show venue badge, including for Preprint
-        const venueBadge = `<span class="venue-badge">${paper.venue}</span>`;
-
-        let titleClass = 'mb-1';
-        if (paper.highlight) {
-            titleClass += ' publication-title-first-author';
-        } else if (paper.corresponding) {
-            titleClass += ' publication-title-corresponding-author';
-        }
-
-        colDiv.innerHTML = `
-        <div class="${cardClass}" id="publication-${index}" ${onClickAttr}>
-            <div class="row g-0 align-items-stretch" style="min-height:0;">
-                <div class="col-md-3 d-flex align-items-stretch justify-content-center" style="padding:0;">
-                    <div class="media-container-custom">
-                        ${mediaContent}
-                    </div>
-                </div>
-                <div class="col-md-9 d-flex align-items-center" style="padding:0;">
-                    <div class="publication-body-custom">
-                        ${venueBadge}
-                        <h5 class="${titleClass}">${paper.title}</h5>
-                        <p class="mb-0 small">${authorsHtml}</p>
-                        ${projectLink}
-                        ${abstractSection}
-                    </div>
-                </div>
-            </div>
-        </div>`;
-        
-        fragment.appendChild(colDiv);
+        fragment.appendChild(createPublicationElement(paper, indexOffset + index));
     });
     
     container.appendChild(fragment);
+    
+    // Hide the whole subsection (heading + container) when the group is empty
+    const group = container.closest('.publication-group');
+    if (group) group.hidden = papers.length === 0;
+}
+
+function displayPublications(papers) {
+    const accepted = papers.filter((paper) => !isPreprint(paper));
+    const preprints = papers.filter(isPreprint);
+    
+    // Offset the preprint indices so publication-${index} ids stay unique across both groups
+    renderPublicationGroup(accepted, "accepted-container", 0);
+    renderPublicationGroup(preprints, "preprints-container", accepted.length);
     initLazyLoading();
 }
 
@@ -383,14 +405,14 @@ function displayExperience(experience, timelineId = "timeline") {
         const bgStyle = item.logo_bg ? `style="background-color: ${item.logo_bg}"` : '';
         const onloadAttr = item.logo_bg ? '' : 'onload="adjustLogoBackground(this)"';
 
-        const subtitleHtml = item.subtitle ? `<p class="mb-1 text-gray-600 small">${item.subtitle}</p>` : '';
+        const subtitleHtml = item.subtitle ? `<p class="mb-1">${item.subtitle}</p>` : '';
         
         div.innerHTML = `
             <div class="d-flex align-items-center w-100">
                 <div class="experience-logo-container me-3" ${bgStyle}>
                     <img src="${item.logo}" alt="${item.company}" class="experience-logo" crossorigin="anonymous" ${onloadAttr}>
                 </div>
-                <div>
+                <div class="timeline-text">
                     <h4 class="mb-1">${item.company}</h4>
                     <p class="mb-1">${item.title}</p>
                     ${subtitleHtml}
@@ -401,14 +423,6 @@ function displayExperience(experience, timelineId = "timeline") {
         fragment.insertBefore(div, fragment.firstChild);
     }
     timeline.appendChild(fragment);
-    
-    // Show the most recent experience first (newest items are on the left)
-    requestAnimationFrame(() => {
-        const container = document.querySelector(".timeline-container");
-        if (container) {
-            container.scrollLeft = 0;
-        }
-    });
 }
 
 // Global exposure for onload attribute
@@ -481,15 +495,17 @@ function initSectionNav() {
         }
         
         const li = document.createElement('li');
-        li.className = 'nav-item';
-        li.innerText = name;
-        li.dataset.target = id;
-        
-        li.addEventListener('click', () => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'nav-item';
+        button.innerText = name;
+        button.dataset.target = id;
+
+        button.addEventListener('click', () => {
             const target = document.getElementById(id);
             if (target) {
-                // Offset for fixed header if any (minimal here)
-                const offset = 20; 
+                // Offset so the section heading clears the fixed nav pill / theme toggle
+                const offset = 88; 
                 const elementPosition = target.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - offset;
                 
@@ -498,25 +514,29 @@ function initSectionNav() {
                     behavior: 'smooth'
                 });
             }
-            navList.classList.remove('show');
-            navCurrent.classList.remove('active');
+            setNavOpen(false);
         });
-        
+
+        li.appendChild(button);
         navList.appendChild(li);
     });
-    
+
+    function setNavOpen(isOpen) {
+        navList.classList.toggle('show', isOpen);
+        navCurrent.classList.toggle('active', isOpen);
+        navCurrent.setAttribute('aria-expanded', String(isOpen));
+    }
+
     // Toggle menu
     navCurrent.addEventListener('click', (e) => {
         e.stopPropagation();
-        navList.classList.toggle('show');
-        navCurrent.classList.toggle('active');
+        setNavOpen(!navList.classList.contains('show'));
     });
-    
+
     // Close when clicking outside
     document.addEventListener('click', (e) => {
         if (!navCurrent.contains(e.target) && !navList.contains(e.target)) {
-            navList.classList.remove('show');
-            navCurrent.classList.remove('active');
+            setNavOpen(false);
         }
     });
     
