@@ -23,19 +23,24 @@
     <link rel="stylesheet" href="css/style_modern.css">
 </head>
 <body>
-    <!-- Theme Toggle Button -->
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-        <i class="fas fa-moon"></i>
-    </button>
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <!-- Section Navigation -->
+            <nav class="section-nav" id="section-nav" aria-label="Sections">
+                <button class="nav-current" id="nav-current" aria-expanded="false" aria-controls="nav-list">
+                    <span id="current-section-name">Home</span>
+                    <i class="fas fa-chevron-down ms-2"></i>
+                </button>
+                <ul class="nav-list" id="nav-list"></ul>
+            </nav>
 
-    <!-- Section Navigation -->
-    <div class="section-nav" id="section-nav">
-        <button class="nav-current" id="nav-current" aria-expanded="false" aria-controls="nav-list">
-            <span id="current-section-name">Home</span>
-            <i class="fas fa-chevron-down ms-2"></i>
-        </button>
-        <ul class="nav-list" id="nav-list"></ul>
-    </div>
+            <!-- Theme Toggle Button -->
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
 
     <div class="container">
         <!-- Home Section -->

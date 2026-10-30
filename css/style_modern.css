@@ -111,12 +111,28 @@ a:hover {
     color: var(--link-hover);
 }
 
+/* Site Header: a full-width bar, so the nav never sits on top of page content */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--bg-gradient-start);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.site-header-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
 /* Theme Toggle Button */
 .theme-toggle {
-    position: fixed;
-    top: 1.5rem;
-    right: 1.5rem;
-    z-index: 1000;
+    flex-shrink: 0;
     background: var(--nav-bg);
     color: var(--text-primary);
     width: 48px;
@@ -156,13 +172,8 @@ a:hover {
 
 /* Section Navigation */
 .section-nav {
-    position: fixed;
-    top: 1.5rem;
-    left: 1.5rem;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    position: relative;
+    min-width: 0;
 }
 
 .nav-current {
@@ -205,10 +216,13 @@ a:hover {
 }
 
 .nav-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
     list-style: none;
     padding: 0;
     margin: 0.5rem 0 0 0;
-    background: var(--nav-bg);
+    background: var(--bg-gradient-start);
     border: 1px solid var(--card-border);
     border-radius: var(--radius-card);
     overflow: hidden;
@@ -256,14 +270,49 @@ a:hover {
     background: transparent;
 }
 
-/* Keep section headings clear of the fixed nav on direct #fragment links */
+/* On md+ the section list is an always-visible row; the dropdown is mobile only */
+@media (min-width: 768px) {
+    .nav-current {
+        display: none;
+    }
+    .nav-list, .nav-list.show {
+        position: static;
+        display: flex;
+        gap: 0.25rem;
+        margin: 0;
+        min-width: 0;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: visible;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        pointer-events: auto;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    .nav-item {
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        white-space: nowrap;
+    }
+    .nav-item.active {
+        color: var(--link);
+        font-weight: 500;
+        background: var(--accent-soft);
+    }
+}
+
+/* Keep section headings clear of the sticky header on direct #fragment links */
 section {
     scroll-margin-top: 88px;
 }
 
 .container {
     max-width: 1080px;
-    padding: 5.5rem 1.5rem 2rem;
+    padding: 2.5rem 1.5rem 2rem;
     position: relative;
     z-index: 1;
 }
@@ -330,12 +379,12 @@ section {
     position: relative;
 }
 
-/* Hero: photo left / text right on md+, stacked and centred on mobile */
+/* Hero: stacked and centred */
 .hero {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
     text-align: center;
 }
 
@@ -363,22 +412,14 @@ section {
 }
 
 @media (min-width: 768px) {
-    .hero {
-        flex-direction: row;
-        gap: 2.75rem;
-        text-align: left;
-    }
     .hero-name {
         font-size: 3rem;
-    }
-    .hero .social-links {
-        justify-content: flex-start;
     }
 }
 
 .profile-image {
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
     flex-shrink: 0;
     border-radius: 50%;
     object-fit: cover;
@@ -445,14 +486,10 @@ h2 {
     .profile-card { padding: 1.75rem 1.25rem; }
     .profile-image { width: 140px; height: 140px; }
     h2 { font-size: 1.9rem; }
-    .container { padding: 5rem 1rem 1.5rem; }
+    .container { padding: 1.5rem 1rem 1.5rem; }
+    .site-header-inner { padding: 0.5rem 1rem; }
     .social-links { gap: 0.65rem; margin-top: 1.25rem; }
     .social-link { width: 48px; height: 48px; }
-
-    .section-nav {
-        top: 1rem;
-        left: 1rem;
-    }
 }
 
 .publication-title {
@@ -503,11 +540,6 @@ h2 {
 /* Padding shared by the plain content cards */
 #research .card, #education .card, #talks .card, .timeline-item {
     padding: var(--card-pad);
-}
-
-/* Keep the paragraph at a readable measure */
-#research .card p {
-    max-width: 80ch;
 }
 
 /* Research section links should have proper styling */
@@ -791,10 +823,6 @@ h2 {
     .info-box {
         padding: 0.875rem 1.25rem;
     }
-    .theme-toggle {
-        top: 1rem;
-        right: 1rem;
-    }
 }
 
 /* Footer */
@@ -806,10 +834,6 @@ h2 {
 * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-img, video {
-    content-visibility: auto;
 }
 
 /* Optimize rendering performance */
@@ -843,18 +867,14 @@ img, video {
 .icon-amber { color: #f59e0b; margin-right: 0.5rem; }
 .fw-500 { font-weight: 500 !important; }
 
-/* Media Queries for Publications */
-@media (max-width: 767.98px) {
-    .publication-card .media-container-custom {
-        border-radius: var(--radius-card) var(--radius-card) 0 0 !important;
-    }
-}
-
 /* JS Generated Elements Styles */
 .video-media, .image-media {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
+    object-fit: contain;
     border-radius: 0;
 }
 
@@ -885,14 +905,18 @@ img, video {
     font-size: 24px;
 }
 
+/* Every teaser sits in the same 16:10 frame, whatever its own aspect ratio */
 .media-container-custom {
+    position: relative;
     width: 100%;
-    height: auto;
+    aspect-ratio: 16 / 10;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     background: #ffffff;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
 }
 
 .publication-body-custom {
@@ -911,8 +935,16 @@ img, video {
     align-items: stretch !important;
 }
 
-.publication-card-custom .col-md-3 {
-    display: flex !important;
+.publication-media-col {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0 1rem 1rem;
+}
+
+@media (max-width: 767.98px) {
+    .publication-media-col {
+        padding: 1rem 1rem 0;
+    }
 }
 
 .publication-card-custom.pointer {

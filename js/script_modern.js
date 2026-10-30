@@ -287,7 +287,7 @@ function createPublicationElement(paper, index) {
     colDiv.innerHTML = `
     <div class="${cardClass}" id="publication-${index}" ${onClickAttr}>
         <div class="row g-0 align-items-stretch" style="min-height:0;">
-            <div class="col-md-3 d-flex align-items-stretch justify-content-center" style="padding:0;">
+            <div class="col-md-3 publication-media-col">
                 <div class="media-container-custom">
                     ${mediaContent}
                 </div>
