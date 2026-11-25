@@ -83,7 +83,7 @@ h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,7vw,84px);lin
 .think{color:var(--think)}
 .bar .name{display:flex;align-items:center;gap:8px}
 .bar .name img{height:24px;width:auto}
-.io{margin:0;background:var(--stage);border-radius:12px;padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 170px minmax(0,1fr);gap:10px 16px;min-width:0}
+.io{margin:0;background:var(--stage);border-radius:12px;padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 220px minmax(0,1fr);gap:10px 16px;min-width:0}
 .io-row{display:flex;flex-direction:column;gap:10px;min-width:0;align-self:center}
 .io-input{grid-column:1;grid-row:1}
 .io-output{grid-column:3;grid-row:1}
@@ -98,19 +98,23 @@ h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,7vw,84px);lin
 .io-instr i{display:block;color:#7d8696;margin-top:8px}
 .io-instr .instruction-keyword{color:#fff;font-weight:700;text-transform:uppercase}
 .io-arrow{grid-column:2;grid-row:1;align-self:center;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;font-family:var(--display);font-weight:700;font-size:18px;color:#e8ebf1;white-space:nowrap}
-.io-arrow svg{display:block;width:26px;height:20px;flex:none}
-.io-arrow .think{color:#9cc95a}
+.io-arrow{gap:6px}
+.io-arrow .io-connector{display:block;width:26px;height:24px;flex:none;color:#b4c99b}
+.io-arrow .io-model{display:block;width:156px;height:auto;flex:none}
+.io-model text{font-family:var(--display);font-weight:700;font-size:23px;fill:#f0f3ea}
+.io-model .model-think{fill:#b3d47f}
 @media(max-width:1000px) and (min-width:761px){
-  .io{grid-template-columns:minmax(0,1fr) 144px minmax(0,1fr);column-gap:10px}
-  .io-arrow{gap:5px;font-size:16px}
-  .io-arrow svg{width:20px}
+  .io{grid-template-columns:minmax(0,1fr) 186px minmax(0,1fr);column-gap:10px}
+  .io-arrow{gap:6px}
+  .io-arrow .io-connector{width:20px}
+  .io-arrow .io-model{width:134px}
   .io-instr{padding:10px}
 }
 @media(max-width:760px){
   .io{display:flex;flex-direction:column;padding:12px;gap:16px}
   .io-row{align-self:stretch}
   .io-arrow{flex-direction:column;gap:8px}
-  .io-arrow svg{transform:rotate(90deg)}
+  .io-arrow .io-connector{transform:rotate(90deg)}
 }
 .datanote{margin-top:10px;margin-bottom:0;font-size:15px;color:var(--muted)}
 #section-nav-slot{position:sticky;top:0;z-index:100}
@@ -463,15 +467,15 @@ details p{margin:2px 0 0;overflow-wrap:anywhere;max-width:100ch}
     <figure class="io" aria-label="Input and output of one example">
       <div class="io-row io-input"><span class="io-tag">Input</span>
         <div class="io-pair">
-          <div class="io-cell"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/src_trk.mp4" muted loop playsinline preload="auto"></video><span>Source video + tracks</span></div>
+          <div class="io-cell"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/src_trk.mp4" muted loop playsinline preload="auto"></video><span>Source video + source tracks</span></div>
           <div class="io-cell"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_trk.mp4" muted loop playsinline preload="auto"></video><span>Target tracks</span></div>
         </div>
         <p class="io-instr"><b>Editing Instruction</b> <strong class="instruction-keyword">Change</strong> the gecko crawling down off the chessboard toward the camera, with the camera nearly still, <strong class="instruction-keyword">to</strong> the gecko turning to face right and stretching out sideways along the board's edge, with the camera panning right and tilting down. <i>+ target caption</i></p>
       </div>
-      <div class="io-arrow" aria-hidden="true"><svg viewBox="0 0 32 20" fill="none"><path d="M2 10H30M22 2L30 10L22 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="think">Think</span>erBell</span><svg viewBox="0 0 32 20" fill="none"><path d="M2 10H30M22 2L30 10L22 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="io-arrow" role="img" aria-label="ThinkerBell transforms the inputs into edited videos"><svg class="io-connector" viewBox="0 0 32 24" fill="none" aria-hidden="true"><path d="M1 12H28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M21 5L29 12L21 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="io-model" viewBox="0 0 200 112" aria-hidden="true"><rect x="1" y="1" width="198" height="110" rx="20" fill="#192219" stroke="#829d60" stroke-width="2"/><rect x="6" y="6" width="188" height="100" rx="16" fill="none" stroke="#b3d47f" stroke-opacity=".12"/><image href="./thinkerbell_static/thinkerbell.png" x="36" y="12" width="128" height="53"/><text x="100" y="92" text-anchor="middle"><tspan class="model-think">Think</tspan><tspan>erBell</tspan></text></svg><svg class="io-connector" viewBox="0 0 32 24" fill="none" aria-hidden="true"><path d="M1 12H28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M21 5L29 12L21 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="io-row io-output"><span class="io-tag out">Output</span>
         <div class="io-pair">
-          <div class="io-cell ours"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_ov.mp4" muted loop playsinline preload="auto"></video><span>Edited video + target track overlay</span></div>
+          <div class="io-cell ours"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_ov.mp4" muted loop playsinline preload="auto"></video><span>Edited video + target tracks</span></div>
           <div class="io-cell ours"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_gen.mp4" muted loop playsinline preload="auto"></video><span>Edited video</span></div>
         </div>
       </div>
@@ -496,7 +500,7 @@ details p{margin:2px 0 0;overflow-wrap:anywhere;max-width:100ch}
         <ul>
           <li>Matching colors identify the same point.</li>
           <li><i>Target track</i> panels show paths up to the current frame.</li>
-          <li>Overlays show the last 10 frames of each path.</li>
+          <li>Track overlays show the last 10 frames of each path.</li>
           <li>If a dot is not shown, the region containing that point is not visible.</li>
         </ul>
       </div>
