@@ -468,24 +468,23 @@ details p{margin:2px 0 0;overflow-wrap:anywhere;max-width:100ch}
           <div class="io-cell"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/src_trk.mp4" muted loop playsinline preload="auto"></video><span>Source video + tracks</span></div>
           <div class="io-cell"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_trk.mp4" muted loop playsinline preload="auto"></video><span>Target tracks</span></div>
         </div>
-        <p class="io-instr"><b>Instruction</b> <strong class="instruction-keyword">Change</strong> the gecko crawling down off the chessboard toward the camera, with the camera nearly still, <strong class="instruction-keyword">to</strong> the gecko turning to face right and stretching out sideways along the board's edge, with the camera panning right and tilting down. <i>+ target caption</i></p>
+        <p class="io-instr"><b>Editing Instruction</b> <strong class="instruction-keyword">Change</strong> the gecko crawling down off the chessboard toward the camera, with the camera nearly still, <strong class="instruction-keyword">to</strong> the gecko turning to face right and stretching out sideways along the board's edge, with the camera panning right and tilting down. <i>+ target caption</i></p>
       </div>
       <div class="io-arrow" aria-hidden="true"><svg viewBox="0 0 32 20" fill="none"><path d="M2 10H30M22 2L30 10L22 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="think">Think</span>erBell</span><svg viewBox="0 0 32 20" fill="none"><path d="M2 10H30M22 2L30 10L22 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="io-row io-output"><span class="io-tag out">Output</span>
         <div class="io-pair">
-          <div class="io-cell ours"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_ov.mp4" muted loop playsinline preload="auto"></video><span>Edited video + target tracks</span></div>
+          <div class="io-cell ours"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_ov.mp4" muted loop playsinline preload="auto"></video><span>Edited video + target track overlay</span></div>
           <div class="io-cell ours"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_gen.mp4" muted loop playsinline preload="auto"></video><span>Edited video</span></div>
         </div>
       </div>
     </figure>
     <dl class="facts">
-        <dt>Task</dt><dd>Video motion editing: change how objects or the camera move in a source video.</dd>
-        <dt>Goal</dt><dd>Follow target motion while preserving source content.</dd>
+        <dt>Task</dt><dd>Edit object or camera motion in a source video to follow target motion while preserving source content.</dd>
         <dt class="iohead">Input → Output</dt><dd class="ioheaddd"></dd>
         <dt class="iodt"><span class="subtag">Input</span></dt><dd class="iodd">
             <ul>
               <li><b>Source video</b>: the clip to edit.</li>
-              <li><b>Source point tracks</b>: point positions and visibility tracked in the source video, frame by frame.</li>
+              <li><b>Source point tracks</b>: point positions and visibility tracked in the source video.</li>
               <li><b>Target point tracks</b>: the desired motion of the same points.</li>
               <li><b>Editing instruction</b>: how the source motion should change.</li>
               <li><b>Target caption</b>: a description of the edited video.</li>
