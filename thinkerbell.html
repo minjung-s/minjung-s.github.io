@@ -1,0 +1,1132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ThinkerBell</title>
+<meta name="description" content="ThinkerBell: Understanding Before Generation for Track-Conditioned Video Motion Editing.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ThinkerBell: Understanding Before Generation for Track-Conditioned Video Motion Editing">
+<meta property="og:description" content="Edit how objects or the camera move in a source video, given source and target point tracks, an editing instruction, and a target caption.">
+<meta property="og:url" content="https://minjung-s.github.io/thinkerbell.html">
+<meta property="og:image" content="https://minjung-s.github.io/thinkerbell_static/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ThinkerBell logo">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#f4f6f9; --surface:#ffffff; --ink:#12151b; --muted:#5a6272; --line:#dde2ea;
+  --accent:#2d55e6; --accent-soft:#e6ecfd; --stage:#0d0f13; --on-accent:#ffffff;
+  --display:"Bricolage Grotesque","Inter",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --think:#527A1D; --soft:#eceff3; --hint:#d92d20; --note:#e2686d;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0e1014; --surface:#161920; --ink:#e8ebf1; --muted:#98a1b1; --line:#2a2f3a;
+  --accent:#86a2ff; --accent-soft:#1d2540; --stage:#07080a; --on-accent:#0e1014; --think:#9cc95a; --soft:#1d2129; --hint:#ff7a6e; --note:#ff9e99; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0e1014; --surface:#161920; --ink:#e8ebf1; --muted:#98a1b1; --line:#2a2f3a;
+  --accent:#86a2ff; --accent-soft:#1d2540; --stage:#07080a; --on-accent:#0e1014; --think:#9cc95a; --soft:#1d2129; --hint:#ff7a6e; --note:#ff9e99; color-scheme:dark}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:19px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+a{color:inherit}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hero{padding-block:56px 40px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:40px;align-items:center}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,7vw,84px);line-height:.95;letter-spacing:-.02em;margin:0}
+.sub{font-family:var(--display);font-weight:500;font-size:clamp(21px,2.4vw,29px);line-height:1.25;margin:14px 0 18px;text-wrap:balance;max-width:28ch}
+.authors{margin:0 0 8px;font-size:20px;line-height:1.6}
+.au{white-space:nowrap}
+.authors sup,.affil sup{font-size:.85em;font-weight:600;line-height:0;margin-left:2px;margin-right:2px}
+.affil{margin:0 0 14px;font-size:18px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 18px}
+.authors a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
+.authors a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 24px}
+.lbtn{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:var(--ink);color:var(--paper);font-weight:600;font-size:16px;text-decoration:none}
+.lbtn[aria-disabled="true"]{opacity:.62;cursor:default}
+.lbtn small{font-weight:500;font-size:13px}
+.lbtn-icon{display:block;width:22px;height:22px;flex:none;object-fit:contain}
+.hero .herotitle{display:block;text-align:center;margin-bottom:40px}
+.affil:has(+ .affil){margin-bottom:2px}
+.anote{display:block;font-size:17px}
+.anote sup{font-size:1em;margin-right:5px}
+.herotitle .logo{margin:0 auto 10px}
+.herotitle .sub{max-width:40ch;margin-inline:auto}
+.herotitle .affil,.herotitle .links{justify-content:center}
+.hero .herogrid{align-items:start}
+.lede{color:var(--muted);margin:0;max-width:62ch}
+.facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:12px 16px;margin:0;max-width:72ch}
+.facts dt{justify-self:start;align-self:start;margin-top:.15em;font-family:var(--mono);font-size:14px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;background:var(--accent);color:var(--on-accent);border-radius:6px;padding:3px 10px;white-space:nowrap}
+.facts dd{margin:0;min-width:0}
+.subtag{justify-self:start;font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:6px;padding:1px 8px;margin-top:.15em}
+.facts .iohead{grid-column:1/-1;margin-bottom:-4px}
+.facts .ioheaddd{display:none}
+.facts .iodt{justify-self:end;background:none;padding:0;border-radius:0;margin-top:.15em}
+.iodd ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:3px}
+.iodd p{margin:0}
+.heroright{display:flex;flex-direction:column;gap:12px;min-width:0}
+.howto{margin:0;max-width:72ch;border:1px solid var(--line);background:var(--soft);border-radius:10px;padding:10px 14px;font-size:16px}
+.howto b{font-family:var(--mono);font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent)}
+.howto ul{margin:4px 0 0;padding-left:1.1em;display:flex;flex-direction:column;gap:2px}
+@media (max-width:560px){.facts{grid-template-columns:minmax(0,1fr);gap:2px}.facts dd{margin-bottom:10px}}
+@media (max-width:560px){.facts .iodt{justify-self:start;margin-top:10px}.authors{font-size:18px}}
+@media (max-width:1000px){.aubr{display:none}}
+.logo{display:block;height:auto;width:min(260px,70%);max-width:100%;margin:0 0 10px -6px}
+.think{color:var(--think)}
+.bar .name{display:flex;align-items:center;gap:8px}
+.bar .name img{height:24px;width:auto}
+.io{margin:0;background:var(--stage);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.io-row{display:flex;flex-direction:column;gap:6px}
+.io-tag{align-self:flex-start;font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:#2b313c;color:#e8ebf1;border-radius:5px;padding:2px 9px}
+.io-tag.out{background:#2d55e6;color:#fff}
+.io-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.io-cell{display:flex;flex-direction:column;gap:3px;min-width:0}
+.io-cell span{font-family:var(--mono);font-size:14px;font-weight:600;color:#ffffff;text-align:center}
+.io-cell.ours video{outline:2px solid #6f8fff;outline-offset:1px}
+.io-instr{margin:0;font-size:13.5px;line-height:1.45;color:#c9cfda;background:#161a21;border-radius:6px;padding:6px 9px}
+.io-instr b{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#8fb0ff;margin-right:6px}
+.io-instr i{color:#7d8696}
+.io-instr .instruction-keyword{color:#fff;font-weight:700;text-transform:uppercase}
+.io-arrow{text-align:center;font-family:var(--display);font-weight:700;font-size:18px;color:#e8ebf1}
+.io-arrow .think{color:#9cc95a}
+.datanote{margin-top:10px;margin-bottom:0;font-size:15px;color:var(--muted)}
+#section-nav-slot{position:sticky;top:0;z-index:100}
+.bar{position:relative;top:0;z-index:100;padding-top:env(safe-area-inset-top,0px);background:var(--surface);border-block:1px solid var(--line)}
+.bar.is-fixed{position:fixed;inset:0 0 auto}
+.bar .wrap{display:flex;gap:4px;align-items:center;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.bar .name{font-family:var(--display);font-weight:700;margin-right:12px;white-space:nowrap}
+.bar a{text-decoration:none;white-space:nowrap;font-size:16px;color:var(--muted);padding:6px 12px;border-radius:999px}
+.bar a[aria-current="true"]{background:var(--ink);color:var(--paper)}
+section{padding-block:56px 8px;scroll-margin-top:calc(64px + env(safe-area-inset-top,0px))}
+.sh{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;max-width:78ch}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,3.4vw,40px);line-height:1.05;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.sh p{margin:0;color:var(--muted)}
+.specs{display:flex;flex-direction:column;gap:8px}
+.specs p{margin:0}
+.specs table{border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+.specs th,.specs td{text-align:left;padding:3px 16px 3px 0;border-bottom:1px solid var(--line)}
+.specs th{font-weight:600;color:var(--fg)}
+.note{font-size:17px;color:var(--muted);margin:12px 0 0;max-width:90ch}
+.gal{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{background:var(--accent-soft);border:1.5px solid var(--accent);color:var(--accent);font-weight:600;cursor:pointer;border-radius:999px;padding:7px 14px;display:flex;gap:8px;align-items:baseline;transition:background .15s,color .15s}
+.tab{box-shadow:0 2px 4px rgba(0,0,0,.18)}
+.tab::before{content:"▸";content:"▸"/"";align-self:center}
+.tab:hover{box-shadow:0 0 0 2px var(--accent),0 2px 4px rgba(0,0,0,.18)}
+.tab small{font-family:var(--mono);font-size:13px;color:inherit}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.tab[aria-selected="true"] small{color:inherit}
+.tabline{margin:-4px 0 0;color:var(--muted);font-size:18px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{font-family:var(--mono);font-size:14px;background:var(--accent-soft);color:var(--ink);border-radius:6px;padding:2px 8px;overflow-wrap:anywhere}
+.chip.plain{background:transparent;color:var(--muted);padding-inline:0}
+.stage{background:var(--stage);border-radius:10px;padding:10px}
+.scroll{overflow-x:auto}
+.grid{display:grid;gap:6px}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));min-width:760px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr));min-width:620px}
+.cell{display:flex;flex-direction:column;justify-content:flex-end;gap:4px;min-width:0;position:relative}
+.cell span,.colh{font-family:var(--mono);font-size:16px;font-weight:600;color:#ffffff;text-align:center;letter-spacing:.02em}
+.cell.ours span{color:#8fb0ff;font-weight:500}
+.cell .kind{font-style:normal;font-size:.85em;padding:1px 6px;border-radius:4px;background:#22262e;color:#a9b0bd;white-space:nowrap}
+.cell.ours .kind{background:#22305a;color:#b9ccff}
+.cell.ours video{outline:2px solid #6f8fff;outline-offset:1px}
+video{width:100%;max-width:100%;aspect-ratio:416/240;display:block;background:#000;border-radius:4px}
+.blank{aspect-ratio:416/240}
+.qs{display:flex;flex-direction:column;gap:8px}
+.qs details{border-color:#2f3542;background:#12151b;color:#dde2ea}
+.qs details summary,.qs .lab{color:#a9b0bd}
+.qs + .qs{border-top:1px solid #23272f;padding-top:12px;margin-top:4px}
+.gq{grid-template-columns:repeat(2,minmax(0,1fr)) max-content repeat(3,minmax(0,1fr));min-width:860px;align-items:center;gap:6px;padding:6px}
+.gq > *{position:relative;z-index:1}
+.gq > .inbg{z-index:0;align-self:stretch;border:1.5px dashed #5d6680;border-radius:10px;background:rgba(255,255,255,.035);margin:-6px}
+.grp{justify-self:start;font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.04em;border-radius:5px;padding:2px 10px}
+.grp.in{background:#3a4252;color:#eef1f6;text-transform:uppercase}
+.grp.out{background:#2d55e6;color:#fff}
+.colchip{justify-self:center;font-family:var(--mono);font-size:15.5px;font-weight:600;background:#1f242d;color:#ffffff;border:1px solid #444c5c;border-radius:999px;padding:3px 12px;text-align:center}
+.rowchip{width:2em;height:2em;border-radius:50%;display:grid;place-items:center;border:2px solid #9cc95a;color:#9cc95a;font-family:var(--mono);font-weight:700;font-size:15px;margin:0 2px}
+.rowlab{font-family:var(--mono);font-size:11px;color:#7d8696}
+.ctrl{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.nav{background:var(--accent);color:var(--on-accent);border:0;border-radius:10px;width:56px;height:46px;display:grid;place-items:center;font-size:20px;font-weight:700}
+.nav:hover:not(:disabled){filter:brightness(1.1)}
+.nav:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:9px;align-items:center}
+.dot{width:14px;height:14px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer}
+.dot[aria-current="true"]{background:var(--accent);width:36px;border-radius:7px}
+.count{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.play{margin-left:auto;background:var(--ink);color:var(--paper);border:0;border-radius:8px;padding:6px 14px;font-weight:600}
+.cell .err{color:#ffb4a8;font-size:11.5px;position:absolute;left:4px;right:4px;bottom:4px;background:rgba(0,0,0,.75);border-radius:4px;padding:2px 4px}
+.stack{display:flex;flex-direction:column;gap:22px}
+.sample{display:flex;flex-direction:column;gap:8px;min-width:0}
+.sample + .sample{border-top:1px solid var(--line);padding-top:20px}
+.subhead{margin:6px 0 -6px;font-size:22px;font-weight:700}
+.subhead small{display:block;font-size:17px;font-weight:400;color:var(--muted);margin-top:2px}
+.subhead ~ .subhead{border-top:2px solid var(--line);padding-top:18px;margin-top:10px}
+.subhead + .sample{border-top:0;padding-top:0}
+.shead{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.shead .play{margin-left:auto}
+.restart{background:transparent;color:var(--ink);border:1.5px solid var(--ink);border-radius:8px;padding:5px 12px;font-weight:600;cursor:pointer}
+.restart:hover{background:var(--soft)}
+details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:18px}
+summary{cursor:pointer;color:var(--muted)}
+.lab{font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:8px}
+details p{margin:2px 0 0;overflow-wrap:anywhere;max-width:100ch}
+@media (max-width:820px){
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero > .herogrid{row-gap:0}
+  .hero > .herogrid > div:first-child, .heroright{display:contents}
+  .hero .heroright > .io{order:1;margin:4px 0 24px}
+  .hero .facts{order:2}
+  .hero .howto{order:3;margin-top:24px}
+  .play{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+:root{--trk:#0b7366;--trk-soft:#d7f1ec;--ins:#7647c7;--ins-soft:#ece3fb;--rsn-soft:#e9f1da;--tok:#cfd5df;--ok:#1f8f4c;--no:#d1382c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--trk:#4ecfbe;--trk-soft:#143a35;--ins:#b79af6;--ins-soft:#2d2247;--rsn-soft:#222e16;--tok:#3b4252;--ok:#62d08c;--no:#ff7a6e}}
+:root[data-theme="dark"]{--trk:#4ecfbe;--trk-soft:#143a35;--ins:#b79af6;--ins-soft:#2d2247;--rsn-soft:#222e16;--tok:#3b4252;--ok:#62d08c;--no:#ff7a6e}
+.mbox{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 12px;min-width:0}
+.mbox .scroll{padding-bottom:4px}
+.movwrap{position:relative;min-width:700px}
+.movwrap video{position:absolute;max-width:none;aspect-ratio:auto;object-fit:cover;border-radius:5px;background:transparent}
+.mcapt{margin:10px 0 0;font-size:16px;color:var(--muted);max-width:100ch}
+.mcapt b{color:var(--ink)}
+.mhead{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:clamp(21px,2.3vw,26px);font-weight:700;line-height:1.15;margin:40px 0 4px}
+.mnum{flex:none;width:32px;height:32px;border-radius:50%;background:var(--think);color:var(--surface);display:grid;place-items:center;font-size:17px;font-weight:700}
+.mlead{margin:0 0 14px;color:var(--muted);max-width:80ch}
+.mcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.mcard{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.mcard .fsvg{max-width:440px;margin-inline:auto}
+.mtag{align-self:flex-start;font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:6px;padding:1px 8px}
+.mcard figcaption{font-size:17px;line-height:1.4;color:var(--ink)}
+@media (max-width:1040px){.mcards{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:400px){.mcard{padding:10px}}
+.fsvg{display:block;width:100%;height:auto;font-family:var(--body)}
+.fsvg text{fill:var(--ink)}
+.fsvg .t{font-size:12px}.fsvg .t-s{font-size:11px}.fsvg .t-m{font-family:var(--mono);font-size:11px}.fsvg .tq{font-size:11.5px}.fsvg .fb{font-weight:600}
+.fsvg .fd{font-family:var(--display);font-weight:700}
+.fsvg .fcap{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em}
+.fsvg .fcap2{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.07em}
+.fsvg .t-mu{fill:var(--muted)}.fsvg .t-rsn{fill:var(--think)}.fsvg .t-gen{fill:var(--accent)}.fsvg .t-trk{fill:var(--trk)}.fsvg .t-ins{fill:var(--ins)}.fsvg .t-on{fill:var(--surface)}
+.fsvg .it{font-style:italic}
+.bx{fill:var(--surface);stroke:var(--line);stroke-width:1.2}
+.bx-soft{fill:var(--soft)}
+.bx-rsn{fill:var(--rsn-soft);stroke:var(--think);stroke-width:1.4}
+.bx-gen{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.4}
+.bx-trk{fill:var(--trk-soft);stroke:var(--trk);stroke-width:1.2}
+.bx-ins{fill:var(--ins-soft);stroke:var(--ins);stroke-width:1.2}
+.bx-dash{fill:none;stroke:var(--muted);stroke-width:1.2;stroke-dasharray:4 3}
+.fr{fill:var(--soft);stroke:var(--line);stroke-width:1}
+.span{fill:none;stroke:var(--think);stroke-width:2.4}
+.bg-rsn{fill:var(--think)}.bg-gen{fill:var(--accent)}.bg-ink{fill:var(--ink)}
+.tk{fill:var(--tok)}.tk-trk{fill:var(--trk)}.tk-ins{fill:var(--ins)}.tk-gen{fill:var(--accent);opacity:.55}.tk-rsn{fill:var(--think)}
+.l,.l-mu,.l-rsn,.l-gen,.l-trk,.l-ins{fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.l{stroke:var(--ink)}.l-mu{stroke:var(--muted)}.l-rsn{stroke:var(--think);stroke-width:1.7}.l-gen{stroke:var(--accent)}.l-trk{stroke:var(--trk)}.l-ins{stroke:var(--ins)}
+.l-dash{stroke-dasharray:4 3}
+.m-ink{fill:var(--ink)}.m-mu{fill:var(--muted)}.m-rsn{fill:var(--think)}.m-trk{fill:var(--trk)}.m-ins{fill:var(--ins)}
+.gl{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:3 3}
+.p1,.p2,.p3{fill:none;stroke-width:2.6;stroke-linecap:round}
+.p1{stroke:#1f9e8f}.p2{stroke:#3b6fd9}.p3{stroke:#d86f2a}
+.p1f{fill:#1f9e8f}.p2f{fill:#3b6fd9}.p3f{fill:#d86f2a}
+.ptr{fill:#fff}
+.pc{fill:#12151b;opacity:.82}.fsvg .pct{fill:#fff}
+.mk-ok,.mk-no{fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+.mk-ok{stroke:var(--ok)}.mk-no{stroke:var(--no)}
+.pill-a{fill:var(--surface);stroke:var(--ink);stroke-width:1.3}
+.pl{fill:var(--surface)}
+/* One shared timeline: read → understand → fly → whisper → generate. */
+.movw .an{transform-box:fill-box;transform-origin:center}
+.movw .see{fill:none;stroke:var(--accent);stroke-width:2;opacity:0}
+.movw .flight{transform:translate(220px,-25px)}
+.movw .fullbody,.movw .look-left,.movw .flight-only,.movw .say,.movw .idea-rays{opacity:0}
+.movw .thought{transform:translateX(-100px)}
+.movw .glow{fill:url(#gd-glow);opacity:.45}
+.movw .dust{fill:#aacb58}
+.movw .route{fill:none;stroke:var(--think);stroke-width:1.6;stroke-dasharray:2 7;stroke-linecap:round;opacity:0}
+.movw .idea-rays{fill:none;stroke:#edb52c;stroke-width:2.5;stroke-linecap:round;transform-origin:454px 50px;transform-box:view-box}
+.movw .clap{transform-origin:50% 92%}
+.movw .wings-flying{opacity:0}
+.movw .fairy-wing{transform-box:view-box}
+.movw .fairy-wing-left{transform-origin:350px 705px}
+.movw .fairy-wing-right{transform-origin:550px 710px}
+.overview-box{padding:12px 18px 10px}
+.overview-box .mcapt{font-size:15px;line-height:1.45;margin-top:4px}
+.overview-box .moverview-controls{margin-top:4px}
+.moverview-footer{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.moverview-footer .mcapt{flex:1;min-width:220px}
+.moverview-controls{display:flex;gap:8px;margin-top:10px}
+.moverview-controls[hidden]{display:none}
+.moverview-controls button{border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:4px 10px;font-size:13px;white-space:nowrap}
+.moverview-controls button:hover{background:var(--soft)}
+@media (prefers-reduced-motion:no-preference){
+  .movw .an{animation-duration:11.666667s;animation-iteration-count:infinite;animation-timing-function:ease-in-out;animation-fill-mode:both;animation-play-state:paused}
+  .movw.is-playing .an{animation-play-state:running}
+  .movw .see1{animation-name:read-video}.movw .see2{animation-name:read-source}
+  .movw .see3{animation-name:read-target}.movw .see4{animation-name:read-instruction}
+  .movw .flight{animation-name:fairy-flight;animation-timing-function:linear}
+  .movw .arrival-crop{animation-name:arrival-crop}
+  .movw .fullbody{animation-name:fullbody-arrival;transform-origin:50% 0}.movw .whisper-pose{animation-name:whisper-pose}
+  .movw .look-left{animation-name:look-input}.movw .look-right{animation-name:look-generator}
+  .movw .thought{animation-name:thought;transform:none}
+  .movw .tc1{animation-name:thought-dot-one}.movw .tc2{animation-name:thought-dot-two}
+  .movw .aha{animation-name:idea}.movw .idea-rays{animation-name:idea-rays}
+  .movw .flight-only{animation-name:in-flight}.movw .route{animation-name:flight-route}
+  .movw .tell{animation-name:whisper}.movw .say1{animation-name:whisper-one}
+  .movw .say2{animation-name:whisper-two}.movw .say3{animation-name:whisper-three}
+  .movw .gen{animation-name:generator-ready}.movw .clap{animation-name:generate}
+  .movw .outv{animation-name:edited-video}
+  .movw .wings-resting{animation-name:wings-resting}
+  .movw .wings-flying{animation-name:wings-flying}
+  .movw .fairy-wing-left{animation-name:fairy-wing-left;animation-duration:0.205128s}
+  .movw .fairy-wing-right{animation-name:fairy-wing-right;animation-duration:0.205128s;animation-delay:-0.038462s}
+}
+@keyframes wings-resting{0%,36%,97%,100%{opacity:1}37%,96%{opacity:0}}
+@keyframes wings-flying{0%,36%,97%,100%{opacity:0}37%,96%{opacity:1}}
+@keyframes fairy-wing-left{0%,100%{transform:rotate(-7deg) scaleX(1)}50%{transform:rotate(10deg) scaleX(.28)}}
+@keyframes fairy-wing-right{0%,100%{transform:rotate(7deg) scaleX(.3)}50%{transform:rotate(-10deg) scaleX(1)}}
+@keyframes read-video{0%,2%,9%,100%{opacity:0}3%,7%{opacity:1}}
+@keyframes read-source{0%,7%,14%,100%{opacity:0}8%,12%{opacity:1}}
+@keyframes read-target{0%,12%,19%,100%{opacity:0}13%,17%{opacity:1}}
+@keyframes read-instruction{0%,17%,26%,100%{opacity:0}18%,23%{opacity:1}}
+@keyframes thought-dot-one{0%,20%,41%,100%{opacity:0;transform:scale(.6)}23%,36%{opacity:1;transform:scale(1)}}
+@keyframes thought-dot-two{0%,23%,41%,100%{opacity:0;transform:scale(.6)}26%,36%{opacity:1;transform:scale(1)}}
+@keyframes thought{0%,25%{opacity:0;transform:translateY(5px) scale(.9)}29%,36%{opacity:1;transform:none}41%,100%{opacity:0;transform:translateY(-8px) scale(.98)}}
+@keyframes idea{0%,29%,100%{opacity:0}32%,34%{opacity:.95}37%,96%{opacity:.45}}
+@keyframes idea-rays{0%,30%,39%,100%{opacity:0;transform:scale(.9)}33%,35%{opacity:1;transform:scale(1.05)}}
+/* The two poses crossfade; neither is squeezed through a scaleX(0) flip. */
+@keyframes look-input{0%,35%,100%{opacity:1}36%,97%{opacity:0}}
+@keyframes look-generator{0%,35%,100%{opacity:0}36%,97%{opacity:1}}
+/* Keep the flight at 1.3x speed within the restored overview timeline. */
+@keyframes fairy-flight{
+  0%,18%{opacity:1;transform:translate(0,0) rotate(0)}
+  22%,32%{opacity:1;transform:translate(0,-3px) rotate(-2deg)}
+  41.307692%{opacity:1;transform:translate(0,4px) rotate(0)}
+  42.413462%{opacity:1;transform:translate(1.54px,3.47px) rotate(-0.49deg)}
+  43.519231%{opacity:1;transform:translate(6.18px,2.01px) rotate(-1.87deg)}
+  44.625%{opacity:1;transform:translate(14.15px,-0.09px) rotate(-3.84deg)}
+  45.730769%{opacity:1;transform:translate(25.74px,-2.56px) rotate(-5.82deg)}
+  46.836538%{opacity:1;transform:translate(41.05px,-5.16px) rotate(-6.95deg)}
+  47.942308%{opacity:1;transform:translate(59.78px,-7.71px) rotate(-6.40deg)}
+  49.048077%{opacity:1;transform:translate(81.24px,-10.12px) rotate(-3.87deg)}
+  50.153846%{opacity:1;transform:translate(104.38px,-12.38px) rotate(-0.00deg)}
+  51.259615%{opacity:1;transform:translate(127.90px,-14.50px) rotate(3.87deg)}
+  52.365385%{opacity:1;transform:translate(150.49px,-16.53px) rotate(6.40deg)}
+  53.471154%{opacity:1;transform:translate(170.94px,-18.51px) rotate(6.95deg)}
+  54.576923%{opacity:1;transform:translate(188.32px,-20.42px) rotate(5.82deg)}
+  55.682692%{opacity:1;transform:translate(202.08px,-22.17px) rotate(3.84deg)}
+  56.788462%{opacity:1;transform:translate(211.97px,-23.63px) rotate(1.87deg)}
+  57.894231%{opacity:1;transform:translate(217.96px,-24.63px) rotate(0.49deg)}
+  59%,62%{opacity:1;transform:translate(220px,-25px) rotate(0)}
+  66%{opacity:1;transform:translate(223px,-27px) rotate(2deg)}
+  71%,92%{opacity:1;transform:translate(220px,-25px) rotate(0)}
+  96%{opacity:0;transform:translate(220px,-25px) rotate(0)}
+  97%{opacity:0;transform:translate(0,0) rotate(0)}
+  100%{opacity:1;transform:translate(0,0) rotate(0)}
+}
+/* Keep the entire fairy visible while reading and flying; close up only at delivery. */
+@keyframes arrival-crop{0%,54%,97%,100%{opacity:0}59%,96%{opacity:1}}
+@keyframes fullbody-arrival{
+  0%,54%{opacity:1;transform:none}
+  58%{opacity:1;transform:translateY(34px) scale(1.3)}
+  60%{opacity:1;transform:translateY(80px) scale(1.74)}
+  61%,96%{opacity:0;transform:translateY(80px) scale(1.74)}
+  97%{opacity:0;transform:none}
+  100%{opacity:1;transform:none}
+}
+@keyframes whisper-pose{0%,60%,97%,100%{opacity:0}61%,96%{opacity:1}}
+@keyframes in-flight{0%,35%,63%,100%{opacity:0}43.615385%,57.461538%{opacity:.8}}
+@keyframes flight-route{0%,42.846154%,78%,100%{opacity:0;stroke-dashoffset:30}48.230769%,59%{opacity:.24}70%{opacity:0;stroke-dashoffset:0}}
+@keyframes whisper{0%,59%,96%,100%{opacity:0}63%,92%{opacity:1}}
+@keyframes whisper-one{0%,60%{opacity:0;transform:translate(0,0) scale(.8)}63%{opacity:.95}69%,100%{opacity:0;transform:translate(27px,-9px) scale(1.05)}}
+@keyframes whisper-two{0%,65%{opacity:0;transform:translate(0,0) scale(.8)}68%{opacity:.95}74%,100%{opacity:0;transform:translate(27px,-9px) scale(1.05)}}
+@keyframes whisper-three{0%,70%{opacity:0;transform:translate(0,0) scale(.8)}73%{opacity:.95}79%,100%{opacity:0;transform:translate(27px,-9px) scale(1.05)}}
+@keyframes generator-ready{0%,60%,100%{opacity:.5}68%,94%{opacity:1}}
+@keyframes generate{0%,71%,84%,100%{transform:none}74%{transform:translateY(-5px) rotate(-3deg)}78%{transform:rotate(2deg)}81%{transform:rotate(-1deg)}}
+@keyframes edited-video{0%,68%,100%{opacity:0;transform:scale(.97)}72%{opacity:1;transform:scale(1.04)}75%,94%{opacity:1;transform:scale(1)}97%{opacity:0;transform:scale(.97)}}
+
+/* Sequential method diagrams: complete, readable SVGs when motion or JavaScript is off. */
+.method-sequence{margin-top:18px}
+.coupling-svg{min-width:1040px}
+.sequence-controls{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px}
+.sequence-controls[hidden]{display:none}
+.sequence-steps,.sequence-playback{display:flex;gap:6px;flex-wrap:wrap}
+.sequence-controls button{font-size:14px;line-height:1.4;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.sequence-controls button:hover{background:var(--soft)}
+.sequence-steps button[aria-current="step"]{color:var(--think);border-color:var(--think);background:var(--rsn-soft);font-weight:600}
+.sequence-caption{font-size:16px;line-height:1.55;color:var(--muted);margin:12px 0 0;min-height:3.1em;max-width:100ch}
+@media(prefers-reduced-motion:no-preference){
+  .seq-ready [data-step]{transition:opacity 0.423077s ease,transform 0.423077s ease;transform-box:fill-box;transform-origin:center}
+  .seq-ready [data-state="future"]{opacity:0;transform:translateY(7px);pointer-events:none}
+  .seq-ready [data-state="active"],.seq-ready [data-state="past"]{opacity:1;transform:none}
+  .seq-ready [data-state="active"] .seq-flow{stroke-dasharray:7 5;animation:method-flow 0.769231s linear infinite;animation-play-state:paused}
+  .seq-running [data-state="active"] .seq-flow{animation-play-state:running}
+}
+@keyframes method-flow{to{stroke-dashoffset:-24}}
+@media(max-width:600px){.sequence-controls{gap:10px}.sequence-controls button{font-size:13px;padding:7px 9px}.sequence-caption{min-height:4.65em}}
+
+/* Three task columns feed one shared VLT, one category at a time. */
+.vlt-svg{min-width:960px}
+.vlt-svg .tq,.vlt-svg .vlt-q-label{font-size:15px}
+.vlt-svg .vlt-answer .t-s{font-size:14px}
+.vlt-svg .vlt-answer .t{font-size:16px}
+.vlt-svg .vlt-answer .fd{font-size:18px}
+.vlt-svg [data-step="8"] .t-s:not(:first-of-type){font-size:12.5px}
+.vlt-svg [data-step="8"] .t{font-size:14px}
+.vlt-heading{font-family:var(--mono);font-size:13px;font-weight:600;fill:var(--accent)!important}
+@media(prefers-reduced-motion:no-preference){
+  .vlt-sequence.seq-ready [data-category]{transition:opacity 0.307692s ease}
+  .vlt-sequence.seq-ready [data-category-state="future"]{opacity:.35}
+  .vlt-sequence.seq-ready [data-category-state="past"]{opacity:.55}
+}
+
+/* Compact coupling layout follows the manuscript's horizontal panel (c). */
+.coupling-sequence{--c-wire:#465164;--c-rule:#cbd3e0;--c-route:#b2873f;--c-route-soft:#faf5eb;--c-track:#e4f2f6;--c-track-stroke:#7daebb;--c-instruction:#efe9f7;--c-instruction-stroke:#aa91c9;--c-video:#e9effa;--c-video-stroke:#90a7ce;padding:18px 16px 12px}
+.coupling-svg text{fill:var(--ink)}
+.coupling-svg .c-heading{font-size:16px;font-weight:600}
+.coupling-svg .c-label{font-size:15px}
+.coupling-svg .c-muted{font-size:15.6px;fill:var(--muted)}
+.coupling-svg .c-math{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:20px}
+.coupling-svg .c-track-label,.coupling-svg .c-instruction-label{font-size:16.8px;fill:var(--muted)}
+.coupling-svg .c-route-note{font-size:12px;font-weight:600;fill:var(--c-route)}
+.c-routing{fill:var(--c-route-soft);stroke:var(--c-route);stroke-width:1.2}
+.c-layer{fill:var(--surface);stroke:var(--c-route);stroke-width:1}
+.c-layer-selected,.c-logit-selected{fill:var(--c-route);stroke:var(--c-route)}
+.coupling-svg .c-layer-selected + .c-math{fill:#fff}
+.c-logit{fill:var(--c-route);opacity:.25}
+.c-span-grid{fill:var(--rsn-soft);stroke:var(--think);stroke-width:1.6}
+.c-span-context{fill:var(--tok);opacity:.55}
+.c-span-selected{fill:none;stroke:var(--c-route);stroke-width:2.5}
+.coupling-svg .c-span-layer{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:17px}
+.coupling-svg .c-span-label{font-size:21px;fill:var(--muted)}
+
+.c-track{fill:var(--c-track);stroke:var(--c-track-stroke);stroke-width:1.1}
+.c-instruction{fill:var(--c-instruction);stroke:var(--c-instruction-stroke);stroke-width:1.1}
+.c-neutral,.c-attention{fill:var(--surface);stroke:var(--c-wire);stroke-width:1.1}
+.c-generator{fill:var(--soft);fill-opacity:.3;stroke:var(--c-rule);stroke-width:1.1}
+.c-video{fill:var(--c-video);stroke:var(--c-video-stroke);stroke-width:1.1}
+.c-attention-label{font-size:18px;font-weight:600}
+.c-wire{fill:none;stroke:var(--c-wire);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
+.c-wire-clear{fill:none;stroke:var(--surface);stroke-width:5}
+.c-arrow,.c-junction{fill:var(--c-wire)}
+.coupling-controls .sequence-controls{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.coupling-controls .sequence-controls button{font-size:13px;padding:5px 10px}
+@media(prefers-reduced-motion:no-preference){
+ .coupling-sequence.seq-ready [data-step]{transition-duration:0.352564s}
+ .coupling-sequence.seq-running [data-state="active"] .seq-flow{animation-duration:0.641025s}
+ .coupling-sequence.seq-ready [data-state="future"]{opacity:.16;transform:none}
+ .coupling-sequence.seq-ready [data-state="active"],.coupling-sequence.seq-ready [data-state="past"]{transform:none}
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .coupling-sequence{--c-wire:#c0cadb;--c-rule:#3d4656;--c-route:#c59b55;--c-route-soft:#29251e;--c-track:#193840;--c-track-stroke:#5c99aa;--c-instruction:#30273f;--c-instruction-stroke:#987cb9;--c-video:#242f46;--c-video-stroke:#6984b2}}
+:root[data-theme="dark"] .coupling-sequence{--c-wire:#c0cadb;--c-rule:#3d4656;--c-route:#c59b55;--c-route-soft:#29251e;--c-track:#193840;--c-track-stroke:#5c99aa;--c-instruction:#30273f;--c-instruction-stroke:#987cb9;--c-video:#242f46;--c-video-stroke:#6984b2}
+</style>
+
+<header class="hero gut">
+  <div class="wrap herotitle">
+      <p class="eyebrow">Track-conditioned video motion editing</p>
+      <img class="logo" src="./thinkerbell_static/thinkerbell.png" width="640" height="264" alt="ThinkerBell icon: a thought bubble with a light bulb, a fairy whispering, and a smiling clapperboard">
+      <h1><span class="think">Think</span>erBell</h1>
+      <p class="sub">Understanding Before Generation for Track-Conditioned Video Motion Editing</p>
+      <p class="authors">
+        <span class="au"><a href="https://minjung-s.github.io/" target="_blank" rel="noopener">Minjung Shin</a><sup>1*</sup></span>, <span class="au"><a href="https://sooyeon-go.github.io/" target="_blank" rel="noopener">Sooyeon Go</a><sup>1</sup></span>, <span class="au"><a href="https://dsshim0125.github.io/" target="_blank" rel="noopener">Dongseok Shim</a><sup>2</sup></span>, <span class="au"><a href="https://yahshibu.github.io/" target="_blank" rel="noopener">Takashi Shibuya</a><sup>2</sup></span>, <span class="au"><a href="https://scholar.google.com/citations?hl=en&amp;user=_mhxayYAAAAJ" target="_blank" rel="noopener">Shusuke Takahashi</a><sup>2</sup></span>,<br class="aubr"> <span class="au"><a href="https://wywywang.github.io/" target="_blank" rel="noopener">Wei-Yao Wang</a><sup>2†</sup></span>, <span class="au"><a href="https://vilab.yonsei.ac.kr/members/professor" target="_blank" rel="noopener">Youngjung Uh</a><sup>1†</sup></span>, <span class="au"><a href="https://www.yukimitsufuji.com/" target="_blank" rel="noopener">Yuki Mitsufuji</a><sup>2†</sup></span>
+      </p>
+      <p class="affil"><span><sup>1</sup>Yonsei University</span> <span><sup>2</sup>Sony Group Corporation</span></p>
+      <p class="affil anote"><sup>*</sup>Work completed during an internship at Sony</p>
+      <p class="affil anote"><sup>†</sup>Co-corresponding authors</p>
+      <div class="links">
+        <span class="lbtn" aria-disabled="true"><svg class="lbtn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M3.8423 0a1.0037 1.0037 0 0 0-.922.6078c-.1536.3687-.0438.6275.2938 1.1113l6.9185 8.3597-1.0223 1.1058a1.0393 1.0393 0 0 0 .003 1.4229l1.2292 1.3135-5.4391 6.4444c-.2803.299-.4538.823-.2971 1.1986a1.0253 1.0253 0 0 0 .9585.635.9133.9133 0 0 0 .6891-.3405l5.783-6.126 7.4902 8.0051a.8527.8527 0 0 0 .6835.2597.9575.9575 0 0 0 .8777-.6138c.1577-.377-.017-.7502-.306-1.1407l-7.0518-8.3418 1.0632-1.13a.9626.9626 0 0 0 .0089-1.3165L4.6336.4639s-.3733-.4535-.768-.463zm0 .272h.0166c.2179.0052.4874.2715.5644.3639l.005.006.0052.0055 10.169 10.9905a.6915.6915 0 0 1-.0072.945l-1.0666 1.133-1.4982-1.7724-8.5994-10.39c-.3286-.472-.352-.6183-.2592-.841a.7307.7307 0 0 1 .6704-.4401Zm14.341 1.5701a.877.877 0 0 0-.6554.2418l-5.6962 6.1584 1.6944 1.8319 5.3089-6.5138c.3251-.4335.479-.6603.3247-1.0292a1.1205 1.1205 0 0 0-.9763-.689zm-7.6557 12.2823 1.3186 1.4135-5.7864 6.1295a.6494.6494 0 0 1-.4959.26.7516.7516 0 0 1-.706-.4669c-.1119-.2682.0359-.6864.2442-.9083l.0051-.0055.0047-.0055z"/></svg>arXiv <small>coming soon</small></span>
+        <span class="lbtn" aria-disabled="true"><svg class="lbtn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Code <small>coming soon</small></span>
+        <span class="lbtn" aria-disabled="true"><img class="lbtn-icon" src="./thinkerbell_static/icons/huggingface.svg" width="22" height="22" alt="" aria-hidden="true">Benchmark <small>coming soon</small></span>
+      </div>
+  </div>
+  <div class="wrap herogrid">
+    <div>
+      <dl class="facts">
+        <dt>Task</dt><dd>Video motion editing: change how objects or the camera move in a source video.</dd>
+        <dt>Goal</dt><dd>Follow target motion while preserving source content.</dd>
+        <dt class="iohead">Input → Output</dt><dd class="ioheaddd"></dd>
+        <dt class="iodt"><span class="subtag">Input</span></dt><dd class="iodd">
+            <ul>
+              <li><b>Source video</b>: the clip to edit.</li>
+              <li><b>Source point tracks</b>: point positions and visibility tracked in the source video, frame by frame.</li>
+              <li><b>Target point tracks</b>: the desired motion of the same points.</li>
+              <li><b>Editing instruction</b>: how the source motion should change.</li>
+              <li><b>Target caption</b>: a description of the edited video.</li>
+            </ul>
+        </dd>
+        <dt class="iodt"><span class="subtag">Output</span></dt><dd class="iodd"><p>An edited video with the requested motion.</p></dd>
+        <dt>Our idea</dt><dd>A <b>separate reasoner</b> interprets the tracks in the context of the source video and editing intent. <b>The generator then synthesizes the edited video using that understanding.</b></dd>
+      </dl>
+    </div>
+    <div class="heroright">
+    <figure class="io" aria-label="Input and output of one example">
+      <div class="io-row"><span class="io-tag">Input</span>
+        <div class="io-pair">
+          <div class="io-cell"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/src_trk.mp4" muted loop playsinline preload="auto"></video><span>Source video + tracks</span></div>
+          <div class="io-cell"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_trk.mp4" muted loop playsinline preload="auto"></video><span>Target tracks</span></div>
+        </div>
+        <p class="io-instr"><b>Instruction</b> <strong class="instruction-keyword">Change</strong> the gecko crawling down off the chessboard toward the camera, with the camera nearly still, <strong class="instruction-keyword">to</strong> the gecko turning to face right and stretching out sideways along the board's edge, with the camera panning right and tilting down. <i>+ target caption</i></p>
+      </div>
+      <div class="io-arrow" aria-hidden="true">↓ <span class="think">Think</span>erBell</div>
+      <div class="io-row"><span class="io-tag out">Output</span>
+        <div class="io-pair">
+          <div class="io-cell ours"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_ov.mp4" muted loop playsinline preload="auto"></video><span>Edited video + target tracks</span></div>
+          <div class="io-cell ours"><video data-io src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_gen.mp4" muted loop playsinline preload="auto"></video><span>Edited video</span></div>
+        </div>
+      </div>
+    </figure>
+      <div class="howto">
+        <b>Reading the tracks</b>
+        <ul>
+          <li>Matching colors identify the same point.</li>
+          <li><i>Target track</i> panels show paths up to the current frame.</li>
+          <li>Overlays show the last 10 frames of each path.</li>
+          <li>If a dot is not shown, the region containing that point is not visible.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="section-nav-slot">
+<nav class="bar gut" aria-label="Sections"><div class="wrap" id="bar">
+  <span class="name"><img src="./thinkerbell_static/thinkerbell.png" alt="" width="58" height="24"><span><span class="think">Think</span>erBell</span></span>
+  <a href="#qualitative" data-s="qualitative">Hand-drafted edits</a>
+  <a href="#method" data-s="method">Method</a>
+  <a href="#comparison" data-s="comparison">Comparison</a>
+  <a href="#applications" data-s="applications">Applications</a>
+  <a href="#benchmark" data-s="benchmark">Benchmark</a>
+</div></nav>
+</div>
+<div class="gut"><p class="wrap datanote">Samples in this page are not in our training data.</p></div>
+<script>
+(() => {
+  const slot = document.getElementById('section-nav-slot');
+  const bar = slot.querySelector('.bar');
+  let scheduled = false;
+  function updateBar() {
+    scheduled = false;
+    // Preserve the bar's space so crossing the threshold never shifts the page.
+    slot.style.height = `${bar.getBoundingClientRect().height}px`;
+    bar.classList.toggle('is-fixed', slot.getBoundingClientRect().top <= 0);
+  }
+  function scheduleBar() {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(updateBar);
+  }
+  // Native sticky positioning keeps the bar visible even before a scroll callback runs.
+  window.addEventListener('scroll', updateBar, {passive:true});
+  window.addEventListener('resize', scheduleBar);
+  window.addEventListener('pageshow', scheduleBar);
+  new ResizeObserver(scheduleBar).observe(bar);
+  updateBar();
+})();
+</script>
+
+<main class="gut">
+  <section id="qualitative" class="wrap">
+    <div class="sh">
+      <span class="kicker">Qualitative results</span>
+      <h2>One source, three hand-drafted edits</h2>
+      <p>Each row is a different target track for the same source video, drawn by dragging points from the source tracks.</p>
+    </div>
+    <div class="gal" id="g-qual"></div>
+    <p class="note">Source clips come from MoveBench.</p>
+  </section>
+
+  <section id="method" class="wrap">
+    <div class="sh">
+      <span class="kicker">Method</span>
+      <h2>Understand the tracks first, then generate</h2>
+      <p>The <b>Vision-Language-Track (VLT) reasoner understands the tracks</b> in the context of the source video and the editing intent. A <b>learnable coupling transfers this understanding</b> to the generator, which synthesizes the edited video.</p>
+    </div>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><marker id="ah-ink" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="m-ink" d="M0 0L10 5L0 10z"/></marker><marker id="ah-mu" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="m-mu" d="M0 0L10 5L0 10z"/></marker><marker id="ah-rsn" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="m-rsn" d="M0 0L10 5L0 10z"/></marker><marker id="ah-trk" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="m-trk" d="M0 0L10 5L0 10z"/></marker><marker id="ah-ins" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="m-ins" d="M0 0L10 5L0 10z"/></marker><marker id="ah-p1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path class="p1f" d="M0 0L10 5L0 10z"/></marker><marker id="ah-p2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path class="p2f" d="M0 0L10 5L0 10z"/></marker><marker id="ah-p3" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto"><path class="p3f" d="M0 0L10 5L0 10z"/></marker><radialGradient id="gd-glow"><stop offset="0" stop-color="#ffe36b" stop-opacity=".95"/><stop offset=".55" stop-color="#ffd23a" stop-opacity=".45"/><stop offset="1" stop-color="#ffd23a" stop-opacity="0"/></radialGradient><clipPath id="cp-img" clipPathUnits="objectBoundingBox"><rect width="1" height="1" rx=".05" ry=".075"/></clipPath><symbol id="g-box" viewBox="0 0 96 64"><rect class="bx" x=".6" y=".6" width="94.8" height="62.8" rx="6"/><path class="gl" d="M32 4V60M64 4V60M4 21H92M4 43H92"/></symbol><symbol id="g-src" viewBox="0 0 96 64"><use href="#g-box"/><path class="p1" d="M22 34H56" marker-end="url(#ah-p1)"/><path class="p2" d="M27 43H61" marker-end="url(#ah-p2)"/><path class="p3" d="M32 52H66" marker-end="url(#ah-p3)"/></symbol><symbol id="g-jump" viewBox="0 0 96 64"><use href="#g-box"/><path class="p1" d="M18 46Q36 2 58 36" marker-end="url(#ah-p1)"/><path class="p2" d="M26 51Q44 8 66 42" marker-end="url(#ah-p2)"/><path class="p3" d="M34 56Q52 14 74 48" marker-end="url(#ah-p3)"/></symbol><symbol id="g-rear" viewBox="0 0 96 64"><use href="#g-box"/><path class="p1" d="M18 50H40" marker-end="url(#ah-p1)"/><path class="p2" d="M46 46Q62 38 60 16" marker-end="url(#ah-p2)"/><path class="p3" d="M58 52Q76 44 74 22" marker-end="url(#ah-p3)"/></symbol></defs></svg>
+    <figure class="mbox overview-box">
+      <div class="scroll" tabindex="0" role="group" aria-label="Overview figure, scroll sideways on small screens"><div class="movwrap movw" id="method-overview"><svg class="fsvg" viewBox="-6 0 944 206" role="img" aria-label="Overview. The reasoner, drawn as a full-body fairy with her hands lowered, looks at the source video, the source tracks, the target tracks and the editing instruction, and a light bulb appears in her thought bubble: she understands the edit. She then flies over to the generator, drawn as a clapperboard, and changes to a close-up whispering pose to share that understanding. The generator produces the edited video."><text class="fcap t-mu" x="0" y="12">INPUT</text>
+        <rect class="see an see1" x="-4" y="18" width="218" height="38" rx="9"/><rect class="fr" x="0" y="22" width="52" height="30" rx="4"/><text class="t fb" x="64" y="41.5">Source video</text>
+        <rect class="see an see2" x="-4" y="52" width="218" height="38" rx="9"/><rect class="fr" x="0" y="56" width="52" height="30" rx="4"/><text class="t fb" x="64" y="75.5">Source tracks</text>
+        <rect class="see an see3" x="-4" y="86" width="218" height="38" rx="9"/><rect class="fr" x="0" y="90" width="52" height="30" rx="4"/><text class="t fb" x="64" y="109.5">Target tracks</text>
+        <rect class="bx-ins" x="0" y="126" width="210" height="70" rx="10"/><rect class="see an see4" x="-4" y="122" width="218" height="78" rx="13"/>
+        <text class="fcap2 t-ins" x="11" y="142">EDITING INSTRUCTION</text>
+        <text class="t-s" x="11" y="158">“Change the gecko crawling toward</text>
+        <text class="t-s" x="11" y="172">the camera … to the gecko turning</text>
+        <text class="t-s" x="11" y="186">to face right …”</text>
+        <path class="l" d="M222 92H248" marker-end="url(#ah-ink)"/>
+        <!-- Scale artwork independently so labels retain their original font sizes. -->
+        <defs>
+          <!-- The original raster is split into body and hinged wings with SVG masks. -->
+          <image id="fairy-raster" href="./thinkerbell_static/method/fairy-fullbody-v1.png" width="1024" height="1536"/>
+          <clipPath id="fairy-wing-left" clipPathUnits="userSpaceOnUse"><path d="M95 460H235C243 528 287 595 367 657C351 666 338 689 331 716L312 776C294 809 276 844 251 862L190 870L105 795Z"/></clipPath>
+          <clipPath id="fairy-wing-right" clipPathUnits="userSpaceOnUse"><path d="M865 445L970 470L950 900H644C619 858 593 817 569 763C555 731 554 692 537 671C571 628 620 582 700 535Z"/></clipPath>
+          <mask id="fairy-body-only" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1536"><rect width="1024" height="1536" fill="#fff"/><path d="M95 460H235C243 528 287 595 367 657C351 666 338 689 331 716L312 776C294 809 276 844 251 862L190 870L105 795Z" fill="#000"/><path d="M865 445L970 470L950 900H644C619 858 593 817 569 763C555 731 554 692 537 671C571 628 620 582 700 535Z" fill="#000"/></mask>
+          <linearGradient id="fairy-arrival-fade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000"/></linearGradient>
+          <mask id="fairy-arrival-crop" maskUnits="userSpaceOnUse" x="180" y="0" width="300" height="500">
+            <rect x="180" width="300" height="500" fill="#fff"/>
+            <rect class="an arrival-crop" x="180" y="205" width="300" height="65" fill="url(#fairy-arrival-fade)"/>
+            <rect class="an arrival-crop" x="180" y="270" width="300" height="230" fill="#000"/>
+          </mask>
+        </defs>
+        <path class="an route" d="M326 108C386 102 431 78 477 84S522 94 550 105"/>
+        <g transform="translate(104.64 0) scale(.68)">
+        <g class="an thought">
+          <image href="./thinkerbell_static/method/cloud.webp" x="405" y="8" width="112" height="99"/>
+          <circle class="glow an aha" cx="454" cy="50" r="27"/>
+          <path class="an idea-rays" d="M454 16V8M474 22L481 15M486 40L496 37M434 22L427 15"/>
+        </g>
+        <image class="an tc2" href="./thinkerbell_static/method/circ1.webp" x="389" y="39" width="16" height="15.7"/>
+        <image class="an tc1" href="./thinkerbell_static/method/circ2.webp" x="372" y="52" width="10" height="9.8"/>
+        </g>
+        <g class="an flight">
+          <g transform="translate(104.64 0) scale(.68)">
+          <g class="an flight-only"><circle class="dust" cx="249" cy="135" r="2.6"/><circle class="dust" cx="238" cy="140" r="1.8"/><circle class="dust" cx="228" cy="137" r="1.2"/></g>
+          <g mask="url(#fairy-arrival-crop)"><g class="an fullbody">
+            <g class="an look-left"><g transform="translate(265 24) scale(.12109375)">
+              <g class="an wings-resting">
+                <g clip-path="url(#fairy-wing-left)"><use href="#fairy-raster"/></g>
+                <g clip-path="url(#fairy-wing-right)"><use href="#fairy-raster"/></g>
+              </g>
+              <g class="an wings-flying">
+                <g class="an fairy-wing fairy-wing-left"><g clip-path="url(#fairy-wing-left)"><use href="#fairy-raster"/></g></g>
+                <g class="an fairy-wing fairy-wing-right"><g clip-path="url(#fairy-wing-right)"><use href="#fairy-raster"/></g></g>
+              </g>
+              <use href="#fairy-raster" mask="url(#fairy-body-only)"/>
+            </g></g>
+            <g class="an look-right"><g transform="translate(654 0) scale(-1 1)"><g transform="translate(265 24) scale(.12109375)">
+              <g class="an wings-resting">
+                <g clip-path="url(#fairy-wing-left)"><use href="#fairy-raster"/></g>
+                <g clip-path="url(#fairy-wing-right)"><use href="#fairy-raster"/></g>
+              </g>
+              <g class="an wings-flying">
+                <g class="an fairy-wing fairy-wing-left"><g clip-path="url(#fairy-wing-left)"><use href="#fairy-raster"/></g></g>
+                <g class="an fairy-wing fairy-wing-right"><g clip-path="url(#fairy-wing-right)"><use href="#fairy-raster"/></g></g>
+              </g>
+              <use href="#fairy-raster" mask="url(#fairy-body-only)"/>
+            </g></g></g>
+          </g>
+          </g>
+          <image class="an whisper-pose" href="./thinkerbell_static/method/fairy.webp" x="250" y="128" width="153.9" height="171.1"/>
+        </g>
+        </g>
+        <g class="an tell">
+          <circle class="bg-rsn" cx="550" cy="14" r="11"/><text class="t-on fb" x="550" y="18.6" text-anchor="middle" font-size="13">2</text>
+          <text class="fd t-rsn" x="550" y="40" text-anchor="middle" font-size="14">Understanding Transfer</text>
+          <text class="t t-mu" x="550" y="57" text-anchor="middle">via learnable coupling</text>
+          <image href="./thinkerbell_static/method/marks.webp" x="615" y="123" width="20" height="21.7" opacity=".6"/>
+        </g>
+        <image class="an say say1" href="./thinkerbell_static/method/marks.webp" x="615" y="123" width="20" height="21.7"/>
+        <image class="an say say2" href="./thinkerbell_static/method/marks.webp" x="615" y="123" width="20" height="21.7"/>
+        <image class="an say say3" href="./thinkerbell_static/method/marks.webp" x="615" y="123" width="20" height="21.7"/>
+        <g class="an gen">
+          <image class="an clap" href="./thinkerbell_static/method/clap.webp" x="669" y="65" width="106" height="95.7"/>
+        </g>
+        <text class="fd t-gen" x="722" y="178" text-anchor="middle" font-size="20">Generator</text>
+        <text class="t t-mu" x="722" y="197" text-anchor="middle">generates from that understanding</text>
+        <circle class="bg-rsn" cx="260" cy="171" r="11"/><text class="t-on fb" x="260" y="175.6" text-anchor="middle" font-size="13">1</text>
+        <text class="fd t-rsn" x="278" y="178" font-size="20">VLT Reasoner</text>
+        <text class="t t-mu" x="339" y="197" text-anchor="middle">Understands the tracks and editing intent</text>
+        <path class="l" d="M790 111H824" marker-end="url(#ah-ink)"/>
+        <text class="fcap t-mu" x="834" y="67">OUTPUT</text>
+        <g class="an outv">
+          <rect class="fr" x="842" y="77" width="86" height="50" rx="5"/><rect class="fr" x="838" y="81" width="86" height="50" rx="5"/>
+          <rect class="fr" x="834" y="85" width="86" height="50" rx="5"/>
+        </g>
+        <text class="t fb" x="877" y="157" text-anchor="middle">Edited video</text>
+      </svg><video data-mv class="" src="./thinkerbell_static/q/Pexels_other_sports_3/src.mp4" poster="./thinkerbell_static/method/t_src.jpg" muted loop playsinline preload="metadata" aria-hidden="true" style="left:0.6356%;top:10.6796%;width:5.5085%;height:14.5631%"></video><video data-mv class="" src="./thinkerbell_static/method/src_tracks.mp4" poster="./thinkerbell_static/method/t_srcpanel.jpg" muted loop playsinline preload="metadata" aria-hidden="true" style="left:0.6356%;top:27.1845%;width:5.5085%;height:14.5631%"></video><video data-mv class="" src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_trk.mp4" poster="./thinkerbell_static/method/t_tgt.jpg" muted loop playsinline preload="metadata" aria-hidden="true" style="left:0.6356%;top:43.6893%;width:5.5085%;height:14.5631%"></video><video data-mv class="an outv" src="./thinkerbell_static/q/Pexels_other_sports_3/aug_00_gen.mp4" poster="./thinkerbell_static/method/t_out.jpg" muted loop playsinline preload="metadata" aria-hidden="true" style="left:88.9831%;top:41.2621%;width:9.1102%;height:24.2718%"></video></div></div>
+      <figcaption class="moverview-footer">
+        <span class="moverview-controls" hidden><button type="button" id="method-pause" aria-controls="method-overview">Pause animation</button><button type="button" id="method-replay" aria-controls="method-overview">Replay</button></span>
+      </figcaption>
+    </figure>
+    <h3 class="mhead"><span class="mnum">1</span>VLT: Understanding Tracks in Context</h3>
+    <p class="mlead">VLT learns representations that connect the tracks to the source scene and to the editing instruction through a curriculum of 1.9M track-understanding questions: (1) which object or camera the tracks follow, (2) what motion they express, and (3) whether the change from source to target tracks carries out the requested edit.</p>
+    <div class="mbox method-sequence vlt-sequence" id="vlt-tasks" data-sequence data-category-size="3" data-durations="1692,1385,1846,1692,1385,1846,2000,1692,2769">
+      <div class="scroll" tabindex="0" role="group" aria-label="Track understanding diagram; scroll sideways on small screens">
+        <svg class="fsvg vlt-svg" viewBox="0 0 1040 332" role="img" aria-label="Three tasks share one VLT. Scene grounding, motion reading, and edit verification run in that order; each shows its input, passes through VLT, and reveals its output.">
+          <g data-category="0" transform="translate(8 0)">
+            <text class="vlt-heading" x="160" y="20" text-anchor="middle">Scene grounding</text>
+            <g transform="translate(0 40)"><g data-step="0"><image href="./thinkerbell_static/method/horse.jpg" x="0" y="0" width="156" height="104" preserveAspectRatio="xMidYMid slice" clip-path="url(#cp-img)"/><circle class="ptr" cx="70.2" cy="72.8" r="5.6"/><circle class="p1f" cx="70.2" cy="72.8" r="3.7"/><rect class="pc" x="79" y="64" width="17" height="16" rx="4"/><text class="t-s fb pct" x="87.5" y="76" text-anchor="middle">3</text><circle class="ptr" cx="90.5" cy="10.4" r="5.6"/><circle class="p3f" cx="90.5" cy="10.4" r="3.7"/><rect class="pc" x="99" y="3" width="17" height="16" rx="4"/><text class="t-s fb pct" x="107.5" y="15" text-anchor="middle">7</text><text class="t-s t-mu" x="170" y="13">tracks given as text,</text><text class="t-s t-mu" x="170" y="27">coordinates in [0, 1000]</text><rect class="bx-soft" x="170" y="38" width="150" height="60" rx="8"/><text class="t-m" x="180" y="60"><tspan class="fb">point 3</tspan> → (450, 700)</text><text class="t-m" x="180" y="82"><tspan class="fb">point 7</tspan> → (580, 100)</text><rect class="bx-soft" x="0" y="118" width="320" height="48" rx="7"/><text class="t fb t-gen vlt-q-label" x="13" y="147">Q</text><text class="tq" x="34" y="147">Which object is point 3 on?</text></g></g>
+            <g data-step="1"><path class="seq-flow l-rsn" d="M160 207V220" marker-end="url(#ah-rsn)"/></g>
+            <g transform="translate(0 48)"><g class="vlt-answer" data-step="2"><path class="seq-flow l-rsn" d="M160 213V226" marker-end="url(#ah-rsn)"/><rect class="bx" x="0" y="230" width="320" height="44" rx="7"/><text class="t-s t-mu" x="20" y="257">Answer</text><text class="fd" x="210" y="257" text-anchor="middle">horse</text></g></g>
+          </g>
+          <g data-category="1" transform="translate(360 0)">
+            <text class="vlt-heading" x="160" y="20" text-anchor="middle">Motion reading</text>
+            <g transform="translate(0 40)"><g data-step="3"><image href="./thinkerbell_static/method/horse.jpg" x="0" y="10" width="96" height="64" preserveAspectRatio="xMidYMid slice" clip-path="url(#cp-img)"/><text class="t-s t-mu" x="48" y="90" text-anchor="middle">first frame</text><text class="t" x="107" y="47" text-anchor="middle" font-size="15">+</text><use href="#g-jump" x="118" y="10" width="96" height="64"/><text class="t-s" x="166" y="90" text-anchor="middle">track <tspan class="fb">A</tspan></text><use href="#g-rear" x="224" y="10" width="96" height="64"/><text class="t-s" x="272" y="90" text-anchor="middle">track <tspan class="fb">B</tspan></text><rect class="bx-soft" x="0" y="118" width="320" height="48" rx="7"/><text class="t fb t-gen vlt-q-label" x="13" y="147">Q</text><text class="tq" x="34" y="147">What action does the track show?</text></g></g>
+            <g data-step="4"><path class="seq-flow l-rsn" d="M160 207V220" marker-end="url(#ah-rsn)"/></g>
+            <g transform="translate(0 48)"><g class="vlt-answer" data-step="5"><path class="seq-flow l-rsn" d="M160 213V226" marker-end="url(#ah-rsn)"/><rect class="bx" x="0" y="230" width="320" height="44" rx="7"/><text class="t-s t-mu" x="18" y="257">Answer</text><text class="t fb t-trk" x="130" y="257" text-anchor="middle">A · jump</text><text class="t fb t-ins" x="248" y="257" text-anchor="middle">B · rear up</text></g></g>
+          </g>
+          <g data-category="2" transform="translate(712 0)">
+            <text class="vlt-heading" x="160" y="20" text-anchor="middle">Edit verification</text>
+            <g transform="translate(0 40)"><g data-step="6"><image href="./thinkerbell_static/method/horse.jpg" x="0" y="0" width="72" height="48" preserveAspectRatio="xMidYMid slice" clip-path="url(#cp-img)"/><use href="#g-src" x="82.7" y="0" width="72" height="48"/><use href="#g-jump" x="165.3" y="0" width="72" height="48"/><use href="#g-rear" x="248" y="0" width="72" height="48"/><text class="t-s" x="36" y="62" text-anchor="middle">source video</text><text class="t-s" x="118.7" y="62" text-anchor="middle">source track</text><text class="t-s" x="201.3" y="62" text-anchor="middle">target <tspan class="fb">A</tspan></text><text class="t-s" x="284" y="62" text-anchor="middle">target <tspan class="fb">B</tspan></text><rect class="bx-ins" x="0" y="74" width="154" height="24" rx="12"/><circle class="tk-ins" cx="13" cy="86" r="8"/><text class="t-s fb t-on" x="13" y="89.8" text-anchor="middle">1</text><text class="t" x="28" y="90">“… to jumping”</text><rect class="bx-ins" x="166" y="74" width="154" height="24" rx="12"/><circle class="tk-ins" cx="179" cy="86" r="8"/><text class="t-s fb t-on" x="179" y="89.8" text-anchor="middle">2</text><text class="t" x="194" y="90">“… to rearing up”</text><rect class="bx-soft" x="0" y="118" width="320" height="48" rx="7"/><text class="t fb t-gen vlt-q-label" x="13" y="147">Q</text><text class="tq" x="34" y="137">Does each target track</text><text class="tq" x="34" y="153">carry out each instruction?</text></g></g>
+            <g data-step="7"><path class="seq-flow l-rsn" d="M160 207V220" marker-end="url(#ah-rsn)"/></g>
+            <g transform="translate(0 48)"><g class="vlt-answer" data-step="8"><path class="seq-flow l-rsn" d="M160 213V226" marker-end="url(#ah-rsn)"/><rect class="bx" x="0" y="230" width="320" height="44" rx="7"/><text class="t-s t-mu" x="16" y="249">Matches</text><text class="t-s t-mu" x="120" y="243">Instruction 1</text><text class="t-s t-mu" x="120" y="262">Instruction 2</text><text class="t fb t-trk" x="244" y="243">A ✓   B ✕</text><text class="t fb t-ins" x="244" y="262">A ✕   B ✓</text></g></g>
+          </g>
+          <g class="vlt-shared">
+            <rect class="bx-rsn" x="8" y="224" width="1024" height="36" rx="10"/>
+            <text class="fd t-rsn" x="520" y="248" text-anchor="middle" font-size="20">VLT</text>
+          </g>
+        </svg>
+      </div>
+      <div class="sequence-controls" hidden>
+        <div class="sequence-steps" role="group" aria-label="Track understanding categories">
+          <button type="button" data-seek="0" aria-controls="vlt-tasks">Scene grounding</button>
+          <button type="button" data-seek="3" aria-controls="vlt-tasks">Motion reading</button>
+          <button type="button" data-seek="6" aria-controls="vlt-tasks">Edit verification</button>
+        </div>
+        <div class="sequence-playback"><button type="button" data-pause aria-controls="vlt-tasks">Pause</button><button type="button" data-replay aria-controls="vlt-tasks">Replay</button><button type="button" data-all aria-controls="vlt-tasks">Show all</button></div>
+      </div>
+      <p class="sequence-caption" data-summary="These tasks teach one shared VLT to relate track geometry to the source scene and the requested change.">These tasks teach one shared VLT to relate track geometry to the source scene and the requested change.</p>
+      <script type="application/json" class="sequence-copy">["Scene grounding \u00b7 Input: read the source scene and the coordinates of points 3 and 7.", "Scene grounding \u00b7 VLT: connect point 3 to the object in the source scene.", "Scene grounding \u00b7 Output: point 3 is on the horse.", "Motion reading \u00b7 Input: compare the first frame with tracks A and B.", "Motion reading \u00b7 VLT: infer the action described by each track.", "Motion reading \u00b7 Output: track A shows a jump; track B shows rearing up.", "Edit verification \u00b7 Input: compare the source track, target tracks, and two editing instructions.", "Edit verification \u00b7 VLT: check each target track against each instruction.", "Edit verification \u00b7 Output: A matches instruction 1; B matches instruction 2."]</script>
+    </div>
+    <h3 class="mhead"><span class="mnum">2</span>Coupling VLT to the Generator</h3>
+    <figure class="mbox method-sequence coupling-sequence" id="hidden-state-transfer" data-sequence data-durations="2052,1923,2179,3077">
+      <div class="scroll" tabindex="0" role="group" aria-label="Coupling diagram; scroll sideways on small screens"><svg class="fsvg coupling-svg" viewBox="0 8 1450 270" role="img" aria-label="Coupling frozen VLT to the generator. Select the target-track and instruction spans of prompt hidden states at each reasoner layer. These states incorporate preceding source-video and source-track context through causal attention and are transferred as individual tokens without pooling. Hard layer routing selects one VLT layer or skips. Target-track and instruction states pass through separate value projections and a shared key projection. Their keys and values join video keys and values in joint attention.">
+<defs><marker id="coupling-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="c-arrow" d="M0 0L10 5L0 10Z"/></marker></defs>
+<!-- Prompt spans follow Fig. 2(a) and sec:vltgen_setup: retain target tracks and instruction, without pooling. -->
+<g data-step="0">
+  <text class="c-heading" x="168" y="29" text-anchor="middle">Frozen VLT</text>
+  <text class="c-muted" x="168" y="56" text-anchor="middle">Prompt hidden states</text>
+  <rect class="c-span-grid" x="28" y="73" width="284" height="130" rx="6"/>
+  <text class="c-span-layer" x="16" y="95" text-anchor="middle">l<tspan baseline-shift="sub" font-size="10">N</tspan></text><rect class="c-span-context" x="32" y="77" width="13" height="26" rx="2"/><rect class="c-span-context" x="48" y="77" width="13" height="26" rx="2"/><rect class="c-span-context" x="64" y="77" width="13" height="26" rx="2"/><rect class="c-span-context" x="80" y="77" width="13" height="26" rx="2"/><rect class="c-span-context" x="102" y="77" width="13" height="26" rx="2"/><rect class="c-span-context" x="118" y="77" width="13" height="26" rx="2"/><rect class="c-span-context" x="134" y="77" width="13" height="26" rx="2"/><rect class="c-span-context" x="150" y="77" width="13" height="26" rx="2"/><rect class="c-track" x="172" y="77" width="13" height="26" rx="2"/><rect class="c-track" x="188" y="77" width="13" height="26" rx="2"/><rect class="c-track" x="204" y="77" width="13" height="26" rx="2"/><rect class="c-track" x="220" y="77" width="13" height="26" rx="2"/><rect class="c-track" x="236" y="77" width="13" height="26" rx="2"/><rect class="c-instruction" x="260" y="77" width="13" height="26" rx="2"/><rect class="c-instruction" x="276" y="77" width="13" height="26" rx="2"/><rect class="c-instruction" x="292" y="77" width="13" height="26" rx="2"/>
+  <text class="c-span-layer" x="16" y="142" text-anchor="middle">l<tspan baseline-shift="sub" font-size="10">k</tspan></text><rect class="c-span-context" x="32" y="124" width="13" height="26" rx="2"/><rect class="c-span-context" x="48" y="124" width="13" height="26" rx="2"/><rect class="c-span-context" x="64" y="124" width="13" height="26" rx="2"/><rect class="c-span-context" x="80" y="124" width="13" height="26" rx="2"/><rect class="c-span-context" x="102" y="124" width="13" height="26" rx="2"/><rect class="c-span-context" x="118" y="124" width="13" height="26" rx="2"/><rect class="c-span-context" x="134" y="124" width="13" height="26" rx="2"/><rect class="c-span-context" x="150" y="124" width="13" height="26" rx="2"/><rect class="c-track" x="172" y="124" width="13" height="26" rx="2"/><rect class="c-track" x="188" y="124" width="13" height="26" rx="2"/><rect class="c-track" x="204" y="124" width="13" height="26" rx="2"/><rect class="c-track" x="220" y="124" width="13" height="26" rx="2"/><rect class="c-track" x="236" y="124" width="13" height="26" rx="2"/><rect class="c-instruction" x="260" y="124" width="13" height="26" rx="2"/><rect class="c-instruction" x="276" y="124" width="13" height="26" rx="2"/><rect class="c-instruction" x="292" y="124" width="13" height="26" rx="2"/>
+  <text class="c-span-layer" x="16" y="189" text-anchor="middle">l<tspan baseline-shift="sub" font-size="10">1</tspan></text><rect class="c-span-context" x="32" y="171" width="13" height="26" rx="2"/><rect class="c-span-context" x="48" y="171" width="13" height="26" rx="2"/><rect class="c-span-context" x="64" y="171" width="13" height="26" rx="2"/><rect class="c-span-context" x="80" y="171" width="13" height="26" rx="2"/><rect class="c-span-context" x="102" y="171" width="13" height="26" rx="2"/><rect class="c-span-context" x="118" y="171" width="13" height="26" rx="2"/><rect class="c-span-context" x="134" y="171" width="13" height="26" rx="2"/><rect class="c-span-context" x="150" y="171" width="13" height="26" rx="2"/><rect class="c-track" x="172" y="171" width="13" height="26" rx="2"/><rect class="c-track" x="188" y="171" width="13" height="26" rx="2"/><rect class="c-track" x="204" y="171" width="13" height="26" rx="2"/><rect class="c-track" x="220" y="171" width="13" height="26" rx="2"/><rect class="c-track" x="236" y="171" width="13" height="26" rx="2"/><rect class="c-instruction" x="260" y="171" width="13" height="26" rx="2"/><rect class="c-instruction" x="276" y="171" width="13" height="26" rx="2"/><rect class="c-instruction" x="292" y="171" width="13" height="26" rx="2"/>
+  <rect class="c-span-selected" x="168" y="73" width="144" height="130" rx="5"/>
+  <text class="c-span-label" x="43" y="230" text-anchor="middle"><tspan x="43">source</tspan><tspan x="43" dy="24">video</tspan></text>
+  <text class="c-span-label" x="119" y="230" text-anchor="middle"><tspan x="119">source</tspan><tspan x="119" dy="24">track</tspan></text>
+  <text class="c-span-label" x="189" y="230" text-anchor="middle"><tspan x="189">target</tspan><tspan x="189" dy="24">track</tspan></text>
+  <text class="c-span-label" x="279" y="230" text-anchor="middle">instruction</text>
+  <path class="c-wire seq-flow" d="M314 137H366" marker-end="url(#coupling-arrow)"/>
+</g>
+<g transform="translate(350 0)">
+
+<g data-step="1">
+<rect class="c-routing" x="20" y="49" width="164" height="220" rx="10"/><text class="c-muted" x="130" y="72" text-anchor="middle">logits</text><rect class="c-layer" x="33" y="77" width="39" height="26" rx="4"/><text class="c-math" x="52" y="95" text-anchor="middle">l<tspan baseline-shift="sub" font-size="11">N</tspan></text><rect class="c-logit" x="86" y="84" width="22" height="12" rx="2"/><rect class="c-layer-selected" x="33" y="124" width="39" height="26" rx="4"/><text class="c-math" x="52" y="142" text-anchor="middle">l<tspan baseline-shift="sub" font-size="11">k</tspan></text><rect class="c-logit-selected" x="86" y="131" width="69" height="12" rx="2"/><rect class="c-layer" x="33" y="171" width="39" height="26" rx="4"/><text class="c-math" x="52" y="189" text-anchor="middle">l<tspan baseline-shift="sub" font-size="11">1</tspan></text><rect class="c-logit" x="86" y="178" width="32" height="12" rx="2"/><text class="c-route-note" x="152" y="126" text-anchor="middle">argmax</text><rect class="c-layer" x="33" y="219" width="39" height="26" rx="4"/><text class="c-label" x="52" y="237" text-anchor="middle">∅</text><rect class="c-logit" x="86" y="226" width="14" height="12" rx="2"/><text class="c-muted" x="129" y="237" text-anchor="middle">skip</text><text class="c-heading" x="102" y="29" text-anchor="middle">Hard layer routing</text><path class="c-wire" d="M184 137H201V95H215" marker-end="url(#coupling-arrow)"/><path class="c-wire" d="M201 137V248H215" marker-end="url(#coupling-arrow)"/><text class="c-track-label" x="290" y="70" text-anchor="middle">Target-track states</text><rect class="c-token c-track" x="220" y="84" width="14" height="21" rx="3"/><rect class="c-token c-track" x="238" y="84" width="14" height="21" rx="3"/><rect class="c-token c-track" x="256" y="84" width="14" height="21" rx="3"/><rect class="c-token c-track" x="274" y="84" width="14" height="21" rx="3"/><rect class="c-token c-track" x="292" y="84" width="14" height="21" rx="3"/><rect class="c-token c-track" x="310" y="84" width="14" height="21" rx="3"/><rect class="c-token c-track" x="328" y="84" width="14" height="21" rx="3"/><rect class="c-token c-track" x="346" y="84" width="14" height="21" rx="3"/><text class="c-instruction-label" x="274" y="223" text-anchor="middle">Instruction states</text><rect class="c-token c-instruction" x="220" y="237" width="14" height="21" rx="3"/><rect class="c-token c-instruction" x="238" y="237" width="14" height="21" rx="3"/><rect class="c-token c-instruction" x="256" y="237" width="14" height="21" rx="3"/><rect class="c-token c-instruction" x="274" y="237" width="14" height="21" rx="3"/><rect class="c-token c-instruction" x="292" y="237" width="14" height="21" rx="3"/><rect class="c-token c-instruction" x="310" y="237" width="14" height="21" rx="3"/>
+</g>
+<g data-step="2">
+<text class="c-heading" x="528" y="29" text-anchor="middle">Type-specific projection</text><path class="c-wire" d="M360 95H410" marker-end="url(#coupling-arrow)"/><path class="c-wire" d="M324 248H410" marker-end="url(#coupling-arrow)"/><path class="c-wire" d="M380 95V158H410" marker-end="url(#coupling-arrow)"/><path class="c-wire" d="M380 248V187H410" marker-end="url(#coupling-arrow)"/><circle class="c-junction" cx="380" cy="95" r="2.4"/><circle class="c-junction" cx="380" cy="248" r="2.4"/><rect class="c-track" x="414" y="74" width="110" height="42" rx="5"/><text class="c-math" x="469" y="100" text-anchor="middle">W<tspan baseline-shift="sub" font-size="11">v,trk</tspan></text><rect class="c-neutral" x="414" y="143" width="110" height="60" rx="5"/><text class="c-math" x="469" y="168" text-anchor="middle">W<tspan baseline-shift="sub" font-size="11">k</tspan></text><text class="c-muted" x="469" y="191" text-anchor="middle">shared</text><rect class="c-instruction" x="414" y="227" width="110" height="42" rx="5"/><text class="c-math" x="469" y="253" text-anchor="middle">W<tspan baseline-shift="sub" font-size="11">v,ins</tspan></text><path class="c-wire" d="M524 95H564" marker-end="url(#coupling-arrow)"/><path class="c-wire" d="M524 157H564" marker-end="url(#coupling-arrow)"/><path class="c-wire" d="M524 188H564" marker-end="url(#coupling-arrow)"/><path class="c-wire" d="M524 248H564" marker-end="url(#coupling-arrow)"/><rect class="c-track" x="568" y="78" width="72" height="34" rx="5"/><text class="c-math" x="604" y="100" text-anchor="middle">V<tspan baseline-shift="sub" font-size="11">trk</tspan></text><rect class="c-track" x="568" y="143" width="72" height="28" rx="5"/><text class="c-math" x="604" y="162" text-anchor="middle">K<tspan baseline-shift="sub" font-size="11">trk</tspan></text><rect class="c-instruction" x="568" y="175" width="72" height="28" rx="5"/><text class="c-math" x="604" y="194" text-anchor="middle">K<tspan baseline-shift="sub" font-size="11">ins</tspan></text><rect class="c-instruction" x="568" y="231" width="72" height="34" rx="5"/><text class="c-math" x="604" y="253" text-anchor="middle">V<tspan baseline-shift="sub" font-size="11">ins</tspan></text>
+</g>
+<g data-step="3">
+<text class="c-heading" x="921" y="29" text-anchor="middle">Generator block</text><rect class="c-generator" x="760" y="49" width="320" height="220" rx="10"/><path class="c-wire" d="M640 248H730V95"/><path class="c-wire" d="M640 95H772" marker-end="url(#coupling-arrow)"/><circle class="c-junction" cx="730" cy="95" r="2.4"/><path class="c-wire" d="M640 188H680V157"/><path class="c-wire-clear" d="M640 157H720Q730 145 740 157H786V126"/><path class="c-wire" d="M640 157H720Q730 145 740 157H786V126" marker-end="url(#coupling-arrow)"/><circle class="c-junction" cx="680" cy="157" r="2.4"/><rect class="c-attention" x="776" y="66" width="288" height="56" rx="6"/><text class="c-attention-label" x="920" y="100" text-anchor="middle">Joint attention</text><rect class="c-video" x="800" y="172" width="52" height="30" rx="5"/><text class="c-math" x="826" y="192" text-anchor="middle">K<tspan baseline-shift="sub" font-size="11">v</tspan></text><path class="c-wire" d="M826 171V126" marker-end="url(#coupling-arrow)"/><path class="c-wire" d="M826 219V206" marker-end="url(#coupling-arrow)"/><rect class="c-video" x="868" y="172" width="52" height="30" rx="5"/><text class="c-math" x="894" y="192" text-anchor="middle">V<tspan baseline-shift="sub" font-size="11">v</tspan></text><path class="c-wire" d="M894 171V126" marker-end="url(#coupling-arrow)"/><path class="c-wire" d="M894 219V206" marker-end="url(#coupling-arrow)"/><rect class="c-video" x="1000" y="172" width="52" height="30" rx="5"/><text class="c-math" x="1026" y="192" text-anchor="middle">Q<tspan baseline-shift="sub" font-size="11">v</tspan></text><path class="c-wire" d="M1026 171V126" marker-end="url(#coupling-arrow)"/><path class="c-wire" d="M1026 219V206" marker-end="url(#coupling-arrow)"/><rect class="c-token c-video" x="794" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="817" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="840" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="863" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="886" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="909" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="932" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="955" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="978" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="1001" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="1024" y="221" width="18" height="21" rx="3"/><rect class="c-token c-video" x="1047" y="221" width="18" height="21" rx="3"/><text class="c-label" x="920" y="262" text-anchor="middle">Video tokens</text>
+</g>
+</g>
+</svg></div>
+<figcaption class="coupling-controls"><div class="sequence-controls" hidden>
+  <div class="sequence-steps" role="group" aria-label="Animation stages"><button type="button" data-seek="0" aria-controls="hidden-state-transfer">Token spans</button><button type="button" data-seek="1" aria-controls="hidden-state-transfer">Layer routing</button><button type="button" data-seek="2" aria-controls="hidden-state-transfer">Projection</button><button type="button" data-seek="3" aria-controls="hidden-state-transfer">Joint attention</button></div>
+  <div class="sequence-playback"><button type="button" data-pause aria-controls="hidden-state-transfer">Pause</button><button type="button" data-replay aria-controls="hidden-state-transfer">Replay</button><button type="button" data-all aria-controls="hidden-state-transfer">Show all</button></div>
+</div></figcaption>
+    </figure>
+  </section>
+
+  <section id="comparison" class="wrap">
+    <div class="sh">
+      <span class="kicker">Comparison</span>
+      <h2>Against prior track-conditioned video-to-video methods</h2>
+      <p>Three pairs per benchmark category, with the ground-truth target video.</p>
+    </div>
+    <div class="gal" id="g-sota"></div>
+    <div class="note specs">
+      <p>† Our reproduction (no public code).</p>
+      <table>
+        <thead><tr><th>Method</th><th>Output resolution</th><th>Frames</th></tr></thead>
+        <tbody>
+          <tr><td>Ours · MotionV2V†</td><td>832 × 480</td><td>81</td></tr>
+          <tr><td>Go-with-the-Track</td><td>832 × 480</td><td>49</td></tr>
+          <tr><td>TrajAttn</td><td>1024 × 576</td><td>25</td></tr>
+          <tr><td>ReVideo</td><td>1344 × 768</td><td>14</td></tr>
+        </tbody>
+      </table>
+      <p>Each method's video is its own output, at the resolution and frame count above. To keep them in sync, methods with fewer frames play at a lower frame rate (16 fps × frames / 81), so every clip covers the same 5 s.</p>
+    </div>
+  </section>
+
+  <section id="applications" class="wrap">
+    <div class="sh">
+      <h2>Applications</h2>
+      <p>The same model; only the target tracks change.</p>
+    </div>
+    <div class="gal" id="g-apps"></div>
+  </section>
+
+  <section id="benchmark" class="wrap">
+    <div class="sh">
+      <span class="kicker">Benchmark</span>
+      <h2>Benchmark for Track-Conditioned Video Motion Editing</h2>
+      <p>The benchmark is split by motion type into four categories, each with 100 real source–target video pairs: joint object–camera (Koala-36M), object only (RH20T), camera only in a dynamic scene (Harmony4D) and camera only in a static scene (DL3DV-10K).</p>
+      <p>Source–target point correspondences come from tracking across clips or calibrated cross-view matching. Two example pairs are shown for each category.</p>
+    </div>
+    <div class="gal" id="g-bench"></div>
+  </section>
+</main>
+
+
+<script>
+(() => {
+  const figure = document.getElementById('method-overview');
+  const controls = document.querySelector('.moverview-controls');
+  const pause = document.getElementById('method-pause');
+  const replay = document.getElementById('method-replay');
+  const output = figure.querySelector('video.outv');
+  const generator = figure.querySelector('.gen');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let visible = false, paused = false, frame = null;
+  let outputActive = false, outputShouldPlay = false, playPending = false;
+  function syncOutput() {
+    // Read the CSS clock so pause, replay and every loop share the same timing.
+    const animation = generator.getAnimations().find(a => a.animationName === 'generator-ready');
+    const progress = animation ? animation.effect.getComputedTiming().progress : null;
+    const active = !reduced.matches && progress !== null && progress >= .68 && progress < .97;
+    if (active !== outputActive) {
+      output.pause();
+      output.currentTime = 0;
+      outputActive = active;
+    }
+    outputShouldPlay = active && figure.classList.contains('is-playing');
+    if (!outputShouldPlay) {
+      output.pause();
+    } else if (output.paused && !playPending) {
+      playPending = true;
+      output.play().then(() => {
+        if (!outputShouldPlay) output.pause();
+      }).catch(() => {}).finally(() => { playPending = false; });
+    }
+  }
+  function tick() {
+    syncOutput();
+    frame = figure.classList.contains('is-playing') ? requestAnimationFrame(tick) : null;
+  }
+  function update() {
+    if (frame !== null) cancelAnimationFrame(frame);
+    frame = null;
+    controls.hidden = reduced.matches;
+    const running = visible && !paused && !document.hidden && !reduced.matches;
+    figure.classList.toggle('is-playing', running);
+    pause.textContent = paused ? 'Play animation' : 'Pause animation';
+    syncOutput();
+    if (running) frame = requestAnimationFrame(tick);
+  }
+  pause.addEventListener('click', () => { paused = !paused; update(); });
+  replay.addEventListener('click', () => {
+    figure.getAnimations({subtree:true}).forEach(animation => { animation.currentTime = 0; });
+    output.pause();
+    output.currentTime = 0;
+    outputActive = false;
+    paused = false;
+    update();
+  });
+  new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    update();
+  }, {threshold:.25}).observe(figure);
+  document.addEventListener('visibilitychange', update);
+  reduced.addEventListener('change', update);
+  update();
+})();
+</script>
+
+<script>
+(() => {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll('[data-sequence]').forEach(root => {
+    const durations = root.dataset.durations.split(',').map(Number);
+    const steps = [...root.querySelectorAll('[data-step]')];
+    const buttons = [...root.querySelectorAll('[data-seek]')];
+    const categorySize = Number(root.dataset.categorySize) || 1;
+    const categories = [...root.querySelectorAll('[data-category]')];
+    const copySource = root.querySelector('.sequence-copy');
+    const copies = copySource ? JSON.parse(copySource.textContent) : null;
+    const controls = root.querySelector('.sequence-controls');
+    const caption = root.querySelector('.sequence-caption');
+    const pause = root.querySelector('[data-pause]');
+    let stage = 0, paused = false, showAll = false, visible = false, timer = null, started = null, remaining = durations[0];
+    function stop() {
+      if (timer !== null) clearTimeout(timer);
+      if (started !== null) remaining = Math.max(0, remaining - (performance.now() - started));
+      timer = started = null;
+    }
+    function render() {
+      root.dataset.stage = stage;
+      const allVisible = showAll || reduced.matches;
+      const category = Math.floor(stage / categorySize);
+      categories.forEach(el => { el.dataset.categoryState = allVisible || +el.dataset.category === category ? 'active' : +el.dataset.category > category ? 'future' : 'past'; });
+      steps.forEach(el => { el.dataset.state = +el.dataset.step > stage ? 'future' : +el.dataset.step === stage ? 'active' : 'past'; });
+      buttons.forEach(button => {
+        if (!allVisible && stage >= +button.dataset.seek && stage < +button.dataset.seek + categorySize) button.setAttribute('aria-current', 'step');
+        else button.removeAttribute('aria-current');
+      });
+      if (caption && copies) caption.textContent = allVisible ? (caption.dataset.summary || copies[copies.length - 1]) : copies[stage];
+      pause.textContent = paused ? 'Play' : 'Pause';
+    }
+    function sync() {
+      stop();
+      const enabled = !reduced.matches;
+      root.classList.toggle('seq-ready', enabled);
+      controls.hidden = !enabled;
+      const running = enabled && visible && !paused && !document.hidden;
+      root.classList.toggle('seq-running', running);
+      if (running) {
+        started = performance.now();
+        timer = setTimeout(() => {
+          timer = started = null;
+          stage = (stage + 1) % durations.length;
+          remaining = durations[stage];
+          render(); sync();
+        }, remaining);
+      }
+    }
+    function seek(next, hold, all = false) {
+      showAll = all;
+      stop(); stage = next; remaining = durations[stage]; paused = hold;
+      render(); sync();
+    }
+    buttons.forEach(button => button.addEventListener('click', () => seek(+button.dataset.seek, true)));
+    pause.addEventListener('click', () => { showAll = false; paused = !paused; render(); sync(); });
+    root.querySelector('[data-replay]').addEventListener('click', () => seek(0, false));
+    root.querySelector('[data-all]').addEventListener('click', () => seek(durations.length - 1, true, true));
+    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, {threshold:.15}).observe(root);
+    document.addEventListener('visibilitychange', sync);
+    reduced.addEventListener('change', () => { render(); sync(); });
+    render(); sync();
+  });
+})();
+</script>
+
+<script id="page-data" type="application/json">{"qual":[{"clip":"Pexels_other_sports_3","name":"other sports 3","targets":[{"aug":"aug_00","instr":"Change the gecko crawling down off the chessboard toward the camera, with the camera nearly still, to the gecko turning to face right and stretching out sideways along the board's edge, with the camera panning right and tilting down.","caption":"A small gecko with a brown and tan patterned body and large dark eyes crawls across a wooden chessboard. The gecko starts near the edge of the board, moving forward with deliberate steps, its legs pushing against the surface while its tail trails behind. It navigates between scattered chess pieces, carefully stepping over pawns and knights, occasionally pausing to sniff or adjust its path. Its head lifts slightly as it explores, making contact with a white pawn before continuing onward. The camera follows the gecko’s movement with a smooth tracking shot, maintaining focus on the creature as it progresses. The background features a softly lit wooden table with blurred chess pieces, creating a warm, intimate atmosphere."},{"aug":"aug_01","instr":"Change the gecko crawling down off the chessboard toward the camera, with the camera nearly still, to the gecko staying at the board's edge and only shuffling slightly to the left, with the camera staying nearly still.","caption":"A small gecko with a brown and tan patterned body and large dark eyes crawls across a wooden chessboard. The gecko starts near the edge of the board, moving forward with deliberate steps, its legs pushing against the surface as it navigates around scattered chess pieces. It passes by a toppled white pawn and a standing knight, its tail swaying slightly as it progresses toward the center of the board. Its head turns occasionally, scanning the surroundings as it carefully avoids stepping on the pieces. The camera follows the gecko’s movement with a smooth tracking shot, maintaining focus on the creature while the background remains softly blurred. The scene is illuminated by warm, natural light, highlighting the rich textures of the wood and the glossy finish of the chess pieces."},{"aug":"aug_02","instr":"Change the gecko crawling down off the chessboard toward the camera, with the camera nearly still, to the gecko first climbing down off the board and then walking far to the left across the table, with the camera panning left and tilting down.","caption":"A small brown gecko with dark stripes and large eyes crawls across a wooden chessboard. The gecko moves forward with deliberate steps, its legs pushing against the surface as its tail trails behind. It navigates around scattered chess pieces, including a toppled pawn and a standing knight, carefully stepping over the edges of the board. Its head turns slightly as it progresses, exploring the terrain. The camera follows the gecko’s movement with a smooth tracking shot, maintaining focus on the creature while the background remains softly blurred. Warm lighting highlights the texture of the wood and the gecko’s skin, creating a natural and intimate atmosphere."}]},{"clip":"Pexels_interview_7","name":"interview 7","targets":[{"aug":"aug_00","instr":"Change the gray-vested man at the stage's left turning toward the camera with the headphones, with the camera nearly still, to him walking right to the center of the stage and lowering the headphones to his waist, with the camera panning slightly right.","caption":"A man with a long white beard and glasses stands on a stage, wearing a black shirt and gray vest, holding a pair of white over-ear headphones. He gestures with his hands while speaking, moving the headphones from his right hand to his left, then back again, occasionally raising them slightly as if demonstrating their features. His movements are deliberate and expressive, emphasizing points as he speaks, with his arms extending outward and then returning toward his body. The headphones remain in his grasp throughout, occasionally tilting as he shifts his grip. Behind him, a large projection screen displays an enlarged image of the same headphones, matching the ones he holds. The background is a plain light-colored wall, and the lighting is soft and evenly distributed across the scene. The camera remains stationary, capturing the man from the waist up in a medium shot."},{"aug":"aug_01","instr":"Change the gray-vested man at the stage's left turning toward the camera with the headphones, with the camera nearly still, to him stepping slightly right while lifting the headphones to his face and swinging them left and back right, with the camera staying still.","caption":"A man with white hair and a long beard, wearing glasses, a black shirt, and a gray vest, stands on a stage holding a pair of white over-ear headphones. He lifts the headphones up with both hands, bringing them close to his face as if demonstrating their size and design. He then turns slightly to the side, rotating the headphones to show different angles while maintaining eye contact with the audience. His movements are deliberate and slow, emphasizing the product’s features. The background is a large projection screen displaying a magnified image of the same headphones, creating a visual echo. The lighting is soft and focused on the speaker, casting a gentle shadow behind him. The camera remains steady, capturing the scene from a medium distance."},{"aug":"aug_02","instr":"Change the gray-vested man at the stage's left turning toward the camera with the headphones, with the camera nearly still, to him repeatedly raising and lowering both hands and the headphones while the projected headphone image bobs up and down, with the camera staying still.","caption":"A man with a white beard and glasses stands on stage, wearing a black shirt and gray vest, holding a pair of white over-ear headphones. He lifts the headphones up toward his head, positioning them above his ears while gesturing with his free hand, then lowers them slightly as he continues to speak. His movements are deliberate and expressive, emphasizing the product’s design and fit. The headphones remain in his hands throughout, occasionally rotating to display different angles. Behind him, a large projection screen displays a magnified image of the same headphones, reinforcing the product's features. The background is a plain light gray wall, and the lighting is bright and even, focusing attention on the speaker and the product. The camera remains stationary, capturing the scene from a medium distance."}]},{"clip":"Pexels_tennis_0","name":"tennis 0","targets":[{"aug":"aug_00","instr":"Change the girl leaning still on the tennis net, with the camera slowly panning left, to the girl tilting her head toward her racket and back, then leaning slightly to the left, with the camera staying still.","caption":"A young girl with curly hair tied in a bun stands on a tennis court, wearing a light green tank top and holding a purple tennis racket. She leans forward over the net, her hands gripping the racket handle, and looks directly at the camera with a bright smile. Her head tilts slightly to the side as she maintains eye contact, then slowly turns her gaze downward toward the racket before returning her eyes to the camera. The movement is gentle and deliberate, emphasizing her playful confidence. The background features a sunlit outdoor tennis court with blurred trees and fencing, creating a warm, natural atmosphere. The camera remains steady, focusing on her upper body and face, capturing the moment with clarity and warmth."},{"aug":"aug_01","instr":"Change the girl leaning still on the tennis net holding up her racket, with the camera slowly panning left, to the girl first lifting the racket upright and then swinging it down to the right below the net, with the camera panning slightly left.","caption":"A young girl with curly hair tied back stands on a tennis court, wearing a light green tank top and holding a purple tennis racket. She leans forward slightly, resting her arms on the net, and looks directly at the camera with a confident smile. Her right hand grips the racket handle while her left hand supports the frame near the throat, keeping the racket upright. She shifts her weight subtly from side to side, maintaining eye contact and occasionally tilting her head slightly. The racket remains mostly stationary, with minor adjustments in angle as she moves. The background features a blurred outdoor tennis court with trees and fencing under bright sunlight, creating a warm, natural glow. The camera remains steady, focusing on her upper body and face."},{"aug":"aug_02","instr":"Change the girl leaning still on the tennis net, with the camera slowly panning left, to the girl straightening up, raising the racket high above her head, and then swinging it down to the right, with the camera panning slightly left.","caption":"A young girl with curly hair tied back stands on a tennis court, wearing a light green tank top and holding a purple tennis racket. She begins by leaning slightly forward, gripping the racket with both hands, then smoothly swings it upward in a powerful arc, her arms extending fully as she follows through with a confident motion. Her body rotates slightly with the swing, showcasing her focus and athleticism. The racket moves from a low position near her waist to a high point above her head, demonstrating a fluid and controlled action. The background features a sunny outdoor tennis court with a net in the foreground and trees and fencing visible behind her, all bathed in bright natural light. The camera remains steady, capturing the scene from a medium shot that emphasizes her movement and expression."}]},{"clip":"Pexels_car_5","name":"car 5","targets":[{"aug":"aug_00","instr":"Change the red sports car growing to fill the frame as the camera pushes in toward it to the red sports car rolling to the left across the frame at the same size, with the camera staying still.","caption":"A red Chevrolet Corvette C6 drives forward on a paved road, its sleek body gleaming under natural daylight. The car moves steadily toward the camera, maintaining a straight trajectory as it approaches. Its black wheels rotate smoothly, and the front grille and headlights remain clearly visible throughout the motion. The vehicle's low profile and aerodynamic design emphasize its power and speed. As it advances, the Corvette fills more of the frame, showcasing its aggressive stance and polished finish. In the background, a black Jeep is parked on the side, partially visible behind the Corvette. The scene takes place outdoors during the day, with soft shadows indicating bright sunlight. The camera remains stationary, capturing the car’s approach head-on."},{"aug":"aug_01","instr":"Change the red sports car growing to fill the frame as the camera pushes in toward it to the red sports car turning to face the camera head-on as it rolls to the left, with the camera staying still.","caption":"A vibrant red Chevrolet Corvette C6 with black wheels and a sleek aerodynamic design drives forward on a paved road. The car moves steadily toward the camera, maintaining a straight trajectory as it approaches, its front end becoming more prominent in the frame. The headlights remain illuminated, casting a soft glow, while the hood's sculpted lines and the iconic Corvette emblem are clearly visible. The vehicle’s motion is smooth and consistent, with no abrupt changes in speed or direction. The camera tracks the car’s approach, keeping it centered as it draws closer. In the background, a weathered metal fence and greenery line the roadside under overcast lighting, creating a muted contrast to the car’s bright color."},{"aug":"aug_02","instr":"Change the camera moving in close around the front of the parked red Corvette to the red Corvette driving forward and away to the right into the distance, with the camera pulling back to reveal the industrial background.","caption":"A bright red Chevrolet Corvette with black wheels and a sleek design drives along a paved road. The car moves forward steadily, its front end slightly angled toward the camera as it progresses from left to right across the frame. Its headlights remain on, illuminating the path ahead, while the engine hums audibly. The vehicle maintains a consistent speed, smoothly navigating the slight curve in the road without any abrupt turns or stops. The camera follows the car’s movement, panning horizontally to keep it centered in the shot. In the background, industrial structures and greenery line the roadside under overcast skies, casting soft, diffused light across the scene."}]},{"clip":"Pexels_others_0","name":"others 0","targets":[{"aug":"aug_00","instr":"Change the man in the gray plaid jacket sliding his hand along the railing and turning toward the glass counter as the camera pulls back, to him keeping his hand on the railing, shifting his forearm down and back with small finger movements, while the camera stays still.","caption":"A man's hand rests on a sleek, metallic railing, his fingers gently gripping the surface. He wears a light gray plaid suit jacket with a white dress shirt underneath, the cuff visible at his wrist. The hand begins in a relaxed position, fingers slightly curled around the railing, then slowly shifts forward along the smooth surface, moving from left to right across the frame. The motion is deliberate and steady, with the thumb pressing lightly against the metal as the fingers follow in a continuous glide. The hand maintains contact with the railing throughout, emphasizing a sense of calm control. The background remains softly blurred, suggesting an indoor setting with warm ambient lighting, while the camera holds a close-up, static shot focused on the hand’s movement."},{"aug":"aug_01","instr":"Change the man in the gray plaid jacket sliding his hand along the railing and turning toward the glass counter as the camera pulls back, to him first raising his hand up off the railing and then lowering it back onto it, while the camera stays still.","caption":"A person wearing a gray plaid suit interacts with a sleek glass display case. The individual's right hand, with neatly trimmed nails, extends forward and gently touches the surface of the transparent case, moving horizontally across it in a smooth, deliberate motion. The fingers glide over the glass, exploring its texture and surface, while the arm remains steady and controlled. The hand maintains consistent contact with the case throughout the movement, emphasizing a careful and intentional interaction. The background features a softly lit indoor space with blurred elements suggesting a modern retail or exhibition setting. The camera remains stationary, focusing on the hand and the display case with a shallow depth of field."},{"aug":"aug_02","instr":"Change the man in the gray plaid jacket sliding his hand along the railing and turning toward the glass counter as the camera pulls back, to him keeping his hand on the railing and repeatedly lifting and tapping his fingers on it, while the camera stays still.","caption":"A person's hand, clad in a gray plaid jacket sleeve, rests on a sleek, reflective metallic surface. The hand begins by gently touching the surface, fingers slightly curled, then slowly slides forward along the smooth, polished edge. The movement is deliberate and fluid, with the index finger leading the motion while the other fingers follow in unison. As the hand glides, subtle reflections ripple across the surface, emphasizing the texture and sheen of the material. The wrist remains steady, guiding the hand in a straight path toward the right side of the frame. The background is softly blurred, featuring indistinct shapes and warm ambient lighting, creating a shallow depth of field that keeps focus on the hand’s motion. The camera remains stationary, capturing the action in a close-up shot."}]},{"clip":"Pexels_architecture_8","name":"architecture 8","targets":[{"aug":"aug_00","instr":"Change the camera flying slowly forward over the turquoise-roofed building complex to the camera tilting down, so the whole complex slides up in the frame and its front facade comes into view.","caption":"A large, U-shaped building with bright turquoise tiled roofs and gray concrete walls stands prominently, featuring multiple floors and an open courtyard filled with greenery and pathways. The camera begins at a high angle above the structure, slowly moving forward and slightly downward, revealing more of the building’s layout and the surrounding area. As the camera advances, it maintains a steady pace, gliding smoothly over the roofline and offering a clear view of the architectural details, including the symmetrical design and the central courtyard with trees and walkways. The movement continues until the camera reaches a closer vantage point, emphasizing the contrast between the vibrant roof tiles and the weathered concrete. The background includes a parking lot and dense trees, with natural daylight illuminating the scene."},{"aug":"aug_01","instr":"Change the camera flying slowly forward over the turquoise-roofed building complex to the camera pushing forward faster toward the complex, so the buildings spread outward and grow larger in the frame.","caption":"A large building complex with bright turquoise tiled roofs and a central courtyard surrounded by greenery appears in an aerial view. The camera slowly ascends and rotates around the structure, revealing the U-shaped layout of the buildings and the open space within. As the camera moves upward, the perspective shifts to show more of the surrounding area, including adjacent parking lots and trees. The movement is smooth and steady, maintaining focus on the architectural design and the contrast between the vibrant roof tiles and the neutral tones of the walls. The scene is illuminated by soft daylight, enhancing the colors and details of the environment."},{"aug":"aug_02","instr":"Change the camera flying slowly forward over the turquoise-roofed building complex to the camera orbiting around the complex, so the whole building rotates counterclockwise in the frame and is seen from a different side.","caption":"A large U-shaped building with bright blue tiled roofs and gray walls stands prominently, featuring multiple floors and a central courtyard filled with greenery and pathways. The camera begins at a high altitude, slowly rotating around the structure while descending slightly, offering a sweeping view of the entire complex. It moves smoothly from one side of the building to the other, capturing the symmetry of the architecture and the layout of the courtyard below. As the camera circles, it reveals details such as windows, balconies, and small trees within the open space, emphasizing the contrast between the vibrant roof tiles and the natural surroundings. The movement highlights the building’s scale and design, maintaining a steady pace throughout. The scene is set during daylight under soft, overcast lighting, with lush green trees surrounding the area."}]},{"clip":"Pexels_agricultural_scenarios_2","name":"agricultural scenarios 2","targets":[{"aug":"aug_00","instr":"Change the white rooster holding its head almost still in close-up, with the camera nearly still, to the rooster first turning its head away to the left and then back to face right, ending further right in the frame, with the camera shifting only slightly.","caption":"A white chicken with a bright red comb and wattles stands in a dimly lit barn. The chicken turns its head sharply to the left, then back to the right, scanning its surroundings with quick, alert movements. Its beak opens slightly as if clucking softly, and its eyes remain wide and focused. The bird shifts its weight from one foot to the other, maintaining balance while continuing to look around. Its feathers ruffle slightly with each movement, and its tail remains upright throughout. The camera remains steady, capturing the chicken’s subtle motions in close-up, emphasizing its natural behavior. The background is blurred, showing indistinct shapes of wooden structures and metal feeders, with soft, diffused lighting filtering through the space."},{"aug":"aug_01","instr":"Change the white rooster holding its head almost still in close-up, with the camera nearly still, to the rooster lowering its head toward the ground while the camera tilts down to the floor, where the rooster is seen pecking.","caption":"A white chicken with a bright red comb and wattles stands in a dimly lit barn. The chicken lowers its head and begins pecking at the ground, its yellow legs and feet moving rhythmically as it steps forward. Its beak repeatedly dips down to scratch and eat food scattered on the dirt floor, while its body sways slightly with each movement. The chicken occasionally lifts its head, scanning the surroundings before resuming its feeding. Other chickens appear briefly in the background, moving around but staying out of focus. The camera remains steady, capturing the scene from a low angle that emphasizes the chicken’s actions and the texture of the ground beneath its feet. Soft natural light filters in from above, creating a warm, earthy atmosphere."},{"aug":"aug_02","instr":"Change the white rooster holding its head almost still in close-up, with the camera nearly still, to the rooster raising its head, moving it to the right and turning to face right, while the camera tilts up slightly.","caption":"A white rooster with a bright red comb and wattles stands in a dimly lit barn. The rooster turns its head slowly to the right, its eyes scanning the surroundings while its beak remains closed. Its feathers ruffle slightly as it shifts its weight from one foot to the other, maintaining a steady posture. The movement is smooth and deliberate, with the rooster’s neck extending slightly as it looks around. The camera remains stationary, focusing on the rooster's upper body and head, capturing the subtle details of its feathers and facial features. The background is blurred, showing indistinct shapes of wooden beams and farm equipment, with soft natural light filtering in from a window above."}]},{"clip":"Pexels_personal_portrait_2","name":"personal portrait 2","targets":[{"aug":"aug_00","instr":"Change the elderly woman turning her head to look aside, with the camera circling to her side down the bright corridor, to the woman shifting to the right of the frame and raising both arms above her head, while the camera stays still.","caption":"An elderly woman with silver hair tied in a ponytail wears a cream-colored ribbed turtleneck sweater. She stands in a bright, softly lit indoor space, her face turned slightly upward and to the side as she begins to move. Her arms extend outward from her sides, palms facing forward, then slowly rise upward in a graceful arc. Her hands open fully, fingers spreading as they reach toward the ceiling, maintaining a gentle, deliberate pace. The movement flows smoothly from her shoulders down through her arms and into her hands, creating a sense of calm expansion. The background remains out of focus, featuring large windows that allow natural light to flood the room, casting a soft glow on the scene. The camera holds steady, capturing the full motion in a medium shot."},{"aug":"aug_01","instr":"Change the elderly woman turning her head to the left, with the camera slowly pulling back, to the woman staying in place with only a small head bob and then turning away until her face is hidden, with the camera staying nearly still.","caption":"An elderly woman with long white hair tied in a ponytail wears a cream-colored ribbed turtleneck sweater. She stands near a large window, facing sideways, then slowly raises both arms above her head, stretching upward with a gentle smile. Her hands move together at the top of the stretch, fingers interlacing briefly before she lowers them back down in a smooth, controlled motion. The movement flows naturally, emphasizing relaxation and calm. The camera remains steady, capturing her from a side profile, while soft natural light floods the space, creating a bright, serene atmosphere. The background reveals a modern interior with glass walls and faint outdoor views, enhancing the peaceful mood."},{"aug":"aug_02","instr":"Change the elderly woman turning her head to the left, with the camera slowly pulling back, to the woman first dipping slightly left, then turning her head to the right and continuing to turn until her back faces the camera, with the camera staying still.","caption":"An elderly woman with long silver hair tied in a ponytail wears a cream-colored ribbed turtleneck sweater. She stands near a large window, initially facing forward with her head slightly tilted upward, gazing thoughtfully into the distance. Her expression shifts subtly as she slowly turns her head to the left, then begins to pivot her entire body in that direction, moving gracefully toward the window. Her movement is smooth and deliberate, with her arms remaining relaxed at her sides. As she turns, her back faces the camera, revealing the full length of her ponytail swaying gently with her motion. The camera remains stationary, capturing her from a medium shot, while soft natural light filters through the window, illuminating the bright, minimalist interior space."}]}],"sota":[{"ds":"koala_realsplit","id":"daXX-fR2yeI_106","K":8,"dir":"s/1","instr":"Change the man in the dark suit gesturing as he talks, with the camera panning left toward the red doors, to the man gesturing with his arms spread, with the camera panning right past the shelves to reveal the white wall and hallway.","caption":"A man in a dark suit, light blue shirt, and patterned tie stands in the center of a modern office space, speaking directly to the camera. He gestures with both hands, moving them outward and upward as he emphasizes points, his arms extending from his sides and returning to a central position near his chest. His movements are fluid and deliberate, maintaining eye contact with the viewer while occasionally shifting his weight slightly from one foot to the other. Behind him, two men sit at desks, focused on their work, while colorful artwork and red-framed glass doors add vibrancy to the setting. The room is brightly lit with overhead lights, and the camera moves naturally with the man as he moves, capturing the scene in a medium shot."},{"ds":"koala_realsplit","id":"KzwhsBjbCcQ_19","K":9,"dir":"s/0","instr":"Change the toy crane lowering the brick tower into the aquarium, with the camera moving forward and dipping toward the water, to the crane lifting the brick tower up out of the tank, with the camera pulling back and tilting up to reveal the shelves and the crane.","caption":"A red toy crane with a yellow extending arm sits on a green platform above a large aquarium. The crane lifts a white cylindrical object made of stacked blocks from a white shelf, moving it horizontally across the top of the tank. The arm extends forward, then retracts slightly while lowering the object toward the center of the frame. The crane rotates slowly, adjusting its angle to maintain balance as it maneuvers the load. The object remains suspended by a thin string attached to the crane’s hook, swaying gently during movement. The crane stops briefly, then continues its path, completing a smooth arc over the water surface before pausing again. The background features a blue wall decorated with white stars, a wooden floor, and colorful shelves filled with books and toys. The camera pans slightly to follow the crane's motion, maintaining focus on the action."},{"ds":"koala_realsplit","id":"sf1Tk6MwVqU_32","K":8,"dir":"s/2","instr":"Change the rider on the white dirt bike drifting right up the rocky trail, with the following camera rocking and tilting over the rocks, to the rider riding straight up the trail ahead, with the following camera moving forward steadily behind him.","caption":"A motorcyclist wearing a helmet and backpack rides a white dirt bike up a rocky incline. The rider maintains balance while navigating uneven terrain, leaning slightly forward and adjusting body position to control the bike's movement. The front wheel climbs over rocks and loose gravel, kicking up small debris as the rear wheel follows closely behind. The rider’s hands grip the handlebars firmly, steering carefully along the narrow trail. The camera follows from behind, capturing the motion from a low angle, emphasizing the steepness of the slope. The surrounding landscape consists of dry grass, scattered boulders, and distant hills under a clear blue sky. Bright sunlight casts sharp shadows across the rugged ground."},{"ds":"rh20t","id":"cfg3_task0010_user0011_scene0010_cam104422070011_s0140_t0221","K":12,"dir":"s/3","instr":"Change the robot arm reaching in from the upper right and lowering its gripper toward the desk, with the camera staying still, to the arm already extended over the desk, nudging its gripper slightly left near the black telephone, with the camera staying still.","caption":"A Universal Robots UR5 robot arm with a parallel gripper is positioned over a cluttered desk surface covered with a colorful patterned cloth. The arm extends downward toward a black telephone base unit, its wrist rotating slightly as the gripper opens and closes near the device. The arm moves slowly and deliberately, adjusting its angle and height while remaining within a moderate range of motion across the frame. The gripper hovers close to the telephone base, making minor positional adjustments without making contact. The surrounding area includes a pink box, a tissue box, and various cables scattered across the desk. The scene is illuminated by bright overhead lighting, captured from a fixed high-angle perspective looking down at the workspace. This is a third-person (exocentric) view from a static camera."},{"ds":"rh20t","id":"cfg3_task0031_user0010_scene0010_cam036422060909_s0361_t0280","K":18,"dir":"s/4","instr":"Change the robot arm moving its gripper right across the cardboard box and then lowering it into the box, with the camera staying still, to the arm sweeping left close in the foreground and then pulling back to hang its gripper above the box's edge, with the camera staying still.","caption":"A Universal Robots UR5 robotic arm with a parallel gripper moves over a blue surface covered with a patterned cloth, positioned above a cardboard box. The arm extends forward and downward, its wrist rotating slightly as the gripper opens and closes near the box’s edge. The arm shifts laterally across the frame, moving from the left side toward the right, while maintaining a consistent height above the box. The gripper remains open throughout the movement, hovering just above the box without making contact. The arm’s joints articulate smoothly, adjusting angles as it traverses the workspace. The scene is illuminated by bright overhead lighting, revealing a cluttered workshop environment with tools and equipment visible in the background. The camera remains fixed, capturing the motion from a high-angle perspective. This is a third-person (exocentric) view from a static camera."},{"ds":"rh20t","id":"cfg3_task0069_user0010_scene0010_cam104122062295_s0406_t0487","K":5,"dir":"s/5","instr":"Change the robot arm holding over the puzzle book and then lifting its gripper up and to the left, with the camera staying still, to the arm holding its gripper still above the book at the left throughout, with the camera staying still.","caption":"A Universal Robots UR5 robot arm with a parallel gripper is positioned over a marble surface, working near a colorful children's puzzle book and a light pink fabric with a yellow border. The robot arm remains mostly stationary throughout the clip, with only slight movements observed in the wrist and gripper area; the gripper opens and closes minimally without making contact with any objects. The arm’s base and upper segments stay fixed, while the end effector makes minor adjustments, possibly aligning for a next action. No other movement occurs in the frame. The scene is set in a well-lit indoor environment with various equipment and cables visible in the background, captured from a fixed overhead perspective. This is a third-person (exocentric) view from a static camera."},{"ds":"h4d_xview","id":"002_sword3_t0082_cam16-aria02","K":14,"dir":"s/6","instr":"Change the view from a static wide camera watching the man in black and the woman in white fence to the man's first-person view facing the woman, held roughly steady at first and then turning left and tilting down, while the fencers' actions remain unchanged.","caption":"The woman in a white t-shirt and black pants stands facing the man in a black long-sleeve shirt and black pants, holding a fencing foil in her right hand. She shifts her weight slightly, extending her arm forward as she prepares to engage. The man in the black long-sleeve shirt and black pants remains mostly out of frame, his presence indicated only by his hand gripping a foil that enters the foreground. As the camera pans left steadily and moves right, the woman advances slowly, her movements deliberate and focused. Her left leg steps forward, followed by her right, maintaining balance and control. She keeps her foil pointed toward her opponent, her eyes fixed on him. The man’s hand adjusts the position of his foil, responding to her advance. Their foils remain close but do not make contact. The background features a spacious indoor fencing hall with mirrored walls, bright overhead lighting, and several tripods set up along the sides. The viewpoint is first-person from a camera worn on the man's head, making him mostly invisible except for his hands and arms. This is a first-person (egocentric) view from a camera worn on the head of the man in a black long-sleeve shirt and black pants."},{"ds":"h4d_xview","id":"002_sword3_t0244_aria02-cam08","K":18,"dir":"s/7","instr":"Change the view from the first-person view of the man in black, turning right as he advances on the woman, to a static camera standing back behind the man that shows both fencers in full, while their actions remain unchanged.","caption":"The woman in a white t-shirt and black pants and the man in a black long-sleeve shirt and black pants stand facing each other on a black mat marked with red circles. They begin in a ready stance, then move forward with controlled steps, extending their arms as they engage in a fencing-like duel. The man lunges forward, his right arm thrusting the foil toward the woman, who parries with her left hand, stepping back to maintain distance. She responds with a quick advance, her foil sweeping across his blade, forcing him to retreat slightly. Their movements are fluid and precise, alternating between offensive lunges and defensive retreats, their bodies twisting and pivoting as they circle each other. The woman shifts her weight, launching a high attack, while the man ducks and counters with a low strike. They continue to exchange rapid motions, their foils clashing intermittently, maintaining a dynamic rhythm of attack and defense. The background features a spacious indoor training room with white walls, blue padded barriers, and multiple tripods holding cameras positioned around the perimeter. Bright overhead lights illuminate the space evenly, casting minimal shadows. The video is filmed from a static camera that does not move. This is a third-person (exocentric) view from a static camera."},{"ds":"h4d_xview","id":"007_ballroom2_t0406_cam05-cam10","K":4,"dir":"s/8","instr":"Change the view of the man in the plaid shirt and the woman in the red dress dancing, seen by a static camera across the hall, to a static camera about a quarter turn around the couple and slightly closer, facing the paneled wall, while their dancing remains unchanged.","caption":"The man in a plaid shirt and beige pants dances with the woman in a red and black dress. They stand close together, moving rhythmically across the wooden floor. The man leads, guiding the woman with his hand on her back as they step forward and turn in sync. Their feet glide smoothly, maintaining a steady pace as they pivot and sway. The woman follows his lead, her arms occasionally extending as they transition into new steps. They remain connected throughout, their bodies moving fluidly in harmony. The room features a large wooden floor, white paneled walls, and several tripods with cameras positioned along the sides. Bright overhead lights illuminate the space evenly. The video is filmed from a static camera that does not move. This is a third-person (exocentric) view from a static camera."},{"ds":"dl3dv","id":"11K_f3f6368b05cf84da_w2","K":4,"dir":"s/9","instr":"Change the camera moving forward and turning right along the aisle until the cream shampoo bottles fill the frame to the camera first pulling back from the shampoo shelf to a wide view of the aisle and then moving right along the shelves, while the store stays still.","caption":"A well-lit store aisle displays shelves stocked with an array of hair care products, including shampoos, conditioners, and styling gels in various colors like black, white, purple, and orange. The products are neatly arranged on white pegboard shelves with price tags visible beneath each item. The scene is static; no objects move, and only the camera moves. The camera begins by focusing on the left side of the aisle, then moves sharply to the right, revealing more of the product lineup. As it continues, the camera moves steadily backward, gradually showing a wider view of the shelves and the full length of the aisle. The movement creates a smooth transition across the display, highlighting different brands and product types. Bright overhead lighting evenly illuminates the entire scene."},{"ds":"dl3dv","id":"2K_61130c0ed39fa594_w2","K":7,"dir":"s/10","instr":"Change the camera moving forward and slightly right toward the columned stone pavilion to the camera moving backward and to the left, away from the pavilion, bringing the stone wall with stacked stone balls into view on the left, while the garden stays still.","caption":"A serene garden features classical stone structures, including a columned pavilion, a green arbor, and decorative urns, all set against a backdrop of lush greenery and a clear blue sky. The scene is static, with no movement among the objects, only the camera's motion. The camera moves backward sharply, revealing more of the garden’s layout, then pans left smoothly, shifting the perspective to include additional architectural elements and trees on the left side while gradually moving out of frame. The movement creates a sense of depth and spatial awareness, emphasizing the symmetry and design of the landscape. Bright daylight illuminates the scene, casting soft shadows and highlighting the textures of stone and foliage."},{"ds":"dl3dv","id":"7K_89514a9901c05db8_w2","K":20,"dir":"s/11","instr":"Change the camera moving forward and turning right past the building into the wet courtyard toward the stone wall to the camera first drifting back to the window and air conditioner and then tilting up to the balconies on the upper floors, while the building stays still.","caption":"A multi-story building with beige brick walls and a red brick section stands under an overcast sky, featuring a balcony with white railings, an air conditioning unit, and a window with laundry hanging outside. The scene is static, with no movement in the environment, only the camera moving. The camera tilts upward sharply and pans left, revealing more of the building's facade, including additional windows and structural details, while gradually shifting the perspective from the lower level to the upper floors. As the camera moves, the initial view of the ground area with various items and a drain grate transitions out of frame, bringing the upper sections of the building into focus. The lighting is soft and diffused, typical of an overcast day."}],"apps":[{"group":"stab","dir":"a/stab_pair06","label":"DeepStab · shaky → steady","note":"7 track points"},{"group":"stab","dir":"a/stab_pair10","label":"DeepStab · shaky → steady","note":"7 track points"},{"group":"drive","dir":"a/drive_2ddc4ec4_right","label":"Argoverse 2 · front → right side","note":"15 track points","sub":"side"},{"group":"drive","dir":"a/drive_44e49f1b_left","label":"Argoverse 2 · front → left side","note":"15 track points","sub":"side"},{"group":"drive","dir":"a/lane_5133fc11_start90_toright","label":"Argoverse 2 · change one lane to the right","note":"15 track points","sub":"lane"},{"group":"drive","dir":"a/lane_b2d9d8a5_start130_toleft","label":"Argoverse 2 · change one lane to the left","note":"15 track points","sub":"lane"},{"group":"reshoot","dir":"a/reshot_tos_010_dolly_in","label":"Tears of Steel · dolly in ×1.5","note":"14 track points"},{"group":"reshoot","dir":"a/reshot_tos_021_orbit_right","label":"Tears of Steel · orbit right ×3 (24°)","note":"9 track points"},{"group":"reshoot","dir":"a/reshot_tos_029_crane_up","label":"Tears of Steel · crane up ×3","note":"14 track points"}],"bench":[{"ds":"koala_realsplit","id":"6rkmEDyXyXg_63","K":10,"dir":"b/0","instr":"Change the BMX rider balancing in place on the ledge and then standing up to lift the front wheel, with the camera nearly still, to the rider hopping onto the ledge from a distance and riding along it toward the camera, growing larger in frame, with the low camera turning to follow him.","caption":"A BMX rider wearing a black helmet, white t-shirt, and green pants rides a blue BMX bike across a concrete skatepark. The rider approaches a metal rail, positions the bike sideways, and balances on the rear wheel while sliding along the rail with precision. The front wheel lifts slightly as the rider maintains control, shifting weight forward and backward to stay balanced. The handlebars remain steady as the rider’s arms adjust subtly to maintain stability. After completing the grind, the rider smoothly transitions back onto the ground, continuing forward with momentum. The scene takes place under bright sunlight in an outdoor skatepark surrounded by trees and a chain-link fence, with the camera tracking the rider’s movement from a low angle."},{"ds":"koala_realsplit","id":"F1ywufEEIQI_25","K":7,"dir":"b/1","instr":"Change the woman in the white hooded jacket facing the camera and glancing aside, with the camera nearly still on her face, to the woman looking down, with the camera starting on her jacket and then tilting up and pulling back to her face, revealing the sledders and yellow sled behind her.","caption":"A person wearing a white and gray winter jacket with a black hood stands on a snowy hillside, facing the camera. The individual turns slightly to the right, revealing more of their profile while maintaining a steady stance. Their head tilts downward briefly before returning to face forward, suggesting they are speaking or reacting to something off-camera. In the background, several people gather near a yellow sled, some standing and others crouching, preparing for sledding activities. The landscape stretches out below, covered in snow with winding roads visible in the distance under a partly cloudy sky. The camera remains mostly static, capturing the scene from a close-up perspective that gradually reveals the surrounding environment."},{"ds":"rh20t","id":"cfg5_task0003_user0014_scene0010_cam037522062165_s0217_t0136","K":13,"dir":"b/2","instr":"Change the robot arm, already hovering over the orange button, lowering slightly to press it to the robot arm swinging in from the left and reaching down to press the orange button, with the camera staying still in both.","caption":"A white Franka Emika Panda robot arm with a blue light on its base moves over a green marbled surface, approaching a row of three square buttons—orange with a red top, white with a green button, and white with a red button—arranged in a line. The robot’s gripper, equipped with blue-tipped fingers, extends downward toward the orange button, making contact and pressing it firmly. After the press, the gripper retracts slightly upward and then shifts horizontally to the right, moving away from the first button toward the next. The arm maintains a steady pace throughout the motion, with smooth transitions between movements. The background features a metallic workbench with cables, another robotic unit, and cardboard boxes under bright overhead lighting, viewed from a fixed high-angle perspective. This is a third-person (exocentric) view from a static camera."},{"ds":"rh20t","id":"cfg5_task0010_user0010_scene0010_cam104122063678_s0000_t0081","K":19,"dir":"b/3","instr":"Change the robot arm staying still above the desk to the robot arm reaching down and forward to lower its gripper next to the black telephone, with the camera staying still in both.","caption":"A white Franka Emika Panda robot arm with black cables extends over a dark marble-like surface, where a black landline telephone with a corded handset rests. The robot arm lowers its gripper toward the telephone, moving from above the device down toward the base. The arm’s joints articulate smoothly, adjusting its angle as the gripper approaches the phone. The wrist rotates slightly, aligning the gripper with the handset. The gripper opens and closes near the handset without making contact, then retracts upward. The arm shifts laterally across the frame, moving away from the phone. In the background, a keyboard, monitor, and red calculator sit on a metal workbench under bright overhead lighting. The camera remains fixed throughout, capturing the scene from a high-angle perspective. This is a third-person (exocentric) view from a static camera."},{"ds":"h4d_xview","id":"002_mma5_t0001_cam07-cam14","K":11,"dir":"b/4","instr":"Change the view from a static camera facing the logo wall close to the two sparring fighters to a static camera placed farther away and about a quarter turn around them, with the logo wall on the left, while the fighters' actions stay unchanged.","caption":"The man in a black and yellow uniform and the man in a grey t-shirt and black shorts stand facing each other in a martial arts training facility. They wear protective gear including shin guards and gloves. The man in the black and yellow uniform steps forward with his right foot, throwing a quick jab toward the man in the grey t-shirt, who blocks with his left arm and retreats slightly. The man in the grey t-shirt responds with a straight punch using his right hand, which the man in the black and yellow uniform evades by leaning back. They continue to circle each other, exchanging light strikes and defensive maneuvers, maintaining a dynamic rhythm. Their movements involve coordinated footwork, arm swings, and body shifts, demonstrating controlled combat techniques. The man in the black and yellow uniform advances again, attempting a high kick that the man in the grey t-shirt dodges by stepping sideways. They remain engaged, moving fluidly across the mat. The room features padded walls, multiple tripods with cameras positioned around the perimeter, and bright overhead lighting. The video is filmed from a static camera that does not move. This is a third-person (exocentric) view from a static camera."},{"ds":"h4d_xview","id":"002_sword3_t0082_cam16-aria02","K":14,"dir":"b/5","instr":"Change the view from a static wide camera showing the man in black and the woman in white fencing to the man's head-worn first-person view, which bobs and turns as the woman in white advances toward him with her foil.","caption":"The woman in a white t-shirt and black pants stands facing the man in a black long-sleeve shirt and black pants, holding a fencing foil in her right hand. She shifts her weight slightly, extending her arm forward as she prepares to engage. The man in the black long-sleeve shirt and black pants remains mostly out of frame, his presence indicated only by his hand gripping a foil that enters the foreground. As the camera pans left steadily and moves right, the woman advances slowly, her movements deliberate and focused. Her left leg steps forward, followed by her right, maintaining balance and control. She keeps her foil pointed toward her opponent, her eyes fixed on him. The man’s hand adjusts the position of his foil, responding to her advance. Their foils remain close but do not make contact. The background features a spacious indoor fencing hall with mirrored walls, bright overhead lighting, and several tripods set up along the sides. The viewpoint is first-person from a camera worn on the man's head, making him mostly invisible except for his hands and arms. This is a first-person (egocentric) view from a camera worn on the head of the man in a black long-sleeve shirt and black pants."},{"ds":"dl3dv","id":"2K_c2d4dce3ea6cb461_w1","K":20,"dir":"b/6","instr":"Change the camera moving forward under the roof of the wooden shelter toward the brick kiln to the camera first holding nearly still and then moving left around the shelter to show its long side, while the shelter stays still.","caption":"A wooden shelter with a slanted roof stands on a concrete patio, housing a large kiln made of light-colored bricks and surrounded by various pottery tools and equipment. Green trees and a clear blue sky form the background. The scene is static; nothing in it moves, and only the camera moves. The camera remains nearly still, making only slight adjustments in angle and position, subtly shifting its perspective to capture different views of the shelter and its contents. The movement is minimal, maintaining a consistent focus on the structure and its surroundings. Bright sunlight illuminates the scene, casting sharp shadows and highlighting the textures of the wood and brick."},{"ds":"dl3dv","id":"3K_1b6714034f833abb_w2","K":10,"dir":"b/7","instr":"Change the low camera circling around the office chair from its side to its front and pushing in under the seat to the low camera moving forward from in front of the chair and circling to its side until the seat fills the top of the frame, while the chairs stay still.","caption":"A modern office chair with a mesh back and striped seat sits on a beige tiled floor against a white wall with wooden baseboard trim. Another similar chair is visible in the background. The scene is static, with no movement except for the camera. The camera moves forward steadily, maintaining a low angle close to the floor, gradually approaching the chair. As it advances, the chair fills more of the frame, revealing details like the black five-star base with casters and the silver height adjustment mechanism. The camera continues moving forward until the chair dominates the view, then stops. The lighting is bright and even, typical of indoor fluorescent illumination."}],"cats":{"koala_realsplit":{"label":"Joint object + camera","dataset":"Koala"},"rh20t":{"label":"Object only","dataset":"RH20T"},"h4d_xview":{"label":"Camera only · dynamic scene","dataset":"Harmony4D cross-view"},"dl3dv":{"label":"Camera only · static scene","dataset":"DL3DV"}}}</script>
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+function need(v){ if (!v._url || v._loaded) return v._loaded || Promise.resolve(); const k = v._k = (v._k || 0) + 1, ac = v._ac = new AbortController();
+  return v._loaded = fetch(v._url, {signal: ac.signal}).then(r => { if (!r.ok) throw 0; return r.blob(); })
+    .then(b => { if (v._k === k) v.src = URL.createObjectURL(b); }, () => { if (v._k === k) v.src = v._url; }); }
+function unload(v){ const s = v.getAttribute('src') || ''; v._k = (v._k || 0) + 1; if (v._ac) v._ac.abort(); v._ac = null; v._far = false; v._loaded = null; v.removeAttribute('src'); v.load(); if (s.startsWith('blob:')) URL.revokeObjectURL(s); }
+const PRE = new IntersectionObserver(es => es.forEach(e => { const v = e.target;
+  if (IOS){ v._far = !e.isIntersecting; if (e.isIntersecting) need(v); else if (v.paused && v._loaded) unload(v); return; }
+  if (e.isIntersecting && v.preload !== 'auto') v.preload = 'auto'; }), {rootMargin: '100% 0px'});
+const PIO = new IntersectionObserver(es => es.forEach(e => { const p = e.target; p._in = e.isIntersecting; if (p._pg) p._pg.part(p); }), {threshold: 0});
+function vid(src){ const v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.preload = 'metadata';
+  if (IOS) v._url = src; else v.src = src; return v; }
+const ready = (v, ms) => v.readyState >= 3 ? Promise.resolve() : new Promise(res => { const done = () => { v.removeEventListener('canplay', done); clearTimeout(t); res(); }; v.addEventListener('canplay', done); const t = setTimeout(done, ms); });
+const seekTo = (v, t) => { if (v.readyState < 1){ v.currentTime = t; return Promise.resolve(); } if (Math.abs(v.currentTime - t) <= 0.1 && !v.seeking) return Promise.resolve();
+  return new Promise(res => { const done = () => { v.removeEventListener('seeked', done); clearTimeout(tm); res(); }; v.addEventListener('seeked', done); const tm = setTimeout(done, 3000); v.currentTime = t; }); };
+const capped = (pr, ms) => Promise.race([pr, new Promise(r => setTimeout(r, ms))]);
+function Player(btn){
+  const g = {vids: [], parts: [], playing: false, btn, held: false};
+  const label = t => { if (btn) btn.textContent = t; };
+  const mine = p => p && p._pg === g;
+  async function start(p, t0){ const tok = ++p._tok, vs = p._vs; p._stalled = false; vs.forEach(v => { v.pause(); v.preload = 'auto'; });
+    const t = t0 == null ? vs[0].currentTime : t0;
+    if (IOS){ await capped(Promise.all(vs.map(need)), 20000); if (tok !== p._tok) return; }
+    await Promise.all(vs.map(v => seekTo(v, t))); if (tok !== p._tok) return;
+    if (!IOS){ await Promise.all(vs.map(v => ready(v, 8000))); if (tok !== p._tok) return; }
+    await capped(Promise.all(vs.map(v => v.play().catch(e => { if (IOS && e && e.name === 'NotAllowedError' && tok === p._tok) blocked(); }))), 3000); }
+  function blocked(){ g.stop(); g.held = true; if (!btn) g.vids.forEach(v => { v.controls = true; }); }
+  function halt(p){ p._tok++; p._stalled = false; p._vs.forEach(v => { v.pause(); if (v._far && v._loaded) unload(v); }); }
+  function sync(){ const p = this._part; if (!mine(p) || !g.playing || p._stalled) return; const vs = p._vs, m = vs.find(v => !v.paused && v.readyState >= 3); if (!m) return;
+    const t0 = m.currentTime, D = m.duration || 5.0625;
+    vs.forEach(v => { if (v === m || v.paused || v.seeking || v.readyState < 3) return; let d = v.currentTime - t0; if (d > D / 2) d -= D; if (d < -D / 2) d += D; if (Math.abs(d) > 0.1) v.currentTime = t0; }); }
+  function stall(){ const v = this, p = v._part; if (!mine(p) || !g.playing || p._stalled || v.paused) return;
+    p._stalled = true; const tok = ++p._tok; p._vs.forEach(x => x.pause());
+    ready(v, IOS ? 1500 : 8000).then(() => { if (tok !== p._tok) return; p._stalled = false; if (g.playing && p._in !== false) start(p, v.currentTime); }); }
+  g.part = p => { if (!g.playing) return; if (p._in) start(p, null); else halt(p); };
+  g.set = vids => { g.stop(); g.vids.forEach(v => { PRE.unobserve(v); v.removeEventListener('timeupdate', sync); v.removeEventListener('waiting', stall); });
+    g.parts.forEach(p => { PIO.unobserve(p); if (p._pg === g) p._pg = null; });
+    g.vids = vids; vids.forEach(v => { v._part = v.closest('.qs, .stage, .io') || v.parentElement; v.addEventListener('timeupdate', sync); v.addEventListener('waiting', stall); PRE.observe(v); });
+    g.parts = [...new Set(vids.map(v => v._part))];
+    g.parts.forEach(p => { p._pg = g; p._tok = p._tok || 0; p._stalled = false; p._vs = vids.filter(v => v._part === p); delete p._in; PIO.observe(p); }); };
+  g.play = (fromStart = true) => { g.held = false; g.playing = g.vids.length > 0; label(g.playing ? 'Pause' : 'Play all');
+    g.parts.forEach(p => { if (p._in !== false) start(p, fromStart ? 0 : null); else { halt(p); if (fromStart) p._vs.forEach(v => { v.currentTime = 0; }); } }); };
+  g.stop = () => { g.playing = false; g.parts.forEach(halt); label('Play all'); };
+  const unlock = () => { if (IOS) g.vids.forEach(v => { if (v.getAttribute('src')) v.play().catch(() => {}); }); };
+  if (btn) btn.onclick = () => { if (g.playing){ g.stop(); g.held = true; } else { unlock(); g.play(false); } };
+  if (btn){ const rb = el('button', 'restart', '↺ Play from start'); rb.setAttribute('aria-label', 'Play all videos of this example from the start'); rb.onclick = () => { unlock(); g.play(true); }; btn.after(rb); }
+  return g;
+}
+(() => {
+  const vs = [...document.querySelectorAll('video[data-io]')];
+  if (REDUCED){ vs.forEach(v => { v.controls = true; }); return; }
+  if (IOS) vs.forEach(v => { v._url = v.getAttribute('src'); unload(v); });
+  const hp = Player(null); hp.set(vs);
+  let vis = false;
+  new IntersectionObserver(es => es.forEach(e => { const was = vis; vis = e.isIntersecting;
+    if (vis && !was){ hp.play(!hp.started); hp.started = true; } else if (!vis && was) hp.stop(); }), {threshold: 0}).observe(vs[0].closest('.io'));
+})();
+(() => {
+  const vs = [...document.querySelectorAll('video[data-mv]:not(.outv)')];
+  if (!vs.length || REDUCED) return;
+  if (IOS) vs.forEach(v => { v._url = v.getAttribute('src'); unload(v); });
+  const mp = Player(null); mp.set(vs);
+  let vis = false;
+  new IntersectionObserver(es => es.forEach(e => { const was = vis; vis = e.isIntersecting;
+    if (vis && !was){ mp.play(!mp.started); mp.started = true; } else if (!vis && was) mp.stop(); }), {threshold: 0}).observe(vs[0].parentElement);
+})();
+function Gallery(root, {tabs, slides, render, tabline}){
+  let tab = tabs ? tabs[0].key : null, idx = 0, visible = false;
+  const auto = () => visible && !player.held && !REDUCED;
+  const tabBox = tabs ? el('div', 'tabs') : null, line = el('p', 'tabline'), body = el('div'), stage = el('div', 'stage');
+  const ctrl = el('div', 'ctrl'), prev = el('button', 'nav', '◀'), next = el('button', 'nav', '▶'), dots = el('div', 'dots'), count = el('span', 'count'), playBtn = el('button', 'play', 'Play all');
+  prev.setAttribute('aria-label', 'Previous'); next.setAttribute('aria-label', 'Next');
+  ctrl.append(prev, dots, next, count, playBtn);
+  const player = Player(playBtn);
+  if (tabBox){ tabBox.setAttribute('role', 'tablist'); root.append(tabBox); }
+  if (tabline) root.append(line);
+  root.append(ctrl, body);
+  body.append(stage);
+  const list = () => slides(tab);
+  function draw(){
+    player.held = false;
+    const L = list(); idx = Math.max(0, Math.min(L.length - 1, idx));
+    if (tabBox){ tabBox.textContent = '';
+      tabs.forEach(t => { const b = el('button', 'tab'); b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', t.key === tab ? 'true' : 'false');
+        b.append(t.label); if (t.sub) b.append(el('small', '', t.sub)); b.onclick = () => { tab = t.key; idx = 0; draw(); focusSel('.tab[aria-selected="true"]'); }; tabBox.append(b); }); }
+    if (tabline){ const s = tabline(tab); line.textContent = s || ''; line.hidden = !s; }
+    player.stop(); stage.querySelectorAll('video').forEach(unload);
+    stage.textContent = ''; body.querySelectorAll(':scope > :not(.stage)').forEach(n => n.remove());
+    if (!L.length){ stage.textContent = 'No examples in this category.'; player.set([]); dots.textContent = ''; count.textContent = '0 / 0'; prev.disabled = next.disabled = true; return; }
+    const r = render(L[idx], tab); stage.append(r.el); if (r.after) body.append(r.after); if (r.before) body.prepend(r.before);
+    player.set([...stage.querySelectorAll('video')]);
+    dots.textContent = ''; L.forEach((_, i) => { const d = el('button', 'dot'); d.setAttribute('aria-label', `Example ${i + 1}`); d.setAttribute('aria-current', i === idx ? 'true' : 'false'); d.onclick = () => { idx = i; draw(); focusSel('.dot[aria-current="true"]'); }; dots.append(d); });
+    count.textContent = `${idx + 1} / ${L.length}`; prev.disabled = idx === 0; next.disabled = idx === L.length - 1;
+    if (auto()) player.play();
+  }
+  prev.onclick = () => { idx--; draw(); }; next.onclick = () => { idx++; draw(); };
+  root.tabIndex = -1;
+  const focusSel = sel => { const n = root.querySelector(sel); if (n) n.focus(); };
+  root.addEventListener('keydown', e => { if (e.target.closest('details')) return;
+    if (tabs && e.target.getAttribute('role') === 'tab' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')){ e.preventDefault();
+      const i = tabs.findIndex(t => t.key === tab), j = (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      tab = tabs[j].key; idx = 0; draw(); focusSel('.tab[aria-selected="true"]'); return; }
+    if (e.key === 'ArrowRight' && idx < list().length - 1){ idx++; draw(); } if (e.key === 'ArrowLeft' && idx > 0){ idx--; draw(); } });
+  let sx = null; stage.addEventListener('pointerdown', e => { const sc = e.target.closest('.scroll'); sx = sc && sc.scrollWidth > sc.clientWidth + 2 ? null : e.clientX; });
+  stage.addEventListener('pointerup', e => { if (sx == null) return; const dx = e.clientX - sx; sx = null;
+    if (dx < -60 && idx < list().length - 1){ idx++; draw(); } else if (dx > 60 && idx > 0){ idx--; draw(); } });
+  new IntersectionObserver(es => es.forEach(e => { const was = visible; visible = e.isIntersecting;
+    if (!visible){ if (was){ const h = player.held; player.stop(); player.held = h; } } else if (!was && !player.playing && auto()) player.play(false); }), {threshold: 0}).observe(stage);
+  draw();
+  return {go: (t, i) => { if (t != null) tab = t; idx = i; draw(); }};
+}
+function Stack(root, {tabs, slides, render, tabline, heading}){
+  let tab = tabs[0].key, groups = [];
+  const tabBox = el('div', 'tabs'), line = el('p', 'tabline'), list = el('div', 'stack');
+  tabBox.setAttribute('role', 'tablist'); root.append(tabBox); if (tabline) root.append(line); root.append(list);
+  const io = new IntersectionObserver(es => es.forEach(e => { const g = e.target._g; if (!g) return; const was = !!g.vis;
+    g.vis = e.isIntersecting;
+    if (!g.vis){ if (was){ const h = g.player.held; g.player.stop(); g.player.held = h; } } else if (!was && !g.player.playing && !g.player.held && !REDUCED) g.player.play(false); }), {threshold: 0});
+  const focusTab = () => { const n = tabBox.querySelector('[aria-selected="true"]'); if (n) n.focus(); };
+  function draw(){
+    tabBox.textContent = '';
+    tabs.forEach(t => { const b = el('button', 'tab'); b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', t.key === tab ? 'true' : 'false');
+      b.append(t.label); if (t.sub) b.append(el('small', '', t.sub)); b.onclick = () => { if (tab !== t.key){ tab = t.key; draw(); } focusTab(); }; tabBox.append(b); });
+    if (tabline){ const s = tabline(tab); line.textContent = s || ''; line.hidden = !s; }
+    groups.forEach(g => { g.player.set([]); io.unobserve(g.stage); g.stage.querySelectorAll('video').forEach(unload); });
+    groups = []; list.textContent = '';
+    const L = slides(tab);
+    if (!L.length){ list.textContent = 'No examples in this category.'; return; }
+    L.forEach((x, i) => {
+      const hd = heading && heading(x, i, L); if (hd){ const h = el('h3', 'subhead', hd[0]); if (hd[1]) h.append(el('small', '', hd[1])); list.append(h); }
+      const r = render(x, tab), blk = el('div', 'sample'), head = el('div', 'shead'), btn = el('button', 'play', 'Play all'), stage = el('div', 'stage');
+      if (r.before) head.append(r.before); head.append(btn); stage.append(r.el); blk.append(head, stage); if (r.after) blk.append(r.after); list.append(blk);
+      const player = Player(btn); player.set([...stage.querySelectorAll('video')]);
+      const g = {player, stage}; stage._g = g; groups.push(g); io.observe(stage);
+    });
+  }
+  tabBox.addEventListener('keydown', e => { if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return; e.preventDefault();
+    const i = tabs.findIndex(t => t.key === tab); tab = tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length].key; draw(); focusTab(); });
+  draw();
+}
+function cell(src, label, ours, tag){ const c = el('div', 'cell' + (ours ? ' ours' : '')), v = vid(src);
+  v.addEventListener('error', () => { if (!v.getAttribute('src') || c.querySelector('.err')) return; const m = el('span', 'err', 'This clip did not load. Reload the page.'); c.append(m); });
+  v.addEventListener('loadeddata', () => { const m = c.querySelector('.err'); if (m) m.remove(); });
+  const lb = el('span', '', label); if (tag){ lb.append(' '); lb.append(el('em', 'kind', tag)); }
+  c.append(lb, v); return c; }
+function texts(pairs){ const d = el('details'); d.append(el('summary', '', pairs.length > 2 ? 'Instructions and target captions' : 'Instruction and target caption'));
+  pairs.forEach(([l, t]) => { d.append(el('div', 'lab', l), el('p', '', t)); }); return d; }
+function metaRow(items){ const m = el('div', 'meta'); items.forEach(([t, plain]) => m.append(el('span', 'chip' + (plain ? ' plain' : ''), t))); return m; }
+const safe = (id, f) => { try{ f(); } catch(e){ $(id).textContent = 'This section could not be shown. Reload the page to try again.'; console.error(e); } };
+(async () => {
+  let D; try{ D = JSON.parse(document.getElementById('page-data').textContent); }
+  catch(e){ document.querySelectorAll('.gal').forEach(g => g.textContent = 'The example list could not be loaded. Reload the page to try again.'); return; }
+  const CATS = Object.keys(D.cats).map(k => ({key: k, label: D.cats[k].label, sub: D.cats[k].dataset}));
+  const qSlides = []; for (let i = 0; i < D.qual.length; i += 2) qSlides.push(D.qual.slice(i, i + 2));
+  safe('#g-qual', () => Gallery($('#g-qual'), {
+    slides: () => qSlides,
+    render: pair => {
+      const box = el('div');
+      pair.forEach(q => {
+        const s = el('div', 'qs'), sc = el('div', 'scroll'), g = el('div', 'grid gq'), P = `./thinkerbell_static/q/${q.clip}/`, L = 'ABC';
+        const at = (n, row, col, span = 1) => { n.style.gridRow = String(row); n.style.gridColumn = `${col} / span ${span}`; g.append(n); return n; };
+        at(el('div', 'inbg'), '1 / 6', 1, 4);
+        at(el('div', 'grp in', 'Input · condition'), 1, 1, 4);
+        at(el('div', 'grp out', 'Results of ThinkerBell'), 1, 5, 2);
+        [['Source video', 1], ['Source video + source track overlay', 2], ['Target track', 4], ['Generated video + target track overlay', 5], ['Generated video', 6]]
+          .forEach(([h, c]) => at(el('div', 'colchip', h), 2, c));
+        q.targets.forEach((t, r) => {
+          const R = 3 + r;
+          if (r === 1){ at(cell(P + 'src.mp4', ''), R, 1); at(cell(P + 'src_trk.mp4', ''), R, 2); }
+          const rc = at(el('div', 'rowchip', L[r]), R, 3); rc.title = `Target ${L[r]}`;
+          at(cell(P + `${t.aug}_trk.mp4`, ''), R, 4); at(cell(P + `${t.aug}_ov.mp4`, '', true), R, 5); at(cell(P + `${t.aug}_gen.mp4`, '', true), R, 6);
+        });
+        g.querySelectorAll('.cell > span').forEach(sp => sp.remove());
+        sc.append(g);
+        s.append(sc, texts(q.targets.flatMap((t, r) => [[`Target ${L[r]} · instruction`, t.instr], [`Target ${L[r]} · caption`, t.caption]])));
+        box.append(s);
+      });
+      return {el: box};
+    }}));
+  safe('#g-sota', () => Stack($('#g-sota'), {
+    tabs: CATS.map(c => ({key: c.key, label: c.label})),
+    slides: t => D.sota.filter(x => x.ds === t),
+    render: x => {
+      const sc = el('div', 'scroll'), g = el('div', 'grid g4');
+      const GEN = 'generation-only', UND = 'understanding → generation';
+      [['src_trk', 'Source + source track overlay'], ['trk', 'Target track'], ['gt_trk', 'GT target + target track overlay'], ['ours', 'Ours', 1, UND],
+       ['gwtt', 'Go-with-the-Track', 0, GEN], ['mv2v', 'MotionV2V†', 0, GEN], ['trajattn', 'TrajAttn', 0, GEN], ['revideo', 'ReVideo', 0, GEN]]
+        .forEach(([n, l, o, k]) => g.append(cell(`./thinkerbell_static/${x.dir}/${n}.mp4`, l, o, k)));
+      sc.append(g);
+      const before = metaRow([[`${x.K} track points`], ['81 frames', 1]]);
+      return {el: sc, before, after: texts([['Instruction', x.instr], ['Target caption', x.caption]])};
+    }}));
+  const APP = [{key: 'stab', label: 'Video Stabilization', line: 'Turn a shaky handheld clip into a smooth one by giving steady target tracks.'},
+               {key: 'drive', label: 'Driving Scene Simulation', line: 'Replay a recorded drive from a different camera or along a different path.'},
+               {key: 'reshoot', label: 'Camera Reshoot', line: 'Re-shoot a film shot with a new camera move (orbit, crane, dolly) from user-picked points.'}];
+  safe('#g-apps', () => Stack($('#g-apps'), {
+    tabs: APP.map(a => ({key: a.key, label: a.label})),
+    tabline: t => APP.find(a => a.key === t).line,
+    slides: t => D.apps.filter(x => x.group === t),
+    heading: (x, i, L) => {
+      const SUB = {side: ['(1) Side-view synthesis', 'Re-render the front camera of a car as if it were mounted on the left or right side.'],
+                   lane: ['(2) Driving path change', 'Re-drive the same street while changing one lane to the left or right.']};
+      return x.sub && (i === 0 || L[i - 1].sub !== x.sub) ? SUB[x.sub] : null; },
+    render: x => {
+      const sc = el('div', 'scroll'), g = el('div', 'grid g5');
+      [['src', 'Source video'], ['src_trk', 'Source + source track overlay'], ['trk', 'Target track'], ['ours_ov', 'Ours + target track overlay', 1], ['ours', 'Ours', 1]]
+        .forEach(([n, l, o]) => g.append(cell(`./thinkerbell_static/${x.dir}/${n}.mp4`, l, o)));
+      sc.append(g);
+      return {el: sc, before: metaRow([[x.label], [x.note, 1]])};
+    }}));
+  safe('#g-bench', () => Stack($('#g-bench'), {
+    tabs: CATS,
+    slides: t => D.bench.filter(x => x.ds === t),
+    render: x => {
+      const sc = el('div', 'scroll'), g = el('div', 'grid g5');
+      [['src', 'Source video'], ['src_trk', 'Source + source track overlay'], ['trk', 'Target track'], ['gt_trk', 'GT target + target track overlay'], ['gt', 'GT target']]
+        .forEach(([n, l]) => g.append(cell(`./thinkerbell_static/${x.dir}/${n}.mp4`, l)));
+      sc.append(g);
+      return {el: sc, before: metaRow([[D.cats[x.ds].dataset], [`${x.K} track points`], ['81 frames', 1]]),
+              after: texts([['Instruction', x.instr], ['Target caption', x.caption]])};
+    }}));
+})();
+(() => {
+  const links = [...document.querySelectorAll('#bar a')];
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.setAttribute('aria-current', a.dataset.s === e.target.id ? 'true' : 'false')); }), {rootMargin: '-45% 0px -50% 0px'});
+  document.querySelectorAll('main section').forEach(s => io.observe(s));
+})();
+</script>
+
+</html>

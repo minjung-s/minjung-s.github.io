@@ -1,0 +1,359 @@
+{
+  "version": 1,
+  "jobId": "28126692-ef67-4531-b06e-49d0ed9a080a",
+  "sessionId": "225c1645-524a-47fe-9c96-171db3ea8e21",
+  "scopeKey": "fb7a44b5eda6b5137e4f076ff664a7cca0b11fe266c3f1cf4f95bb62f3e8b9a7",
+  "revision": 41,
+  "createdAt": "2026-10-30T11:14:15.387Z",
+  "updatedAt": "2026-10-30T11:14:16.441Z",
+  "producerGraceExpiresAt": "2026-10-30T11:14:45.387Z",
+  "bestEffortDeadlineAt": "2026-10-30T11:15:36.387Z",
+  "producers": {
+    "core": {
+      "state": "sealed",
+      "intentKey": "3b49b40c8d7e1712873b311025647a594b28a22c16ace066e3a89678d0bc3c52",
+      "payloadDigest": "3b49b40c8d7e1712873b311025647a594b28a22c16ace066e3a89678d0bc3c52",
+      "sealedAt": "2026-10-30T11:14:15.426Z",
+      "sealedBy": "foreground"
+    },
+    "wiki": {
+      "state": "no-op",
+      "sealedAt": "2026-10-30T11:14:15.399Z",
+      "sealedBy": "wiki-producer"
+    }
+  },
+  "actions": {
+    "foreground-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "completed",
+      "attempts": 0,
+      "idempotencyKey": "777c2b9c22653ac408717e1b4fc8452f4356db2b780414a024d8a76d27e39e8a",
+      "payload": {
+        "transcriptPath": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+        "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+        "reason": "other",
+        "input": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "transcript_path": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+          "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+          "scratchpad_dir": "/tmp/claude-500/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21/scratchpad",
+          "prompt_id": "6f36c405-1fa3-41fb-8970-a8453eb13e19",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "ended_at": "2026-10-30T11:14:15.371Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {},
+        "foregroundResult": {
+          "removedTransientFiles": 2,
+          "completedAt": "2026-10-30T11:14:15.424Z"
+        }
+      },
+      "budgetMs": 9000,
+      "completedAt": "2026-10-30T11:14:15.426Z",
+      "lastOutcomeCode": "completed"
+    },
+    "wiki-capture": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "completed",
+      "attempts": 0,
+      "idempotencyKey": "0171892a215fbedd92409da48958c0b41d2b72554acd643c060d418de7c8e271",
+      "payload": {
+        "transcriptPath": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+        "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+        "reason": "other",
+        "input": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "transcript_path": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+          "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+          "scratchpad_dir": "/tmp/claude-500/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21/scratchpad",
+          "prompt_id": "6f36c405-1fa3-41fb-8970-a8453eb13e19",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "ended_at": "2026-10-30T11:14:15.371Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000,
+      "completedAt": "2026-10-30T11:14:15.399Z"
+    },
+    "team-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "completed",
+      "attempts": 1,
+      "idempotencyKey": "7d7df1a4a23e3c5d26a3a54beaa059318ef6523417c853208a67e056d78e4908",
+      "payload": {
+        "transcriptPath": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+        "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+        "reason": "other",
+        "input": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "transcript_path": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+          "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+          "scratchpad_dir": "/tmp/claude-500/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21/scratchpad",
+          "prompt_id": "6f36c405-1fa3-41fb-8970-a8453eb13e19",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "ended_at": "2026-10-30T11:14:15.371Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000,
+      "claimedAt": "2026-10-30T11:14:15.480Z",
+      "runner": {
+        "attempt": 1,
+        "runnerNonce": "3321993f-2d10-4a9b-b25a-ba77660dd9ca",
+        "phase": "terminal",
+        "deadlineAt": "2026-10-30T11:14:25.453Z"
+      },
+      "lastOutcomeCode": "completed",
+      "completedAt": "2026-10-30T11:14:15.612Z"
+    },
+    "python-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "completed",
+      "attempts": 1,
+      "idempotencyKey": "90198e86d3c915804c739d8ddb56b6cd0535846fe28568d2db4a1a12682b94b9",
+      "payload": {
+        "transcriptPath": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+        "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+        "reason": "other",
+        "input": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "transcript_path": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+          "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+          "scratchpad_dir": "/tmp/claude-500/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21/scratchpad",
+          "prompt_id": "6f36c405-1fa3-41fb-8970-a8453eb13e19",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "ended_at": "2026-10-30T11:14:15.371Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000,
+      "claimedAt": "2026-10-30T11:14:15.635Z",
+      "runner": {
+        "attempt": 1,
+        "runnerNonce": "8414573a-e621-4b34-aebe-2da84cae1c96",
+        "phase": "terminal",
+        "deadlineAt": "2026-10-30T11:14:25.453Z"
+      },
+      "lastOutcomeCode": "completed",
+      "completedAt": "2026-10-30T11:14:15.845Z"
+    },
+    "reply-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "completed",
+      "attempts": 1,
+      "idempotencyKey": "acdc86cefeb375622c12635857e872f58105d0e5c6842ee7c3403bc1b09aa571",
+      "payload": {
+        "transcriptPath": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+        "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+        "reason": "other",
+        "input": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "transcript_path": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+          "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+          "scratchpad_dir": "/tmp/claude-500/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21/scratchpad",
+          "prompt_id": "6f36c405-1fa3-41fb-8970-a8453eb13e19",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "ended_at": "2026-10-30T11:14:15.371Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000,
+      "claimedAt": "2026-10-30T11:14:15.866Z",
+      "runner": {
+        "attempt": 1,
+        "runnerNonce": "df3a0c59-2780-4f18-8480-47f9b82e85cf",
+        "phase": "terminal",
+        "deadlineAt": "2026-10-30T11:14:25.453Z"
+      },
+      "lastOutcomeCode": "completed",
+      "completedAt": "2026-10-30T11:14:15.997Z"
+    },
+    "callback": {
+      "class": "best-effort",
+      "phase": "deferred-best-effort",
+      "status": "completed",
+      "attempts": 1,
+      "idempotencyKey": "d6300833ce3e2fe137593825bcf3c406c35056d768ff304b8ce323f84ceb2e73",
+      "payload": {
+        "transcriptPath": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+        "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+        "reason": "other",
+        "input": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "transcript_path": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+          "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+          "scratchpad_dir": "/tmp/claude-500/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21/scratchpad",
+          "prompt_id": "6f36c405-1fa3-41fb-8970-a8453eb13e19",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "ended_at": "2026-10-30T11:14:15.371Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 2000,
+      "claimedAt": "2026-10-30T11:14:16.016Z",
+      "runner": {
+        "attempt": 1,
+        "runnerNonce": "143c73a6-2cd6-45a5-895f-2aa410a97f25",
+        "phase": "terminal",
+        "deadlineAt": "2026-10-30T11:14:25.453Z"
+      },
+      "lastOutcomeCode": "completed",
+      "completedAt": "2026-10-30T11:14:16.139Z"
+    },
+    "notification": {
+      "class": "best-effort",
+      "phase": "deferred-best-effort",
+      "status": "completed",
+      "attempts": 1,
+      "idempotencyKey": "9e19551bc29f283af0ecfc8e94ac97937c7966619f7f1b1062c3202fc3b05b4c",
+      "payload": {
+        "transcriptPath": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+        "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+        "reason": "other",
+        "input": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "transcript_path": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+          "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+          "scratchpad_dir": "/tmp/claude-500/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21/scratchpad",
+          "prompt_id": "6f36c405-1fa3-41fb-8970-a8453eb13e19",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "ended_at": "2026-10-30T11:14:15.371Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 2000,
+      "claimedAt": "2026-10-30T11:14:16.159Z",
+      "runner": {
+        "attempt": 1,
+        "runnerNonce": "8e7a8891-1a7d-4a52-9be8-09784f5f2b56",
+        "phase": "terminal",
+        "deadlineAt": "2026-10-30T11:14:25.453Z"
+      },
+      "lastOutcomeCode": "completed",
+      "completedAt": "2026-10-30T11:14:16.291Z"
+    },
+    "openclaw": {
+      "class": "best-effort",
+      "phase": "deferred-best-effort",
+      "status": "completed",
+      "attempts": 1,
+      "idempotencyKey": "fb1acefbb04e017592f91480cb4c1f8cf32cc499f9de0fb1495242c54e579ee0",
+      "payload": {
+        "transcriptPath": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+        "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+        "reason": "other",
+        "input": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "transcript_path": "/home/irteam/.claude/projects/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21.jsonl",
+          "cwd": "/data/project-vilab/minjung/minjung-s.github.io",
+          "scratchpad_dir": "/tmp/claude-500/-data-project-vilab-minjung-minjung-s-github-io/225c1645-524a-47fe-9c96-171db3ea8e21/scratchpad",
+          "prompt_id": "6f36c405-1fa3-41fb-8970-a8453eb13e19",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "225c1645-524a-47fe-9c96-171db3ea8e21",
+          "ended_at": "2026-10-30T11:14:15.371Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 2000,
+      "claimedAt": "2026-10-30T11:14:16.308Z",
+      "runner": {
+        "attempt": 1,
+        "runnerNonce": "972f6095-d96d-4c21-bf49-2dc525ddda38",
+        "phase": "terminal",
+        "deadlineAt": "2026-10-30T11:14:25.453Z"
+      },
+      "lastOutcomeCode": "completed",
+      "completedAt": "2026-10-30T11:14:16.415Z"
+    }
+  },
+  "owner": null,
+  "phase": "complete",
+  "completion": {
+    "completedAt": "2026-10-30T11:14:16.428Z",
+    "terminalDigest": "c728e5e9ca338974fcb617111691a127a07b9c7e4dad957a386ce34fdcf3179c",
+    "terminalRevision": 40
+  }
+}

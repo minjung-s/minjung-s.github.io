@@ -1,0 +1,121 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1793343689054,
+  "projectRoot": "/data/project-vilab/minjung/minjung-s.github.io",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "assets"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "_data": {
+      "path": "_data",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1793343689045,
+      "keyFiles": [
+        "ballgan.yaml"
+      ]
+    },
+    "asemconsist_static": {
+      "path": "asemconsist_static",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1793343689046,
+      "keyFiles": []
+    },
+    "assets": {
+      "path": "assets",
+      "purpose": "Static assets",
+      "fileCount": 0,
+      "lastAccessed": 1793343689047,
+      "keyFiles": []
+    },
+    "ballgan_static": {
+      "path": "ballgan_static",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1793343689048,
+      "keyFiles": []
+    },
+    "css": {
+      "path": "css",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1793343689049,
+      "keyFiles": [
+        "style_modern.css"
+      ]
+    },
+    "js": {
+      "path": "js",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1793343689050,
+      "keyFiles": [
+        "script_modern.js"
+      ]
+    },
+    "libs": {
+      "path": "libs",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1793343689051,
+      "keyFiles": []
+    },
+    "mvcustom_static": {
+      "path": "mvcustom_static",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1793343689051,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "css/style_modern.css",
+      "accessCount": 13,
+      "lastAccessed": 1793346663758,
+      "type": "file"
+    },
+    {
+      "path": "index.html",
+      "accessCount": 7,
+      "lastAccessed": 1793344803311,
+      "type": "file"
+    },
+    {
+      "path": "js/script_modern.js",
+      "accessCount": 5,
+      "lastAccessed": 1793345132013,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

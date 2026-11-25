@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"/data/project-vilab/minjung/minjung-s.github.io/assets/cv/MinjungShin_CV.pdf\",\"pages\":\"1-3\"}",
+  "error": "pdftoppm is not installed. Install poppler-utils (e.g. `brew install poppler` or `apt-get install poppler-utils`) to enable PDF page rendering.",
+  "timestamp": "2026-10-30T07:19:01.685Z",
+  "retry_count": 1
+}
